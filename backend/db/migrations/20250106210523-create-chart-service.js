@@ -8,20 +8,23 @@ if (process.env.NODE_ENV === 'production') {
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Services', {
-      id: {
+    await queryInterface.createTable('ChartServices', {
+      chartId: {
+        type: Sequelize.INTEGER,
         allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
+        references: {
+          model: 'Charts',
+          key: 'id'
+        },
+        onDelete: 'CASCADE'
       },
-      service: {
-        type: Sequelize.STRING(100),
-        allowNull: false
-      },
-      price: {
-        type: Sequelize.NUMERIC(6,2),
-        allowNull: false
+      serviceId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Services',
+          key: 'id'
+        }
       },
       createdAt: {
         allowNull: false,
@@ -33,10 +36,10 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
-    }, options);
+    });
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = 'Services'
+    options.tableName = 'ChartServices'
     await queryInterface.dropTable(options);
   }
 };

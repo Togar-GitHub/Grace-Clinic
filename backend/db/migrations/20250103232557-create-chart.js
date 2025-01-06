@@ -1,4 +1,10 @@
 'use strict';
+
+let options = {};
+if (process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;
+}
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -10,61 +16,96 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       patientId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Users',
+          key: 'id'
+        },
+        onDelete: 'CASCADE'
       },
       doctorId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Users',
+          key: 'id'
+        }
       },
       appointmentId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Appointments',
+          key: 'id'
+        },
+        onDelete: 'CASCADE'
+      },
+      complaint: {
+        type: Sequelize.STRING(2000),
+        allowNull: false,
       },
       meetingDate: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        allowNull: false,
       },
       diagnosesICD10: {
-        type: Sequelize.JSON
+        type: Sequelize.ARRAY(Sequelize.STRING),
+        allowNull: false
       },
       diagnosesDesc: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(2000),
+        allowNull: false
       },
-      CPTCode: {
-        type: Sequelize.STRING
-      },
-      CPTPrice: {
-        type: Sequelize.DECIMAL
+      CPTId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'CPTs',
+          key: 'id'
+        }
       },
       title: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(100),
+        allowNull: false
       },
-      description: {
-        type: Sequelize.STRING
+      doctorNote: {
+        type: Sequelize.STRING(2000),
+        allowNull: false
       },
-      servicesAndPrice: {
-        type: Sequelize.JSONB
+      services: {
+        type: Sequelize.ARRAY(Sequelize.STRING),
+        references: {
+          model: 'Services',
+          key: 'id'
+        }
       },
       prescription: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(200)
       },
       insurance: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(100)
       },
       cost: {
-        type: Sequelize.DECIMAL
+        type: Sequelize.NUMERIC(6, 2)
       },
       nextAppointment: {
         type: Sequelize.DATE
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Charts');
+    options.tableName = 'Charts'
+    await queryInterface.dropTable(options);
   }
 };

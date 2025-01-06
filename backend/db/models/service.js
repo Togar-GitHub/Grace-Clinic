@@ -1,21 +1,25 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+
+const { Model, Validator } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Service extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      // define association here
+      Service.belongsToMany(models.Chart, {
+        through: 'ChartServices',
+        foreignKey: 'serviceId',
+        otherKey: 'chartId'
+      })
     }
   }
   Service.init({
-    service: DataTypes.STRING,
-    price: DataTypes.DECIMAL
+    service: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    price: {
+      type: DataTypes.NUMERIC,
+      allowNull: false
+    },
   }, {
     sequelize,
     modelName: 'Service',

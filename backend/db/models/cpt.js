@@ -1,22 +1,31 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+
+const { Model, Validator } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class CPT extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
       // define association here
     }
   }
   CPT.init({
-    CPTCode: DataTypes.STRING,
-    description: DataTypes.STRING,
-    price: DataTypes.DECIMAL
+    CPTCode: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        len: [5, 5]
+      }
+    },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        len: [4, 1000]
+      }
+    },
+    price: {
+      type: DataTypes.NUMERIC,
+      allowNull: false
+    }
   }, {
     sequelize,
     modelName: 'CPT',

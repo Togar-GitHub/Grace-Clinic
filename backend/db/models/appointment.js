@@ -1,23 +1,42 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+
+const { Model, Validator } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Appointment extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
       // define association here
+      Appointment.belongsTo(models.User, {
+        foreignKey: 'patientId',
+        onDelete: 'CASCADE'
+      })
+      Appointment.belongsTo(models.User, {
+        foreignKey: 'doctorId'
+      })
+      Appointment.hasOne(models.Chart, {
+        foreignKey: 'appointmentId'
+      })
     }
   }
   Appointment.init({
-    patientId: DataTypes.INTEGER,
-    primaryMDID: DataTypes.INTEGER,
-    dateTime: DataTypes.DATE,
-    description: DataTypes.STRING,
+    patientId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    doctorId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    dateTime: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    complaint: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        len: [4, 2000]
+      }
+    },
     insurance: DataTypes.STRING,
     dateMet: DataTypes.DATE
   }, {
