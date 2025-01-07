@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [10, 2000]
+        len: [10, 200]
       }
     },
     stars: {

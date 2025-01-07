@@ -42,7 +42,7 @@ module.exports = {
         onDelete: 'CASCADE'
       },
       complaint: {
-        type: Sequelize.STRING(2000),
+        type: Sequelize.STRING(200),
         allowNull: false,
       },
       meetingDate: {
@@ -50,11 +50,12 @@ module.exports = {
         allowNull: false,
       },
       diagnosesICD10: {
-        type: Sequelize.ARRAY(Sequelize.STRING),
+        type: Sequelize.JSON,
+        // type: Sequelize.ARRAY(Sequelize.STRING),
         allowNull: false
       },
       diagnosesDesc: {
-        type: Sequelize.STRING(2000),
+        type: Sequelize.STRING(200),
         allowNull: false
       },
       CPTId: {
@@ -74,17 +75,14 @@ module.exports = {
         allowNull: false
       },
       services: {
-        type: Sequelize.ARRAY(Sequelize.STRING),
-        references: {
-          model: 'Services',
-          key: 'id'
-        }
+        type: Sequelize.JSON,
+        // type: Sequelize.ARRAY(Sequelize.INTEGER),
       },
       prescription: {
         type: Sequelize.STRING(200)
       },
       insurance: {
-        type: Sequelize.STRING(100)
+        type: Sequelize.STRING(200)
       },
       cost: {
         type: Sequelize.NUMERIC(6, 2)

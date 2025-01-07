@@ -19,11 +19,6 @@ module.exports = (sequelize, DataTypes) => {
       Chart.belongsTo(models.CPT, {
         foreignKey: 'CPTId'
       })
-      Chart.belongsToMany(models.Service, {
-        through: 'ChartServices',
-        foreignKey: 'chartId',
-        otherKey: 'serviceId'
-      })
     }
   }
   Chart.init({
@@ -43,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [4, 2000]
+        len: [4, 200]
       }
     },
     meetingDate: {
@@ -52,14 +47,15 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.NOW
     },
     diagnosesICD10: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
+      type: DataTypes.JSON,
+      // type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false
     },
     diagnosesDesc: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [4, 2000]
+        len: [4, 200]
       }
     },
     CPTId: {
@@ -80,7 +76,8 @@ module.exports = (sequelize, DataTypes) => {
         len: [10, 2000]
       }
     },
-    services: DataTypes.ARRAY(DataTypes.STRING),
+    services: DataTypes.JSON,
+    // services: DataTypes.ARRAY(DataTypes.STRING),
     prescription: DataTypes.STRING,
     insurance: DataTypes.STRING,
     cost: DataTypes.DECIMAL,

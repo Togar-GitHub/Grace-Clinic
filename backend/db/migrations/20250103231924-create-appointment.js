@@ -37,11 +37,11 @@ module.exports = {
         allowNull: false
       },
       complaint: {
-        type: Sequelize.STRING(2000),
+        type: Sequelize.STRING(200),
         allowNull: false
       },
       insurance: {
-        type: Sequelize.STRING(100)
+        type: Sequelize.STRING(200)
       },
       dateMet: {
         type: Sequelize.DATE

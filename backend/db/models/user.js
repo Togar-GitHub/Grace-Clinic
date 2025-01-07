@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'patientId',
         onDelete: 'CASCADE'
       })
-      User.hasMany(models, Chart, {
+      User.hasMany(models.Chart, {
         foreignKey: 'doctorId'
       })
     }
