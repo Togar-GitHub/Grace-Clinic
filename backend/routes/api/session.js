@@ -37,7 +37,7 @@ router.post(
       }
     });
 
-    if (!user || !bcrypt.compareSync(password, user.hashedPassword.toString())) {
+    if (!user || !bcrypt.compareSync(password, user.password.toString())) {
       const err = new Error('Invalid credentials');
       err.status = 401;
       err.title = 'Invalid credentials';
@@ -50,7 +50,9 @@ router.post(
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
-      username: user.username
+      username: user.username,
+      staff: user.staff,
+      position: user.position
     };
 
     await setTokenCookie(res, safeUser);

@@ -51,8 +51,8 @@ router.get(
 
     const user = await User.findByPk(req.params.userId, {
     attributes: { 
-      exclude: ['hashedPassword'],
-      include: ['id', 'firstName', 'lastName', 'username', 'email']
+      exclude: ['password']
+      // include: ['id', 'firstName', 'lastName', 'username', 'email']
     }
   });
 
@@ -64,8 +64,19 @@ router.get(
     id: user.id,
     firstName: user.firstName,
     lastName: user.lastName,
-    email: user.email,       
-    username: user.username  
+    dateOfBirth: user.dateOfBirth,
+    gender: user.gender,
+    username: user.username,
+    email: user.email,
+    address: user.address,
+    city: user.city,
+    state: user.state,
+    zip: user.zip,
+    phone: user.phone,
+    allergy: user.allergy,
+    dateInactive: user.dateInactive,
+    staff: user.staff,
+    position: user.position
   };
 
   return res.status(200).json({ user: reorderedUser });
@@ -76,18 +87,61 @@ router.post(
   '/',   
   validateSignup,
   async (req, res) => {
-    const { firstName, lastName, email, password, username } = req.body;
-    console.log("FIRST > ", firstName);
+    const { 
+      firstName,
+      lastName,
+      dateOfBirth,
+      gender,
+      username,
+      email, 
+      password, 
+      address,
+      city,
+      state,
+      zip,
+      phone,
+      allergy,
+      staff,
+      position
+      } = req.body;
     
-    if (!firstName || !lastName || !email || !username || !password) {
+    if (
+      !firstName ||
+      !lastName || 
+      !dateOfBirth ||
+      !gender ||
+      !username || 
+      !email || 
+      !password ||
+      !address ||
+      !city ||
+      !state ||
+      !zip ||
+      !phone ||
+      !allergy ||
+      !staff ||
+      !position ||
+      staff === true && !position ||
+      staff === false && position
+      ) {
       return res.status(400).json({
         message: "Bad Request.",
         errors: {
           firstName: "First name is required",
           lastName: "Last name is required",
-          email: "Email is required",
+          dateOfBirth: "Date of Birth is required",
+          gender: "Gender is required",
           username: "Username is required",
-          password: "Password is required"
+          email: "Email is required",
+          password: "Password is required",
+          address: "Address is required",
+          city: "City is required",
+          state: "State is required",
+          zip: "Zip code is required",
+          phone: "Phone is required",
+          allergy: "Allergy is required, otherwise enter 'None'",
+          staff: "Staff indicator is required = 'True' for staff, 'False' for non-staff",
+          position: "Position is required for a staff"
         }
       })
     }
@@ -117,9 +171,19 @@ router.post(
     const newUser = await User.create({
       firstName,
       lastName,
-      email,
+      dateOfBirth,
+      gender,
       username,
-      hashedPassword
+      email,
+      password: hashedPassword,
+      address,
+      city,
+      state,
+      zip,
+      phone,
+      allergy,
+      staff,
+      position
     });
 
 //cookie and resp w/ data
@@ -134,8 +198,80 @@ router.post(
     await setTokenCookie(res, safeUser);
   
     return res.status(201).json({
-      user: safeUser
+      user: newUser
     });
   });
+
+// update a User
+router.put('/:userId', requireAuth, async (req, res) => {
+  const { id } = req.user;
+  const { userId } = req.params;
+  const { 
+    firstName,
+    lastName,
+    dateOfBirth,
+    gender,
+    username,
+    email, 
+    password, 
+    address,
+    city,
+    state,
+    zip,
+    phone,
+    allergy,
+    dateInactive,
+    staff,
+    position
+    } = req.body;
+
+    try {
+      const userUpdate = await User.findByPk(userId);
+
+      if (userUpdate) {
+        userUpdate.firstName = firstName;
+        userUpdate.lastName = lastName;
+        userUpdate.dateOfBirth = dateOfBirth;
+        userUpdate.gender = gender;
+        userUpdate.username = username;
+        userUpdate.email = email;
+        // userUpdate.password = password;    // this create issue in updating - need to be handled later
+        userUpdate.address = address;
+        userUpdate.city = city;
+        userUpdate.state = state;
+        userUpdate.zip = zip;
+        userUpdate.phone = phone;
+        userUpdate.allergy = allergy;
+        userUpdate.dateInactive = dateInactive;
+        userUpdate.staff = staff;
+        userUpdate.position = position;
+      }
+
+      const updatedUser = await userUpdate.save();
+
+      return res.status(200).json(updatedUser);
+    } catch (error) {
+      return res.status(500).json({ message: "An error occurred while updating a User" })
+    }
+})
+
+
+// delete a User
+router.delete('/:userId', requireAuth, async (req, res) => {
+  const { id } = req.user;
+  const { userId } = req.params;
+
+  try {
+    const userToDelete = await User.findByPk(userId);
+    if (!userToDelete || userToDelete.length <= 0) {
+      return res.status(404).json({ message: "User couldn't be found" });
+    }
+
+    await userToDelete.destroy();
+    return res.status(200).json({ message: "Successfully deleted" })
+  } catch (error) {
+    return res.status(500).json({ message: "An error occurred while deleting a User" })
+  }
+}); 
 
 module.exports = router;

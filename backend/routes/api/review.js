@@ -1,0 +1,167 @@
+const express = require('express');
+
+const router = express.Router();
+
+const { Review, User } = require('../../db/models');
+const { requireAuth } = require('../../utils/auth');
+
+// get all reviews for current user
+router.get('/current', requireAuth, async (req, res) => {
+  const { id } = req.user;
+
+  try {
+    const userReviews = await Review.findAll({
+      where: { patientId: id },
+      include: [
+        {
+          model: User,
+          attributes: ['id', 'firstName', 'lastName']
+        }
+      ]
+    })
+
+    if (!userReviews || userReviews.length <= 0) {
+      return res.status(400).json({ message: "No review record for this User" })
+    }
+
+    return res.status(200).json({ Reviews: userReviews })
+  } catch (error) {
+    return res.status(500).json({ message: "An error occurred while getting Reviews" })
+  }
+})
+
+// get review by reviewId
+router.get('/:reviewId', async (req, res) => {
+  const { reviewId } = req.params;
+
+  try {
+    const userReviews = await Review.findByPk(reviewId, {
+      include: [
+        {
+          model: User,
+          attributes: ['id', 'firstName', 'lastName']
+        }
+      ]
+    })
+
+    if (!userReviews || userReviews.length <= 0) {
+      return res.status(400).json({ message: "No review record for this User" })
+    }
+
+    return res.status(200).json({ Review: userReviews })
+  } catch (error) {
+    return res.status(500).json({ message: "An error occurred while getting Reviews" })
+  }
+})
+
+// update review by current user and reviewId
+router.put('/:reviewId', requireAuth, async (req, res) => {
+  const { id } = req.user;
+  const { reviewId } = req.params;
+  const { review, stars } = req.body;
+  const patientId = id;
+
+  if (!review || review.length < 10 || review.length > 200 || isNaN(stars) || stars < 1 || stars > 5) {
+    return res.status(400).json({
+      message: "Bad Input or Data",
+      errors: {
+        review: "Review must be between 10 and 200 characters",
+        stars: "Stars must be between 1 and 5"
+      }
+    })
+  }
+
+  try {
+    const updateReview = await Review.findByPk(reviewId);
+
+    if (!updateReview || updateReview.length <= 0) {
+      return res.status(400).json({ message: "Review could not be found" })
+    }
+    if (updateReview.patientId !== Number(id)) {
+      return res.status(403).json({ message: "You are not authorized to edit this review" })
+    }
+
+    updateReview.patientId = patientId;
+    updateReview.review = review;
+    updateReview.stars = parseFloat(stars);
+
+    const reviewUpdated = await updateReview.save();
+
+    return res.status(201).json(reviewUpdated);
+  } catch (error) {
+    return res.status(500).json({ message: "An error occurred while updating a Review" })
+  }
+})
+
+// delete review by current user and reviewId
+router.delete('/:reviewId', requireAuth, async (req, res) => {
+  const { id } = req.user;
+  const { reviewId } = req.params;
+
+  try {
+    const deleteReview = await Review.findByPk(reviewId);
+
+    if (!deleteReview || deleteReview.length <= 0) {
+      return res.status(400).json({ message: "Review could not be found" })
+    }
+    if (deleteReview.patientId !== Number(id)) {
+      return res.status(403).json({ message: "You are not authorized to delete this Review" })
+    }
+
+    await deleteReview.destroy();
+
+    return res.status(201).json({ message: "Successfully deleted" })
+  } catch (error) {
+    return res.status(500).json({ message: "An error occurred while deleting a Review" })
+  }
+})
+
+// create review by current user
+router.post('/', requireAuth, async (req, res) => {
+  const { id } = req.user;
+  const { review, stars } = req.body;
+  const patientId = id;
+
+  if (!review || review.length < 10 || review.length > 200 || isNaN(stars) || stars < 1 || stars > 5) {
+    return res.status(400).json({
+      message: "Bad Input or Data",
+      errors: {
+        review: "Review must be between 10 and 200 characters",
+        stars: "Stars must be between 1 and 5"
+      }
+    })
+  }
+
+  try {
+    const newReview = await Review.create({ patientId, review, stars });
+
+    return res.status(201).json(newReview)
+  } catch (error) {
+    return res.status(500).json({ message: "An error occurred while creating a Review" })
+  }
+})
+
+// get all reviews 
+router.get('/', async (req, res) => {
+
+  try {
+    const userReviews = await Review.findAll({
+      include: [
+        {
+          model: User,
+          attributes: ['id', 'firstName', 'lastName']
+        }
+      ]
+    })
+
+    if (!userReviews || userReviews.length <= 0) {
+      return res.status(400).json({ message: "No review record for this User" })
+    }
+
+    return res.status(200).json({ Reviews: userReviews })
+  } catch (error) {
+    return res.status(500).json({ message: "An error occurred while getting Reviews" })
+  }
+})
+
+module.exports = router;

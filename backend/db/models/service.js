@@ -14,7 +14,10 @@ module.exports = (sequelize, DataTypes) => {
   Service.init({
     service: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        len: [4, 200]
+      }
     },
     price: {
       type: DataTypes.NUMERIC,
