@@ -47,8 +47,8 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.NOW
     },
     diagnosesICD10: {
-      type: DataTypes.JSON,
-      // type: DataTypes.ARRAY(DataTypes.STRING),
+      // type: DataTypes.JSON,     // this is for Sequelite - development
+      type: DataTypes.ARRAY(DataTypes.STRING),    // this is for postgreSQL - production
       allowNull: false
     },
     diagnosesDesc: {
@@ -76,8 +76,8 @@ module.exports = (sequelize, DataTypes) => {
         len: [10, 2000]
       }
     },
-    services: DataTypes.JSON,
-    // services: DataTypes.ARRAY(DataTypes.STRING),
+    // services: DataTypes.JSON,     // this is for Sequelite - development
+    services: DataTypes.ARRAY(DataTypes.INTEGER),    // this is for postgreSQL - production
     prescription: DataTypes.STRING,
     insurance: DataTypes.STRING,
     cost: DataTypes.DECIMAL,

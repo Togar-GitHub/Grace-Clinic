@@ -9,37 +9,37 @@ if (process.env.NODE_ENV === 'production') {
 
 const serviceSeeds = [
   {
-    id: 1,
+    // id: 1,      // all id only for development
     service: 'Blood work',
     price: 150.00  // Replace with the actual price as needed
   },
   {
-    id: 2,
+    // id: 2,
     service: 'Urine test',
     price: 80.00  // Replace with the actual price as needed
   },
   {
-    id: 3,
+    // id: 3,
     service: 'X-ray',
     price: 200.00  // Replace with the actual price as needed
   },
   {
-    id: 4,
+    // id: 4,
     service: 'MRI',
     price: 1200.00  // Replace with the actual price as needed
   },
   {
-    id: 5,
+    // id: 5,
     service: 'CT scan',
     price: 1000.00  // Replace with the actual price as needed
   },
   {
-    id: 6,
+    // id: 6,
     service: 'Ultrasound',
     price: 250.00  // Replace with the actual price as needed
   },
   {
-    id: 7,
+    // id: 7,
     service: 'Minor surgical procedures',
     price: 500.00  // Replace with the actual price as needed
   }
