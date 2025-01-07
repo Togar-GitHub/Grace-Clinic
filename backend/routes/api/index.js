@@ -21,7 +21,6 @@ router.get(
 );
 
 // GET /api/require-auth
-const { requireAuth } = require('../../utils/auth.js');
 router.get(
   '/require-auth',
   requireAuth,
