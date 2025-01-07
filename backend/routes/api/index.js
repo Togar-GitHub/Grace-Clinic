@@ -3,10 +3,14 @@ const router = require('express').Router();
 const { restoreUser, requireAuth } = require('../../utils/auth.js');
 
 // list of const ...Router = require('./component.js);
+const sessionRouter = require('./session.js');
+const usersRouter = require('./users.js');
 
 router.use(restoreUser);
 
 // list of router.use('/component', ...Router);
+router.use('/session', sessionRouter);
+router.use('/users', usersRouter);
 
 // GET /api/restore-user
 router.get(
