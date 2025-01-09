@@ -1,0 +1,20 @@
+.profileButtonMainContainer {
+  position: relative;
+}
+
+/* ProfileButton.module.css */
+.profileDropdown {
+  display: block; /* Show the dropdown */
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 200px;
+}
+
+.hidden {
+  display: none; /* Hide the dropdown */
+}
+
