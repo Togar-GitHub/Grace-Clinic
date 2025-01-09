@@ -1,17 +1,14 @@
 import { useState } from 'react';
 import * as sessionActions from '../../store/session';
-import { useDispatch, useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
-import lfp from './LoginFormPage.module.css';
+import { useDispatch } from 'react-redux';
+import { useModal } from '../../context/Modal';
 
-function LoginFormPage() {
+function LoginFormModal() {
   const dispatch = useDispatch();
-  const sessionUser = useSelector((state) => state.session.user);
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
-
-  if (sessionUser) return <Navigate to="/" replace={true} />;
+  const { closeModal } = useModal();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -28,7 +25,7 @@ function LoginFormPage() {
 
   return (
     <>
-      <h1 className={lfp.header}>Log In</h1>
+      <h1>Log In</h1>
       <form onSubmit={handleSubmit}>
         <label>
           Username or Email
@@ -48,11 +45,13 @@ function LoginFormPage() {
             required
           />
         </label>
-        {errors.credential && <p>{errors.credential}</p>}
+        {errors.credential && (
+          <p>{errors.credential}</p>
+        )}
         <button type="submit">Log In</button>
       </form>
     </>
   );
 }
 
-export default LoginFormPage;
+export default LoginFormModal;
