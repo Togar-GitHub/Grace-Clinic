@@ -4,11 +4,13 @@ const { Model, Validator } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Service extends Model {
     static associate(models) {
-      Service.belongsToMany(models.Chart, {
-        through: 'ChartServices',
-        foreignKey: 'serviceId',
-        otherKey: 'chartId'
-      })
+      // define association here
+      // Service.belongsToMany(models.Chart, {
+      //   through: 'ChartServices',
+      //   foreignKey: 'serviceId',
+      //   otherKey: 'chartId',
+      //   as: 'charts'
+      // })
     }
   }
   Service.init({
@@ -16,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [4, 200]
+        len: [2, 200]
       }
     },
     price: {

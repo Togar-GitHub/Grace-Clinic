@@ -17,7 +17,7 @@ router.get('/:cptId', async (req, res) => {
 
     return res.status(200).json({ CPT: oneCPT });
   } catch (error) {
-    return res.status(500).json({ message: "An error occurred while getting a CPT" })
+    return res.status(500).json({ message: "An error occurred while getting a CPT", error })
   }
 })
 
@@ -114,7 +114,7 @@ router.get('/', async (req, res) => {
 
     return res.status(200).json({ CPT: allCPT });
   } catch (error) {
-    return res.status(500).json({ message: "An error occurred while getting CPTs" })
+    return res.status(500).json({ message: "An error occurred while getting CPTs", error })
   }
 })
 

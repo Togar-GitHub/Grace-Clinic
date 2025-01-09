@@ -26,7 +26,7 @@ router.get('/current', requireAuth, async (req, res) => {
 
     return res.status(200).json({ Reviews: userReviews })
   } catch (error) {
-    return res.status(500).json({ message: "An error occurred while getting Reviews" })
+    return res.status(500).json({ message: "An error occurred while getting Reviews", error })
   }
 })
 
@@ -50,7 +50,7 @@ router.get('/:reviewId', async (req, res) => {
 
     return res.status(200).json({ Review: userReviews })
   } catch (error) {
-    return res.status(500).json({ message: "An error occurred while getting Reviews" })
+    return res.status(500).json({ message: "An error occurred while getting Reviews", error })
   }
 })
 
@@ -78,7 +78,7 @@ router.put('/:reviewId', requireAuth, async (req, res) => {
       return res.status(400).json({ message: "Review could not be found" })
     }
     if (updateReview.patientId !== Number(id)) {
-      return res.status(403).json({ message: "You are not authorized to edit this review" })
+      return res.status(403).json({ message: "You are not authorized to edit this Review" })
     }
 
     updateReview.patientId = patientId;
@@ -89,7 +89,7 @@ router.put('/:reviewId', requireAuth, async (req, res) => {
 
     return res.status(201).json(reviewUpdated);
   } catch (error) {
-    return res.status(500).json({ message: "An error occurred while updating a Review" })
+    return res.status(500).json({ message: "An error occurred while updating a Review", error })
   }
 })
 
@@ -112,7 +112,7 @@ router.delete('/:reviewId', requireAuth, async (req, res) => {
 
     return res.status(201).json({ message: "Successfully deleted" })
   } catch (error) {
-    return res.status(500).json({ message: "An error occurred while deleting a Review" })
+    return res.status(500).json({ message: "An error occurred while deleting a Review", error })
   }
 })
 
@@ -137,7 +137,7 @@ router.post('/', requireAuth, async (req, res) => {
 
     return res.status(201).json(newReview)
   } catch (error) {
-    return res.status(500).json({ message: "An error occurred while creating a Review" })
+    return res.status(500).json({ message: "An error occurred while creating a Review", error })
   }
 })
 
@@ -160,7 +160,7 @@ router.get('/', async (req, res) => {
 
     return res.status(200).json({ Reviews: userReviews })
   } catch (error) {
-    return res.status(500).json({ message: "An error occurred while getting Reviews" })
+    return res.status(500).json({ message: "An error occurred while getting Reviews", error })
   }
 })
 

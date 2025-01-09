@@ -17,7 +17,7 @@ router.get('/:serviceId', async (req, res) => {
 
     return res.status(200).json({ Service: oneService });
   } catch (error) {
-    return res.status(500).json({ message: "An error occurred while getting a Service" })
+    return res.status(500).json({ message: "An error occurred while getting a Service", error })
   }
 })
 
@@ -26,12 +26,12 @@ router.put('/:serviceId', async (req, res) => {
   const { serviceId } = req.params;
   const { service, price } = req.body;
 
-  if (!service || service.length < 4 || service.length > 200 || isNaN(price) || price <= 0) {
+  if (!service || service.length < 2 || service.length > 200 || isNaN(price) || price <= 0) {
     return res.status(400).json({
       message: "Bad Input or Data",
       errors: {
         service: "Service description must be between 4 and 200 characters",
-        price: "Price must be positive integer"
+        price: "Price must be a positive integer"
       }
     })
   }
@@ -50,7 +50,7 @@ router.put('/:serviceId', async (req, res) => {
 
     return res.status(201).json(serviceUpdated)
   } catch (error) {
-    return res.status(500).json({ message: "An error occurred while updating a Service" })
+    return res.status(500).json({ message: "An error occurred while updating a Service", error })
   }
 })
 
@@ -69,7 +69,7 @@ router.delete('/:serviceId', async (req, res) => {
 
     return res.status(201).json({ message: "Successfully deleted" })
   } catch (error) {
-    return res.status(500).json({ message: "An error occurred while deleting a Service" })
+    return res.status(500).json({ message: "An error occurred while deleting a Service", error })
   }
 })
 
@@ -77,12 +77,12 @@ router.delete('/:serviceId', async (req, res) => {
 router.post('/', async (req, res) => {
   const { service, price } = req.body;
 
-  if (!service || service.length < 4 || service.length > 200 || isNaN(price) || price <= 0) {
+  if (!service || service.length < 2 || service.length > 200 || isNaN(price) || price <= 0) {
     return res.status(400).json({
       message: "Bad Input or Data",
       errors: {
         service: "Service description must be between 4 and 200 characters",
-        price: "Price must be positive integer"
+        price: "Price must be a positive integer"
       }
     })
   }
@@ -92,7 +92,7 @@ router.post('/', async (req, res) => {
 
     return res.status(201).json(newService)
   } catch (error) {
-    return res.status(500).json({ message: "An error occurred while creating a Service" })
+    return res.status(500).json({ message: "An error occurred while creating a Service", error })
   }
 })
 
@@ -102,12 +102,12 @@ router.get('/', async (req, res) => {
     const allService = await Service.findAll();
 
     if (!allService || allService.length <= 0) {
-      return res.status(400).json({ message: "No service in the database" })
+      return res.status(400).json({ message: "No Service in the database" })
     }
 
     return res.status(200).json({ Services: allService });
   } catch (error) {
-    return res.status(500).json({ message: "An error occurred while getting services" })
+    return res.status(500).json({ message: "An error occurred while getting Services", error })
   }
 })
 

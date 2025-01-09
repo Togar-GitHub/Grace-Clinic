@@ -251,26 +251,47 @@ router.put('/:userId', requireAuth, async (req, res) => {
 
       return res.status(200).json(updatedUser);
     } catch (error) {
-      return res.status(500).json({ message: "An error occurred while updating a User" })
+      return res.status(500).json({ message: "An error occurred while updating a User", error })
     }
 })
-
 
 // delete a User
 router.delete('/:userId', requireAuth, async (req, res) => {
   const { id } = req.user;
   const { userId } = req.params;
+  const todayDate = new Date();
 
   try {
+    // check the user first
+    const oneUser = await User.findByPk(id);
+    if (!oneUser || oneUser.length <= 0) {
+      return res.status(403).json({ message: "The User is NOT Exist" })
+    } else {
+      if (oneUser.staff !== true && oneUser.position !== 'manager') {
+        return res.status(403).json({ message: "The User is NOT Authorized" })
+      }
+    }
+
+    if (Number(id) === Number(userId)) {
+      return res.status(403).json({ message: "You are not Authorized to Delete yourself" })
+    }
+
     const userToDelete = await User.findByPk(userId);
     if (!userToDelete || userToDelete.length <= 0) {
       return res.status(404).json({ message: "User couldn't be found" });
     }
 
+    const parsedDateInactive = new Date(dateInactive);
+    const timeDifference = todayDate - parsedDateInactive;
+    const yearsDifference = timeDifference / (1000 * 3600 * 24 * 365.25);
+    if (yearsDifference <= 5) {
+      return res.status(403).json({ message: "The User can't be deleted, less than 5 years of being in-active" })
+    }
+
     await userToDelete.destroy();
     return res.status(200).json({ message: "Successfully deleted" })
   } catch (error) {
-    return res.status(500).json({ message: "An error occurred while deleting a User" })
+    return res.status(500).json({ message: "An error occurred while deleting a User", error })
   }
 }); 
 

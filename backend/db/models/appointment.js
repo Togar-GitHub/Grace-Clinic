@@ -6,10 +6,12 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Appointment.belongsTo(models.User, {
+        as: 'patient',
         foreignKey: 'patientId',
         onDelete: 'CASCADE'
       })
       Appointment.belongsTo(models.User, {
+        as: 'doctor',
         foreignKey: 'doctorId'
       })
       Appointment.hasOne(models.Chart, {

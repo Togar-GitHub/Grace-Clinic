@@ -6,10 +6,12 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Chart.belongsTo(models.User, {
+        as: 'patient',
         foreignKey: 'patientId',
         onDelete: 'CASCADE'
       })
       Chart.belongsTo(models.User, {
+        as: 'doctor',
         foreignKey: 'doctorId'
       })
       Chart.belongsTo(models.Appointment, {
@@ -19,6 +21,12 @@ module.exports = (sequelize, DataTypes) => {
       Chart.belongsTo(models.CPT, {
         foreignKey: 'CPTId'
       })
+      // Chart.belongsToMany(models.Service, {
+      //   through: 'ChartServices',
+      //   foreignKey: 'chartId',
+      //   otherKey: 'serviceId',
+      //   as: 'services'
+      // })
     }
   }
   Chart.init({
@@ -47,8 +55,8 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.NOW
     },
     diagnosesICD10: {
-      // type: DataTypes.JSON,     // this is for Sequelite - development
-      type: DataTypes.ARRAY(DataTypes.STRING),    // this is for postgreSQL - production
+      type: DataTypes.JSON,     // this is for Sequelite - development
+      // type: DataTypes.ARRAY(DataTypes.STRING),    // this is for postgreSQL - production
       allowNull: false
     },
     diagnosesDesc: {
@@ -76,8 +84,8 @@ module.exports = (sequelize, DataTypes) => {
         len: [10, 2000]
       }
     },
-    // services: DataTypes.JSON,     // this is for Sequelite - development
-    services: DataTypes.ARRAY(DataTypes.INTEGER),    // this is for postgreSQL - production
+    services: DataTypes.JSON,     // this is for Sequelite - development
+    // services: DataTypes.ARRAY(DataTypes.INTEGER),    // this is for postgreSQL - production
     prescription: DataTypes.STRING,
     insurance: DataTypes.STRING,
     cost: DataTypes.DECIMAL,

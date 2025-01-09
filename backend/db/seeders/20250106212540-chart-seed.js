@@ -9,9 +9,9 @@ if (process.env.NODE_ENV === 'production') {
 
 const chartSeeds = [
   {
-    // id: 1,   // all id only for development
-    patientId: 1,  // Patient 1
-    doctorId: 1,   // Doctor 1
+    id: 1,   // all id only for development
+    patientId: 6,  // Patient 1
+    doctorId: 2,   // Doctor 1
     appointmentId: 1,  // Appointment 1
     complaint: 'Severe headache',
     meetingDate: new Date('2024-12-01T10:30:00Z'),
@@ -27,9 +27,9 @@ const chartSeeds = [
     nextAppointment: new Date('2025-01-15T14:00:00Z')
   },
   {
-    // id: 2,
-    patientId: 2,  // Patient 2
-    doctorId: 1,   // Doctor 1
+    id: 2,
+    patientId: 7,  // Patient 2
+    doctorId: 5,   // Doctor 1
     appointmentId: 4,  // Appointment 4
     complaint: 'Cough and cold',
     meetingDate: new Date('2024-11-25T11:30:00Z'),
@@ -45,9 +45,9 @@ const chartSeeds = [
     nextAppointment: new Date('2025-02-05T09:00:00Z')
   },
   {
-    // id: 3,
-    patientId: 3,  // Patient 3
-    doctorId: 1,   // Doctor 1
+    id: 3,
+    patientId: 8,  // Patient 3
+    doctorId: 5,   // Doctor 1
     appointmentId: 7,  // Appointment 7
     complaint: 'Knee pain',
     meetingDate: new Date('2024-10-10T15:30:00Z'),
@@ -63,9 +63,9 @@ const chartSeeds = [
     nextAppointment: new Date('2025-03-20T08:30:00Z')
   },
   {
-    // id: 4,
-    patientId: 4,  // Patient 4
-    doctorId: 1,   // Doctor 1
+    id: 4,
+    patientId: 9,  // Patient 4
+    doctorId: 2,   // Doctor 1
     appointmentId: 9,  // Appointment 9
     complaint: 'Stomach ache',
     meetingDate: new Date('2024-12-10T14:00:00Z'),
@@ -81,9 +81,9 @@ const chartSeeds = [
     nextAppointment: new Date('2025-04-01T10:00:00Z')
   },
   {
-    // id: 5,
-    patientId: 5,  // Patient 5
-    doctorId: 1,   // Doctor 1
+    id: 5,
+    patientId: 10,  // Patient 5
+    doctorId: 2,   // Doctor 1
     appointmentId: 11,  // Appointment 11
     complaint: 'Sore throat',
     meetingDate: new Date('2024-11-01T12:30:00Z'),
