@@ -1,0 +1,192 @@
+/* Main Container */
+.mainContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two columns: one for "Who We Are", one for images and content */
+  grid-template-rows: auto 1fr auto; /* First row for "Who We Are" and images, second row for services and insurance, last row for reviews */
+  grid-template-areas:
+    "whoWeAre image"
+    "services insurance"
+    "reviews reviews"; /* Services and Insurance in the middle row, Reviews spanning the bottom row */
+  gap: 20px;
+  padding: 10px;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #e0f7fa; /* Pale green background */
+}
+
+/* Who We Are Section */
+.whoWeAreContainer {
+  position: relative; /* Allow absolute positioning of the button inside this container */
+  padding: 15px;
+  background-color: #f4f9f4; /* Slightly lighter green for contrast */
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  font-size: 1rem;
+  color: #4f84b5; /* Soft blue for the description */
+}
+
+/* Who We Are Button */
+.whoWeAreButton {
+  position: absolute;
+  right: 20px; /* Position the button to the right */
+  bottom: 20px; /* Position the button towards the bottom */
+  padding: 10px 20px;
+  background-color: #3e6c97; /* Soft blue background */
+  color: #fff; /* White text */
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.whoWeAreButton:hover {
+  color: #fff; /* White text */
+  font-size: larger;
+  text-decoration: underline;
+  transform: translateY(-2px); /* Lift the button slightly */
+}
+
+.whoWeAreButton:focus {
+  color: #fff; /* White text */
+  outline: none;
+  box-shadow: 0 0 0 2px #3e6c97; /* Highlight button on focus */
+}
+
+.whoWeAreTitle, .servicesTitle, .reviewsTitle, .insuranceTitle {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #3e6c97; /* Soft blue for titles */
+}
+
+.whoWeAreDesc {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 10px;
+  color: #4f84b5; /* Soft blue for the description */
+}
+
+/* Image Container */
+.imageContainer {
+  grid-area: image;
+  display: flex;
+  justify-content: space-between; /* Ensure images are side by side */
+  gap: 20px;
+  padding: 20px;
+}
+
+.imageWithKid {
+  width: 100%;  /* Adjust the width for the images to make them side by side */
+  height: auto;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* Services Section */
+.servicesContainer {
+  grid-area: services;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  font-size: 1rem;
+  color: #4f84b5; /* Soft blue for service details */
+}
+
+/* Insurance Section */
+.insuranceContainer {
+  grid-area: insurance;
+  padding: 20px;
+  background-color: #f4f9f4; /* Lighter green for contrast */
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.insuranceTitle {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #3e6c97; /* Soft blue for the title */
+}
+
+.insuranceH3Title {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  color: #4f84b5; /* Soft blue for subheadings */
+}
+
+.listOfInsurance {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.insLogo {
+  width: 100px; /* Adjusted size for smaller logos */
+  height: auto;
+  object-fit: contain;
+}
+
+/* Reviews Section */
+.reviewsContainer {
+  grid-area: reviews;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  font-size: 1rem;
+  color: #4f84b5; /* Soft blue for review details */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align text to the left */
+  position: relative; /* Allow positioning the button within this container */
+}
+
+/* Review Details */
+.reviewDetails {
+  margin-bottom: 15px;
+}
+
+.reviewDetails p {
+  margin: 5px 0;
+}
+
+/* Review Button */
+.reviewButton {
+  position: absolute;
+  right: 200px; /* Position the button on the right side */
+  bottom: 200px; /* Place it towards the bottom */
+  padding: 20px 25px;
+  background-color: #3e6c97; /* Soft blue background */
+  color: #fff; /* White text */
+  font-size: 1.5rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.reviewButton:hover {
+  color: #fff; /* White text */
+  font-size: 1.5rem;
+  text-decoration: underline;
+  transform: scale(1.05); /* Lift the button slightly */
+}
+
+.reviewButton:focus {
+  color: #fff; /* White text */
+  outline: none;
+  box-shadow: 0 0 0 2px #3e6c97; /* Highlight button on focus */
+  transform: scale(1.05);
+}
+
+/* Loading state */
+.loading {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-top: 50px;
+  color: #888;
+}

@@ -2,13 +2,20 @@ const express = require('express');
 
 const router = express.Router();
 
-const { Service } = require('../../db/models');
+const { Service, User } = require('../../db/models');
+const { requireAuth } = require('../../utils/auth');
 
 // get a service by serviceId
-router.get('/:serviceId', async (req, res) => {
+router.get('/:serviceId', requireAuth, async (req, res) => {
+  const { id } = req.user;
   const { serviceId } = req.params;
 
   try {
+    const oneUser = await User.findByPk(id);
+    if (!oneUser || oneUser.staff !== true) {
+      return res.status(403).json({ message: "You are not Authorized to get a Service" })
+    }
+
     const oneService = await Service.findByPk(serviceId);
 
     if (!oneService || oneService.length <= 0) {
@@ -22,7 +29,8 @@ router.get('/:serviceId', async (req, res) => {
 })
 
 // update a service by serviceId
-router.put('/:serviceId', async (req, res) => {
+router.put('/:serviceId', requireAuth, async (req, res) => {
+  const { id } = req.user;
   const { serviceId } = req.params;
   const { service, price } = req.body;
 
@@ -37,6 +45,11 @@ router.put('/:serviceId', async (req, res) => {
   }
 
   try {
+    const oneUser = await User.findByPk(id);
+    if (!oneUser || oneUser.staff !== true) {
+      return res.status(403).json({ message: "You are not Authorized to update a Service" })
+    }
+
     const updateService = await Service.findByPk(serviceId);
 
     if (!updateService || updateService.length <= 0) {
@@ -55,10 +68,16 @@ router.put('/:serviceId', async (req, res) => {
 })
 
 // delete a service by serviceId
-router.delete('/:serviceId', async (req, res) => {
+router.delete('/:serviceId', requireAuth, async (req, res) => {
+  const { id } = req.user
   const { serviceId } = req.params;
 
   try {
+    const oneUser = await User.findByPk(id);
+    if (!oneUser || oneUser.staff !== true) {
+      return res.status(403).json({ message: "You are not Authorized to delete a Service" })
+    }
+
     const deleteService = await Service.findByPk(serviceId);
 
     if (!deleteService || deleteService.length <= 0) {
@@ -74,7 +93,8 @@ router.delete('/:serviceId', async (req, res) => {
 })
 
 // create a service
-router.post('/', async (req, res) => {
+router.post('/', requireAuth, async (req, res) => {
+  const { id } = req.user;
   const { service, price } = req.body;
 
   if (!service || service.length < 2 || service.length > 200 || isNaN(price) || price <= 0) {
@@ -88,6 +108,11 @@ router.post('/', async (req, res) => {
   }
 
   try {
+    const oneUser = await User.findByPk(id);
+    if (!oneUser || oneUser.staff !== true) {
+      return res.status(403).json({ message: "You are not Authorized to create a Service" })
+    }
+
     const newService = await Service.create({ service, price });
 
     return res.status(201).json(newService)

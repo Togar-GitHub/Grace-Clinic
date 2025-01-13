@@ -1,16 +1,22 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { FaUserCircle } from 'react-icons/fa';
+import { useNavigation, NavLink }from 'react-router-dom';
+import { FaUser } from 'react-icons/fa';
 import * as sessionActions from '../../store/session';
+import OpenModalButton from '../OpenModalButton/OpenModalButton';
+// import OpenModalMenuItem from '../OpenModalMenuItem/OpenModalMenuItem';
+import LoginFormModal from '../LoginFormModal/LoginFormModal';
+import SignupFormModal from '../SignupFormModal/SignupFormModal';
 import pbt from './ProfileButton.module.css';
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
 
   const toggleMenu = (e) => {
-    e.stopPropagation();
+    e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
     setShowMenu(!showMenu);
   }
 
@@ -32,6 +38,8 @@ function ProfileButton({ user }) {
     return () => document.removeEventListener('click', closeMenu);
   }, [showMenu]);
 
+  const closeMenu = () => setShowMenu(false);
+
   const logout = (e) => {
     e.preventDefault();
     dispatch(sessionActions.logout());
@@ -41,16 +49,59 @@ function ProfileButton({ user }) {
 
   return (
     <div className={pbt.profileButtonMainContainer}>
-      <button onClick={toggleMenu}>
-        <FaUserCircle />
+
+      <div className={pbt.profileButtonMenuContainer}>
+        {user && (
+          <div className={pbt.userContainer}>
+            <div className={pbt.loggedUser}>
+              <p className={pbt.userList}>Name: {user.firstName} {user.lastName}</p>
+              <p className={pbt.userList}>Username: {user.username}</p>
+              <p className={pbt.userList}>Email: {user.email}</p>
+
+              {user.staff && <p className={pbt.userList}>Position: {user.position}</p>}
+            </div>
+          </div>
+        )}
+
+        {user && user.staff && (
+          <div className={pbt.adminButtonContainer}>
+            <NavLink to='/adminPage' className={pbt.adminPage}>Admin</NavLink>
+          </div>
+        )}
+      </div>
+
+      <button className={pbt.homeImage} onClick={toggleMenu}>
+        <FaUser size={50}/>
       </button>
       <div className={divClassName} ref={ulRef}>
-        <div>{user.username}</div>
-        <div>{user.firstName} {user.lastName}</div>
-        <div>{user.email}</div>
-        <div>
-          <button onClick={logout}>Log Out</button>
-        </div>
+        {user ? (
+          <>
+          <div className={pbt.loggedUser}>
+            <div className={pbt.logOutButton}>
+              <button className={pbt.logOutText} onClick={logout}>Log Out</button>
+            </div>
+          </div>
+          </>
+        ) : (
+          <>
+            <div className={pbt.logInButton}>
+              <OpenModalButton
+                className={pbt.logInText}
+                buttonText="Log In"
+                onButtonClick={closeMenu}
+                modalComponent={<LoginFormModal />}
+              />
+            </div>
+            <div className={pbt.signUpButton}>
+              <OpenModalButton
+                className={pbt.signUpText}
+                buttonText="Sign Up"
+                onButtonClick={closeMenu}
+                modalComponent={<SignupFormModal />}
+              />
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

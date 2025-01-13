@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import * as sessionActions from '../../store/session';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
+import lgm from './LoginFormModal.module.css';
 
 function LoginFormModal() {
   const dispatch = useDispatch();
@@ -9,6 +10,22 @@ function LoginFormModal() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
+
+  const modalRef = useRef();
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (modalRef.current && !modalRef.current.contains(e.target)) {
+        closeModal();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [closeModal]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -24,21 +41,23 @@ function LoginFormModal() {
   };
 
   return (
-    <>
-      <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
+    <div>
+      <form className={lgm.form} onSubmit={handleSubmit}>
+      <h1 className={lgm.titleLogin}>Log In</h1>
+        <label className={lgm.label}>
           Username or Email
           <input
+            className={lgm.inputList}
             type="text"
             value={credential}
             onChange={(e) => setCredential(e.target.value)}
             required
           />
         </label>
-        <label>
+        <label className={lgm.label}>
           Password
           <input
+            className={lgm.inputList}
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -46,11 +65,11 @@ function LoginFormModal() {
           />
         </label>
         {errors.credential && (
-          <p>{errors.credential}</p>
+          <p className={lgm.errors}>{errors.credential}</p>
         )}
-        <button type="submit">Log In</button>
+        <button className={lgm.submitButton} type="submit">Log In</button>
       </form>
-    </>
+    </div>
   );
 }
 

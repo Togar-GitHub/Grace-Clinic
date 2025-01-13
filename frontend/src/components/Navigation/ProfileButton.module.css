@@ -1,20 +1,227 @@
+/* Profile Button Container */
 .profileButtonMainContainer {
   position: relative;
+  display: flex;
+  align-items: center; /* Vertically align the icon and menu */
 }
 
-/* ProfileButton.module.css */
+/* Profile Button Menu Container (holding user information and FaUser button) */
+.profileButtonMenuContainer {
+  display: flex;
+  align-items: center; /* Align the items vertically */
+  margin-right: 15px; /* Space between menu items and FaUser */
+}
+
+/* User container to align user info to the left of the FaUser icon */
+.userContainer {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  margin-right: 15px; /* Space between user info and button */
+}
+
+/* Logged User info styling */
+.loggedUser {
+  display: flex;
+  flex-direction: column;
+  color: #007bff; /* Text color */
+}
+
+/* User list (each user info item close together) */
+.userList {
+  margin: 2px 0; /* Reduce margin between items to keep them close */
+}
+
+/* Admin button container */
+.adminButtonContainer {
+  margin-left: 10px; /* Space between admin button and user info */
+}
+
+/* Admin Page Link */
+.adminPage {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 5px 10px; /* Padding for clickable area */
+  border-radius: 5px;
+  background-color: #f0f8ff; /* Light background for visibility */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.adminPage:hover {
+  background-color: #0056b3;
+  color: white; /* Change text color when hovered */
+}
+
+/* The Profile Button Icon */
+button.homeImage {
+  margin-top: 20px;
+  margin-right: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: #007bff;
+  display: flex;
+  align-items: center;
+}
+
+button.homeImage:hover {
+  color: #0056b3; /* Change color on hover */
+}
+
+/* Dropdown menu when visible */
 .profileDropdown {
-  display: block; /* Show the dropdown */
   position: absolute;
   top: 100%;
-  left: 0;
-  background-color: white;
-  border: 1px solid #ccc;
-  padding: 10px;
+  right: 0;
   width: 200px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 100;
 }
 
+/* Hidden dropdown when menu is not shown */
 .hidden {
-  display: none; /* Hide the dropdown */
+  display: none;
+}
+
+/* Container for logged-out user button */
+.loggedUser {
+  display: flex;
+  justify-content: center; /* Center the logout button */
+  margin-top: 12px; /* Space between elements */
+}
+
+/* Styling for the log-out button container */
+.logOutButton {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Styling for the logout button (similar to log-in button, but with different background color) */
+.logOutButton button {
+  background-color: #ff4d4f; /* Red background for logout */
+  color: white;
+  padding: 12px 18px; /* Larger padding for better button size */
+  border: none;
+  border-radius: 6px; /* Rounded corners */
+  cursor: pointer;
+  font-size: 14px; /* Adjusted font size */
+  font-weight: 500; /* Slightly bold text */
+  text-align: center;
+  width: 100%;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover effect for the logout button */
+.logOutButton button:hover {
+  background-color: #e24b4b; /* Darker red shade on hover */
+  transform: scale(1.05); /* Slight scaling effect */
+}
+
+/* Focus effect for accessibility */
+.logOutButton button:focus {
+  outline: none;
+  box-shadow: 0 0 5px 2px rgba(255, 77, 79, 0.5); /* Red glow on focus */
+}
+
+/* Styling for the logout text button (with the same background as the log-out button) */
+.logOutText {
+  background-color: #ff4d4f; /* Red background for logout text */
+  color: white;
+  padding: 10px;
+  width: 100%;
+  text-align: center;
+  border-radius: 6px; /* Consistent rounded corners */
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover effect for logout text */
+.logOutText:hover {
+  background-color: #e24b4b; /* Darker red shade on hover */
+  transform: scale(1.05); /* Slight scaling effect */
+}
+
+/* Focus effect for accessibility */
+.logOutText:focus {
+  outline: none;
+  box-shadow: 0 0 5px 2px rgba(255, 77, 79, 0.5); /* Red glow on focus */
+}
+
+
+/* Container for login/sign-up buttons */
+.logInButton,
+.signUpButton {
+  margin-bottom: 12px; /* Space between buttons */
+  display: flex;
+  justify-content: center; /* Center the button inside its container */
+}
+
+/* General button styling for both login and sign-up buttons */
+.logInButton button,
+.signUpButton button {
+  background-color: #007bff; /* Primary color for buttons */
+  color: white;
+  padding: 12px 18px; /* Larger padding for better button size */
+  border: none;
+  border-radius: 6px; /* Rounded corners */
+  cursor: pointer;
+  font-size: 14px; /* Adjusted font size for better readability */
+  font-weight: 500; /* Slightly bold text for emphasis */
+  text-align: center;
+  width: 100%;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover effect for login and sign-up buttons */
+.logInButton button:hover,
+.signUpButton button:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+  transform: scale(1.05); /* Slight scaling effect to give feedback */
+}
+
+/* Focus effect for accessibility */
+.logInButton button:focus,
+.signUpButton button:focus {
+  outline: none;
+  box-shadow: 0 0 5px 2px rgba(0, 123, 255, 0.5); /* Blue glow on focus */
+}
+
+/* Additional styling for the log-in and sign-up text */
+.logInText,
+.signUpText {
+  background-color: #007bff; /* Consistent color scheme */
+  color: white;
+  padding: 10px;
+  width: 100%;
+  text-align: center;
+  border-radius: 6px; /* Consistent rounded corners */
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover effect for text buttons */
+.logInText:hover,
+.signUpText:hover {
+  background-color: #0056b3; /* Darker color on hover */
+  transform: scale(1.05); /* Slight scaling effect */
+}
+
+/* Focus effect for accessibility */
+.logInText:focus,
+.signUpText:focus {
+  outline: none;
+  box-shadow: 0 0 5px 2px rgba(0, 123, 255, 0.5); /* Blue glow on focus */
 }
 

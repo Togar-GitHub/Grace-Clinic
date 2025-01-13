@@ -6,11 +6,17 @@ const { Appointment, User } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 
 // delete passed appointment by admin which dateMet = null
-router.delete('/admin/:appointmentId', async (req, res) => {
+router.delete('/admin/:appointmentId', requireAuth, async (req, res) => {
+  const { id } = req.user;
   const { appointmentId } = req.params;
   const todayDate = new Date();
 
   try {
+    const oneUser = await User.findByPk(id);
+    if (!oneUser || oneUser.staff !== true) {
+      return res.status(403).json({ message: "You are not Authorized to get an Appointment" })
+    }
+
     const deleteAppointment = await Appointment.findByPk(appointmentId);
 
     if (!deleteAppointment || deleteAppointment.length <= 0) {
@@ -32,7 +38,8 @@ router.delete('/admin/:appointmentId', async (req, res) => {
 })
 
 // update appointment by admin - usually by phone call
-router.put('/admin/:appointmentId', async (req, res) => {
+router.put('/admin/:appointmentId', requireAuth, async (req, res) => {
+  const { id } = req.user;
   const { appointmentId } = req.params;
   const { doctorId, dateTime, complaint, insurance } = req.body;
   const todayDate = new Date();
@@ -51,6 +58,11 @@ router.put('/admin/:appointmentId', async (req, res) => {
   }
 
   try {
+    const oneUser = await User.findByPk(id);
+    if (!oneUser || oneUser.staff !== true) {
+      return res.status(403).json({ message: "You are not Authorized to update an Appointment" })
+    }
+
     const updateAppointment = await Appointment.findByPk(appointmentId);
 
     if (!updateAppointment || updateAppointment.length <= 0) {
@@ -71,11 +83,17 @@ router.put('/admin/:appointmentId', async (req, res) => {
 })
 
 // update appointment for the dateMet when chart is created by appointmentId
-router.put('/chart/:appointmentId', async (req, res) => {
+router.put('/chart/:appointmentId', requireAuth, async (req, res) => {
+  const { id } = req.user;
   const { appointmentId } = req.params;
   const todayDate = new Date();
 
   try {
+    const oneUser = await User.findByPk(id);
+    if (!oneUser || oneUser.staff !== true) {
+      return res.status(403).json({ message: "You are not Authorized to update an Appointment" })
+    }
+
     const updateAppointment = await Appointment.findByPk(appointmentId);
 
     if (!updateAppointment || updateAppointment.length <= 0) {
@@ -124,10 +142,16 @@ router.get('/current', requireAuth, async (req, res) => {
 })
 
 // get an appointment by appointmentId
-router.get('/:appointmentId', async (req, res) => {
+router.get('/:appointmentId', requireAuth, async (req, res) => {
+  const { id } = req.user;
   const { appointmentId } = req.params;
 
   try {
+    const oneUser = await User.findByPk(id);
+    if (!oneUser || oneUser.staff !== true) {
+      return res.status(403).json({ message: "You are not Authorized to get an Appointment" })
+    }
+
     const oneAppointment= await Appointment.findByPk(appointmentId, {
       include: [
         {

@@ -31,10 +31,16 @@ router.get('/current', requireAuth, async (req, res) => {
 })
 
 // get review by reviewId
-router.get('/:reviewId', async (req, res) => {
+router.get('/:reviewId', requireAuth, async (req, res) => {
+  const { id } = req.user;
   const { reviewId } = req.params;
 
   try {
+    const oneUser = await User.findByPk(id);
+    if (!oneUser || oneUser.length <= 0) {
+      return res.status(403).json({ message: "You are not Authorized to get a Review" })
+    }
+
     const userReviews = await Review.findByPk(reviewId, {
       include: [
         {
@@ -99,12 +105,17 @@ router.delete('/:reviewId', requireAuth, async (req, res) => {
   const { reviewId } = req.params;
 
   try {
+    const oneUser = await User.findByPk(id);
+    if (!oneUser || oneUser.length <= 0) {
+      return res.status(403).json({ message: "You are not a listed User"})
+    }
+
     const deleteReview = await Review.findByPk(reviewId);
 
     if (!deleteReview || deleteReview.length <= 0) {
       return res.status(400).json({ message: "Review could not be found" })
     }
-    if (deleteReview.patientId !== Number(id)) {
+    if (!(oneUser.staff === true || deleteReview.patientId === Number(id))) {
       return res.status(403).json({ message: "You are not authorized to delete this Review" })
     }
 
@@ -141,7 +152,7 @@ router.post('/', requireAuth, async (req, res) => {
   }
 })
 
-// get all reviews 
+// get all reviews descending by stars and updated date
 router.get('/', async (req, res) => {
 
   try {
@@ -151,6 +162,10 @@ router.get('/', async (req, res) => {
           model: User,
           attributes: ['id', 'firstName', 'lastName']
         }
+      ],
+      order: [
+        ['stars', 'DESC'],
+        ['updatedAt', 'DESC']
       ]
     })
 

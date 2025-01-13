@@ -2,13 +2,20 @@ const express = require('express');
 
 const router = express.Router();
 
-const { CPT } = require('../../db/models');
+const { CPT, User } = require('../../db/models');
+const { requireAuth } = require('../../utils/auth');
 
 // get a CPT by CPTId
-router.get('/:cptId', async (req, res) => {
+router.get('/:cptId', requireAuth, async (req, res) => {
+  const { id } = req.user;
   const { cptId } = req.params;
 
   try {
+    const oneUser = await User.findByPk(id);
+    if (!oneUser || oneUser.staff !== true) {
+      return res.status(403).json({ message: "You are not Authorized to get a CPT Code" })
+    }
+
     const oneCPT = await CPT.findByPk(cptId);
 
     if (!oneCPT || oneCPT.length <= 0) {
@@ -22,7 +29,8 @@ router.get('/:cptId', async (req, res) => {
 })
 
 // update a CPT record by cptId
-router.put('/:cptId', async (req, res) => {
+router.put('/:cptId', requireAuth, async (req, res) => {
+  const { id } = req.user;
   const { cptId } = req.params;
   const { CPTCode, description, price } = req.body;
 
@@ -40,6 +48,11 @@ router.put('/:cptId', async (req, res) => {
   }
 
   try {
+    const oneUser = await User.findByPk(id);
+    if (!oneUser || oneUser.staff !== true) {
+      return res.status(403).json({ message: "You are not Authorized to update a CPT Code" })
+    }
+
     const updateCPT = await CPT.findByPk(cptId);
 
     if (!updateCPT || updateCPT.length <= 0) {
@@ -59,10 +72,16 @@ router.put('/:cptId', async (req, res) => {
 })
 
 // delete a CPT record by cptId
-router.delete('/:cptId', async (req, res) => {
+router.delete('/:cptId', requireAuth, async (req, res) => {
+  const { id } = req.user;
   const { cptId } = req.params;
 
   try {
+    const oneUser = await User.findByPk(id);
+    if (!oneUser || oneUser.staff !== true) {
+      return res.status(403).json({ message: "You are not Authorized to delete a CPT Code" })
+    }
+
     const deleteCPT = await CPT.findByPk(cptId);
 
     if (!deleteCPT || deleteCPT.length <= 0) {
@@ -78,7 +97,8 @@ router.delete('/:cptId', async (req, res) => {
 })
 
 // create a CPT record
-router.post('/', async (req, res) => {
+router.post('/', requireAuth, async (req, res) => {
+  const { id } = req.user;
   const { CPTCode, description, price } = req.body;
 
   if (!CPTCode || isNaN(CPTCode) || CPTCode < 10000 || CPTCode > 99999 ||
@@ -95,6 +115,11 @@ router.post('/', async (req, res) => {
   }
 
   try {
+    const oneUser = await User.findByPk(id);
+    if (!oneUser || oneUser.staff !== true) {
+      return res.status(403).json({ message: "You are not Authorized to create a CPT Code" })
+    }
+
     const newCPT = await CPT.create({ CPTCode, description, price });
 
     return res.status(201).json(newCPT);
