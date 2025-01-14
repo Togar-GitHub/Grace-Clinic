@@ -1,0 +1,269 @@
+/* Main container and form */
+.mainContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+.formSignUp {
+  background-color: white;
+  padding: 40px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 800px;
+}
+
+.titleSignUp {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Form labels and inputs */
+.label {
+  display: block;
+  font-weight: bold;
+  margin: 10px 0 5px;
+}
+
+.inputFirstName,
+.inputLastName,
+.inputUsername,
+.inputEmail,
+.inputPassword,
+.inputAddress,
+.inputCity,
+.inputState,
+.inputZip,
+.inputPhone,
+.inputAllergy,
+.inputPosition,
+.inputCredentialMgr,
+.inputPasswordMgr,
+.inputDateOfBirth {  /* Added .inputDateOfBirth here */
+  width: 100%;   /* Make the input field fill 100% of the container */
+  padding: 10px;  /* Consistent padding */
+  margin: 5px 0;  /* Space between inputs */
+  border-radius: 4px;  /* Rounded corners */
+  border: 1px solid #ccc;  /* Border style */
+}
+
+.errors {
+  color: red;
+  font-size: 0.875rem;
+}
+
+/* Line-wise layout */
+.line1, .line2, .line3, .line4, .line5 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+  margin-bottom: 20px;
+}
+
+.line1 label,
+.line2 label,
+.line3 label,
+.line4 label,
+.line5 label {
+  grid-column: span 1;
+}
+
+.line1 .inputFirstName,
+.line1 .inputLastName,
+.line1 .inputDateOfBirth,  /* Ensure inputDateOfBirth is styled the same */
+.line1 .inputGender {
+  grid-column: span 1;
+}
+
+.line2 .inputUsername,
+.line2 .inputEmail,
+.line2 .inputPassword,
+.line2 .inputConfirmPassword {
+  grid-column: span 1;
+}
+
+.line3 .inputAddress,
+.line3 .inputCity,
+.line3 .inputState,
+.line3 .inputZip {
+  grid-column: span 1;
+}
+
+.line4 .inputPhone,
+.line4 .inputAllergy {
+  grid-column: span 1;
+}
+
+.line5 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.inputGender {
+  margin-right: 10px;
+}
+
+.inputStaff {
+  margin-right: 10px;
+}
+
+/* Style for radio buttons container */
+.radioContainer {
+  display: flex;
+  gap: 20px;  /* Adds space between the radio buttons */
+  margin-bottom: 15px;
+}
+
+/* Style for the individual radio button elements */
+.radioContainer input[type="radio"] {
+  margin-right: 5px; /* Adds space between the radio button and its label */
+}
+
+/* Style for labels of radio buttons */
+.radioContainer label {
+  font-size: 1em;
+  font-weight: normal;
+  display: flex;
+  align-items: center;
+}
+
+.submitButton {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 1em;
+  width: 20%;
+}
+
+.submitButton:hover {
+  background-color: #45a049;
+  text-decoration: underline;
+  font-size: larger;
+}
+
+/* Style for the modal */
+.modalMgr {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  width: 450px;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Title of the modal */
+.titleMgr {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* Label styles for the input fields */
+.labelMgr {
+  display: block;
+  font-weight: bold;
+  margin: 10px 0 5px;
+}
+
+/* Container for the inputs to make them side by side */
+.managerInputs {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px; /* Adds space between the input fields */
+  margin-bottom: 20px; /* Adds space below the inputs */
+}
+
+/* Styles for individual input fields */
+.inputCredentialMgr, .inputPasswordMgr {
+  /* width: 45%; /* Each input takes up 45% of the container
+  padding: 8px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  */
+  width: 85%;   /* Make the input field fill 100% of the container */
+  padding: 10px;  /* Consistent padding */
+  margin: 5px 0;  /* Space between inputs */
+  border-radius: 4px;  /* Rounded corners */
+  border: 1px solid #ccc;
+}
+
+/* Error message styling */
+.errorsMgr {
+  color: red;
+  font-size: 0.9em;
+  margin-top: 32px;
+  margin-bottom: 15px;
+}
+
+/* Button container (for submit and cancel buttons) */
+.buttonMgr {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* Submit and Cancel button styles */
+.submitButtonMgr, .cancelButtonMgr {
+  width: 40%; /* Buttons take up 48% of the container width each */
+  padding: 10px;
+  font-size: 1em;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submitButtonMgr {
+  background-color: #4CAF50; /* Green for submit */
+  color: white;
+}
+
+.cancelButtonMgr {
+  background-color: #f44336; /* Red for cancel */
+  color: white;
+}
+
+/* Button hover effects */
+.submitButtonMgr:hover {
+  background-color: #45a049;
+  text-decoration: underline;
+  font-size: larger;
+}
+
+.cancelButtonMgr:hover {
+  background-color: #e53935;
+  text-decoration: underline;
+  font-size: larger;
+}
+
+
+/* Loading state */
+.loading {
+  font-size: 1.5rem;  /* Increase font size to make it more prominent */
+  color: #4CAF50;  /* Choose a color that stands out */
+  text-align: center;  /* Center the text horizontally */
+  margin-top: 20px;  /* Space from other elements */
+  animation: fadeIn 1s ease-in-out;  /* Smooth fade-in animation */
+}
+
+/* Optional: If you want to add a spinner to indicate loading, you can do the following */
+.loading:before {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #4CAF50;  /* Green spinner */
+  border-radius: 50%;
+  animation: spin 1.5s linear infinite;
+  margin-right: 10px;  /* Space between spinner and text */
+}

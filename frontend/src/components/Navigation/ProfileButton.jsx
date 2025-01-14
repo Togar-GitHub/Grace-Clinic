@@ -45,6 +45,10 @@ function ProfileButton({ user }) {
     dispatch(sessionActions.logout());
   };
 
+  const manageUser = {
+    
+  }
+
   const divClassName = showMenu ? pbt.profileDropdown : pbt.hidden;
 
   return (
@@ -77,6 +81,9 @@ function ProfileButton({ user }) {
         {user ? (
           <>
           <div className={pbt.loggedUser}>
+            <div className={pbt.manageUserButton}>
+              <button className={pbt.manageUserText} onClick={manageUser}>Manage User</button>
+            </div>
             <div className={pbt.logOutButton}>
               <button className={pbt.logOutText} onClick={logout}>Log Out</button>
             </div>

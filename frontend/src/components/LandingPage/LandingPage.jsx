@@ -10,11 +10,7 @@ function LandingPage() {
   const service = useSelector((state) => state.service.allServices);
   const dispatch = useDispatch();
 
-  console.log('review > ', review);
-  console.log('service > ', service);
-
   useEffect(() => {
-    console.log('fetching data');
     const fetchData = async () => {
       setLoading(true);
       try{

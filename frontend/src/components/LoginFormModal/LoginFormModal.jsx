@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
-import * as sessionActions from '../../store/session';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
+import * as sessionActions from '../../store/session';
 import lgm from './LoginFormModal.module.css';
 
 function LoginFormModal() {
@@ -51,6 +51,7 @@ function LoginFormModal() {
             type="text"
             value={credential}
             onChange={(e) => setCredential(e.target.value)}
+            placeholder='Enter your username or email'
             required
           />
         </label>
@@ -61,6 +62,7 @@ function LoginFormModal() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            placeholder='Enter your password'
             required
           />
         </label>

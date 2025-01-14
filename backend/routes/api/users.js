@@ -118,9 +118,6 @@ router.post(
       !state ||
       !zip ||
       !phone ||
-      !allergy ||
-      !staff ||
-      !position ||
       staff === true && !position ||
       staff === false && position
       ) {
@@ -139,7 +136,6 @@ router.post(
           state: "State is required",
           zip: "Zip code is required",
           phone: "Phone is required",
-          allergy: "Allergy is required, otherwise enter 'None'",
           staff: "Staff indicator is required = 'True' for staff, 'False' for non-staff",
           position: "Position is required for a staff"
         }

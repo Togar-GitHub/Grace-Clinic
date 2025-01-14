@@ -20,6 +20,7 @@ const removeUser = () => {
 // THUNK 
 export const login = (user) => async (dispatch) => {
   const { credential, password } = user;
+  console.log('in thunk > ', credential, password);
   const response = await csrfFetch("/api/session", {
     method: "POST",
     body: JSON.stringify({
@@ -31,6 +32,33 @@ export const login = (user) => async (dispatch) => {
   dispatch(setUser(data.user));
   return response;
 };
+
+export const managerUser = (user) => async (dispatch) => {
+  const { credential, password } = user;
+  
+  try {
+    const response = await csrfFetch("/api/session", {
+      method: "POST",
+      body: JSON.stringify({
+        credential,
+        password
+      })
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      return data;  // Return the response data if it's OK
+    } else {
+      // Return response status code if not OK
+      return { status: response.status, message: response.statusText };
+    }
+  } catch (error) {
+    // Handle errors that happen during the fetch
+    console.error("An error occurred:", error);
+    return { status: 500, message: "Internal Server Error" };  // Generic error for network issues
+  }
+};
+
 
 export const restoreUser = () => async (dispatch) => {
   const response = await csrfFetch('/api/session');
@@ -80,6 +108,7 @@ export const signup = (user) => async (dispatch) => {
   });
 
   const data = await response.json();
+  console.log('data > ', data);
   dispatch(setUser(data.user));
   return response;
 };
