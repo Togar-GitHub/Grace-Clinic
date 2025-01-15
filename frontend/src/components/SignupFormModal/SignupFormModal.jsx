@@ -1,11 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useModal } from '../../context/Modal';
+import { getUserByIdThunk } from '../../store/user';
 import * as sessionActions from '../../store/session';
 import sfm from './SignupFormModal.module.css';
 
 function SignupFormModal() {
   const dispatch = useDispatch();
+  const customProp = useSelector((state) => state.customProp.customProp);
   const [loading, setLoading] = useState('');
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -27,12 +29,12 @@ function SignupFormModal() {
   const [managerPassword, setManagerPassword] = useState('');
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
-
   const modalRef = useRef();
   
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (modalRef.current && !modalRef.current.contains(e.target)) {
+      const navBar = document.querySelector('.navbar');
+      if (modalRef.current && !modalRef.current.contains(e.target) && navBar.contains(e.target)) {
         closeModal();
       }
     };
@@ -43,6 +45,40 @@ function SignupFormModal() {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [closeModal]);
+
+  useEffect(() => {
+    if (customProp) {
+      const getUserData = async () => {
+        setLoading(true);
+        try {
+          const userData = await dispatch(getUserByIdThunk(customProp.id));
+
+          setFirstName(userData.user.firstName);
+          setLastName(userData.user.lastName);
+          setDateOfBirth(userData.user.dateOfBirth.slice(0, 10));
+          setGender(userData.user.gender);
+          setUsername(userData.user.username);
+          setEmail(userData.user.email);
+          setAddress(userData.user.address);
+          setCity(userData.user.city);
+          setState(userData.user.state);
+          setZip(userData.user.zip);
+
+          const formattedPhone = reformatPhoneForDisplay(userData.user.phone);
+          setPhone(formattedPhone);
+
+          setAllergy(userData.user.allergy);
+          setStaff(userData.user.staff);
+          setPosition(userData.user.position);
+        } catch (error) {
+          setErrors({ general: 'Error fetching User data.' });
+        } finally {
+          setLoading(false);
+        }
+      };
+      getUserData();
+    }
+  }, [customProp, dispatch])
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -88,6 +124,50 @@ function SignupFormModal() {
     }
   };
 
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    if (password === confirmPassword) {
+      setErrors({});
+      if (staff) {
+        setShowManagerModal(true); // Show modal for manager login if staff is true
+      } else {
+        // Proceed with regular form submission for patient
+        const phoneForDB = phone.replace(/\D/g, '');
+
+        dispatch(
+          sessionActions.update(customProp.id, {
+            firstName,
+            lastName,
+            dateOfBirth,
+            gender,
+            username,
+            email,
+            password,
+            address,
+            city,
+            state,
+            zip,
+            phone: phoneForDB,
+            allergy,
+            staff,
+            position
+          })
+        )
+          .then(closeModal)
+          .catch(async (res) => {
+            const data = await res.json();
+            if (data?.errors) {
+              setErrors(data.errors);
+            }
+          });
+      }
+    } else {
+      setErrors({
+        confirmPassword: "Confirm Password field must be the same as the Password field"
+      });
+    }
+  };
+
   // Modal for manager to input username and password
   const [showManagerModal, setShowManagerModal] = useState(false);
 
@@ -96,20 +176,16 @@ function SignupFormModal() {
 
     try {
       // Attempt manager login first
-
-      console.log('Managers > ', managerCredential, managerPassword)
-
       const managerLogin = await dispatch(sessionActions.managerUser({
         credential: managerCredential, 
         password: managerPassword
       }));
 
-      console.log('managerLogin > ', managerLogin);
-
       // Check if login was successful and if the logged-in user is a manager
-      if (!managerLogin.user || managerLogin.user.staff !== true || managerLogin.user.position !== 'manager') {
+      if (!managerLogin.user || managerLogin.user.staff !== true ||
+          (managerLogin.user.position !== 'manager' && managerLogin.user.position !== 'doctor')) {
         if (!managerLogin.status) {
-          setErrors({ manager: `Approval must be by a Manager` });
+          setErrors({ manager: `Approval must be by a Manager or Doctor` });
         } else {
           setErrors({ manager: `Invalid Credential or Password, status: ${managerLogin.status}` });
         }
@@ -119,26 +195,48 @@ function SignupFormModal() {
 
       // Proceed with form submission for staff (after manager is validate)
       const phoneForDB = phone.replace(/\D/g, '');
-      await dispatch(
-        sessionActions.signup({
-          firstName,
-          lastName,
-          dateOfBirth,
-          gender,
-          username,
-          email,
-          password,
-          address,
-          city,
-          state,
-          zip,
-          phone: phoneForDB,
-          allergy,
-          staff,
-          position
-        })
-      );
 
+      if (customProp) {
+        dispatch(
+          sessionActions.update(customProp.id, {
+            firstName,
+            lastName,
+            dateOfBirth,
+            gender,
+            username,
+            email,
+            password,
+            address,
+            city,
+            state,
+            zip,
+            phone: phoneForDB,
+            allergy,
+            staff,
+            position
+          })
+        )
+      } else {
+        await dispatch(
+          sessionActions.signup({
+            firstName,
+            lastName,
+            dateOfBirth,
+            gender,
+            username,
+            email,
+            password,
+            address,
+            city,
+            state,
+            zip,
+            phone: phoneForDB,
+            allergy,
+            staff,
+            position
+          })
+        );
+      }
       closeModal();
     } catch (error) {  
       // Handle errors (login or signup failure)
@@ -177,6 +275,24 @@ function SignupFormModal() {
     setPhone(formattedValue);
   };
 
+  const reformatPhoneForDisplay = (phoneForDb) => {
+    // Ensure the phone number is a string and contains only 10 digits
+    let cleanedPhoneNumber = phoneForDb.replace(/\D/g, ''); // Remove non-numeric characters (in case any are present)
+  
+    // Apply formatting: (xxx) xxx-xxxx
+    let formattedPhoneNumber = cleanedPhoneNumber;
+  
+    if (cleanedPhoneNumber.length <= 3) {
+      formattedPhoneNumber = `(${cleanedPhoneNumber}`;
+    } else if (cleanedPhoneNumber.length <= 6) {
+      formattedPhoneNumber = `(${cleanedPhoneNumber.slice(0, 3)}) ${cleanedPhoneNumber.slice(3)}`;
+    } else {
+      formattedPhoneNumber = `(${cleanedPhoneNumber.slice(0, 3)}) ${cleanedPhoneNumber.slice(3, 6)}-${cleanedPhoneNumber.slice(6, 10)}`;
+    }
+  
+    return formattedPhoneNumber;
+  };
+
   const handleManagerCancel = () => {
     setShowManagerModal(false);
     setManagerCredential('');
@@ -190,7 +306,11 @@ function SignupFormModal() {
   return (
     <div className={sfm.mainContainer}>
       <form className={sfm.formSignUp} onSubmit={handleSubmit}>
-        <h1 className={sfm.titleSignUp}>Sign Up</h1>
+        {customProp ? (
+          <h1 className={sfm.titleSignUp}>Update User Data</h1>
+        ) : (
+          <h1 className={sfm.titleSignUp}>Sign Up</h1>
+        )}
 
         {/* First Line: First Name, Last Name, Date of Birth, and Gender */}
         <div className={sfm.line1}>
@@ -275,6 +395,7 @@ function SignupFormModal() {
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Enter your username"
               required
+              disabled={customProp}
             />
           </label>
           {errors.username && <p className={sfm.errors}>{errors.username}</p>}
@@ -282,12 +403,13 @@ function SignupFormModal() {
           <label className={sfm.label}>
             Email
             <input
-              className={sfm.inputUsername}
+              className={sfm.inputEmail}
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
               required
+              disabled={customProp}
             />
           </label>
           {errors.email && <p className={sfm.errors}>{errors.email}</p>}
@@ -301,6 +423,7 @@ function SignupFormModal() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your Password"
               required
+              disabled={customProp}
             />
           </label>
           {errors.password && <p>{errors.password}</p>}
@@ -314,6 +437,7 @@ function SignupFormModal() {
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="Re-enter your Password to confirm"
               required
+              disabled={customProp}
             />
           </label>
           {errors.confirmPassword && (
@@ -403,7 +527,7 @@ function SignupFormModal() {
               className={sfm.inputAllergy}
               type="text"
               value={allergy}
-              onChange={(e) => setState(e.target.value)}
+              onChange={(e) => setAllergy(e.target.value)}
               placeholder="Enter IF you have any allergy"
             />
           </label>
@@ -420,23 +544,23 @@ function SignupFormModal() {
                   <input
                     className={sfm.inputStaff}
                     type="radio"
-                    value="true"
-                    checked={staff === true}
-                    onChange={(e) => setStaff(e.target.value === 'true')}
-                    required
-                  />
-                  Staff
-                </label>
-                <label className={sfm.label}>
-                  <input
-                    className={sfm.inputStaff}
-                    type="radio"
                     value="false"
                     checked={staff === false}
                     onChange={(e) => setStaff(e.target.value === 'true')}
                     required
                   />
                   Patient
+                </label>
+                <label className={sfm.label}>
+                  <input
+                    className={sfm.inputStaff}
+                    type="radio"
+                    value="true"
+                    checked={staff === true}
+                    onChange={(e) => setStaff(e.target.value === 'true')}
+                    required
+                  />
+                  Staff
                 </label>
               </div>
             </label>
@@ -447,22 +571,67 @@ function SignupFormModal() {
             <>
               <label className={sfm.label}>
                 Position
-                <input
-                  className={sfm.inputPosition}
-                  type="text"
-                  value={position}
-                  onChange={(e) => setPosition(e.target.value)}
-                  placeholder="Enter Position for Staff Only"
-                  required
-                />
+                <div className={sfm.radioContainer}>
+                  <label className={sfm.label}>
+                    <input
+                      className={sfm.inputPosition}
+                      type="radio"
+                      value="staff"
+                      checked={position === "staff"}
+                      onChange={(e) => setPosition(e.target.value)}
+                      required
+                    />
+                    Staff
+                  </label>
+                  <label className={sfm.label}>
+                    <input
+                      className={sfm.inputPosition}
+                      type="radio"
+                      value="nurse"
+                      checked={position === "nurse"}
+                      onChange={(e) => setPosition(e.target.value)}
+                      required
+                    />
+                    Nurse
+                  </label>
+                  <label className={sfm.label}>
+                    <input
+                      className={sfm.inputPosition}
+                      type="radio"
+                      value="doctor"
+                      checked={position === "doctor"}
+                      onChange={(e) => setPosition(e.target.value)}
+                      required
+                    />
+                    Doctor
+                  </label>
+                  <label className={sfm.label}>
+                    <input
+                      className={sfm.inputPosition}
+                      type="radio"
+                      value="manager"
+                      checked={position === "manager"}
+                      onChange={(e) => setPosition(e.target.value)}
+                      required
+                    />
+                    Manager
+                  </label>
+                </div>
               </label>
               {errors.position && <p className={sfm.errors}>{errors.position}</p>}
             </>
           )}
 
-          <button className={sfm.submitButton} type="submit">
-            Sign Up
-          </button>
+          {customProp ? (
+            <button className={sfm.submitButton} onClick={handleUpdate}>
+              Update
+            </button>
+          ) : (
+            <button className={sfm.submitButton} type="submit">
+              Sign Up
+            </button>
+          )}
+
         </div>
 
         {/* Sixth Line: Manager Credential, Manager Password, Submit and Cancel Buttons */}

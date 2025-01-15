@@ -48,7 +48,7 @@ const appointmentSeeds = [
     id: 5,
     patientId: 7,  // Patient 2
     doctorId: 5,   // Doctor 2
-    dateTime: new Date('2024-06-20T14:30:00Z'), // Past appointment
+    dateTime: new Date('2024-06-20T14:00:00Z'), // Past appointment
     complaint: 'Headache',
     insurance: 'Cigna',
     dateMet: null
@@ -57,7 +57,7 @@ const appointmentSeeds = [
     id: 6,
     patientId: 7,  // Patient 2
     doctorId: 5,   // Doctor 2
-    dateTime: new Date('2025-02-05T09:00:00Z'), // Future appointment
+    dateTime: new Date('2025-02-05T10:00:00Z'), // Future appointment
     complaint: 'Rash on skin',
     insurance: null,
     dateMet: null
@@ -75,7 +75,7 @@ const appointmentSeeds = [
     id: 8,
     patientId: 8,  // Patient 3
     doctorId: 5,   // Doctor 2
-    dateTime: new Date('2025-03-20T08:30:00Z'), // Future appointment
+    dateTime: new Date('2025-03-20T17:30:00Z'), // Future appointment
     complaint: 'Fatigue',
     insurance: 'Blue Cross',
     dateMet: null
@@ -84,7 +84,7 @@ const appointmentSeeds = [
     id: 9,
     patientId: 9,  // Patient 4
     doctorId: 2,   // Doctor 1
-    dateTime: new Date('2024-12-10T13:30:00Z'), // Past appointment
+    dateTime: new Date('2024-12-10T13:00:00Z'), // Past appointment
     complaint: 'Stomach ache',
     insurance: 'Cigna',
     dateMet: new Date('2024-12-10T14:00:00Z')

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from 'react-router-dom';
 import { getAllServicesThunk } from "../../store/service";
 import { getAllReviewsThunk } from "../../store/review";
 import lpg from './LandingPage.module.css';
@@ -8,7 +9,9 @@ function LandingPage() {
   const [loading, setLoading] = useState(true);
   const review = useSelector((state) => state.review.allReviews);
   const service = useSelector((state) => state.service.allServices);
+  const user = useSelector((state) => state.session.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,6 +26,14 @@ function LandingPage() {
 
     fetchData();
   }, [dispatch])
+
+  const manageReview = () => {
+    if (user) {
+      navigate('/reviewPage');
+    } else {
+      alert("Please log in to proceed to the Review Page.")
+    }
+  };
 
   if (loading) {
     return <p>Loading Data ... </p>
@@ -56,7 +67,7 @@ function LandingPage() {
           be a part of your healthcare journey and look forward to providing you with the 
           exceptional care you deserve.
         </p>
-        <button className={lpg.whoWeAreButton}>More Information</button>
+        {/* <button className={lpg.whoWeAreButton}>More Information</button> */}
       </div>
 
       <div className={lpg.imageContainer}>
@@ -94,7 +105,12 @@ function LandingPage() {
             <p>Stars: {el.stars}</p>
           </div>
         ))}
-        <button className={lpg.reviewButton}>Go to Review Page</button>
+        <button 
+          className={lpg.reviewButton}
+          onClick={manageReview}
+          >
+            Go to Review Page
+        </button>
       </div>
 
     </div>

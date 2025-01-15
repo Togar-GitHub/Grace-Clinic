@@ -40,19 +40,38 @@ const validateLogin = [
     handleValidationErrors
 ]
 
-// GET detail of a User based on userId
-router.get(
-  '/:userId', 
-  requireAuth, 
-  async (req, res) => {
-    if (!req.user) {
-      return res.status(200).json({ user: null });
-    }
+router.get('/doctors', requireAuth, async (req, res) => {
+  const { userId } = req.params;
 
-    const user = await User.findByPk(req.params.userId, {
+    // if (!req.user) {
+    //   return res.status(200).json({ user: null });
+    // }
+
+  const user = await User.findAll({
+    where: {
+      position: 'doctor'
+    },
+    attributes: ['id', 'firstName', 'lastName']
+  });
+
+  if (!user) {
+    return res.status(404).json({ message: 'User not found' });
+  }
+
+  return res.status(200).json({ user: user });
+})
+
+// GET detail of a User based on userId
+router.get('/:userId', requireAuth, async (req, res) => {
+  const { userId } = req.params;
+
+    // if (!req.user) {
+    //   return res.status(200).json({ user: null });
+    // }
+
+  const user = await User.findByPk(userId, {
     attributes: { 
       exclude: ['password']
-      // include: ['id', 'firstName', 'lastName', 'username', 'email']
     }
   });
 

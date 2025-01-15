@@ -6,6 +6,8 @@ import serviceReducer from './service';
 import cptReducer from './cpt';
 import chartReducer from './chart';
 import appointmentReducer from './appointment';
+import customPropReducer from './customProp';
+import userReducer from './user';
 
 const rootReducer = combineReducers({
   session: sessionReducer,
@@ -13,7 +15,9 @@ const rootReducer = combineReducers({
   service: serviceReducer,
   cpt: cptReducer,
   chart: chartReducer,
-  appointment: appointmentReducer
+  appointment: appointmentReducer,
+  customProp: customPropReducer,
+  user: userReducer
 });
 
 let enhancer;

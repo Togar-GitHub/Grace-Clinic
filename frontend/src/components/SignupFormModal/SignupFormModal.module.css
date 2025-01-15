@@ -85,6 +85,15 @@
   grid-column: span 1;
 }
 
+.line2 .inputUsername:disabled,
+.line2 .inputEmail:disabled,
+.line2 .inputPassword:disabled,
+.line2 .inputConfirmPassword:disabled {
+  background-color: #f0f0f0;  /* Light grey background */
+  color: #a1a1a1;             /* Grey text */
+  cursor: not-allowed;        /* Change cursor to show it's not editable */
+}
+
 .line3 .inputAddress,
 .line3 .inputCity,
 .line3 .inputState,

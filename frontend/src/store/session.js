@@ -59,7 +59,6 @@ export const managerUser = (user) => async (dispatch) => {
   }
 };
 
-
 export const restoreUser = () => async (dispatch) => {
   const response = await csrfFetch('/api/session');
   const data = await response.json();
@@ -108,8 +107,52 @@ export const signup = (user) => async (dispatch) => {
   });
 
   const data = await response.json();
-  console.log('data > ', data);
   dispatch(setUser(data.user));
+  return response;
+};
+
+export const update = (userId, user) => async (dispatch) => {
+  const { 
+    firstName,
+    lastName,
+    dateOfBirth,
+    gender,
+    username,
+    email, 
+    password, 
+    address,
+    city,
+    state,
+    zip,
+    phone,
+    allergy,
+    staff,
+    position
+   } = user;
+
+  const response = await csrfFetch(`/api/users/${userId}`, {
+    method: "PUT",
+    body: JSON.stringify({
+      firstName,
+      lastName,
+      dateOfBirth,
+      gender,
+      username,
+      email, 
+      password, 
+      address,
+      city,
+      state,
+      zip,
+      phone,
+      allergy,
+      staff,
+      position
+    })
+  });
+
+  const data = await response.json();
+  dispatch(setUser(data));
   return response;
 };
 

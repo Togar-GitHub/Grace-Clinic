@@ -5,6 +5,7 @@ const DELETE_APPOINTMENT_ADMIN = 'appointment/DELETE_APPOINTMENT_ADMIN';
 const UPDATE_APPOINTMENT_ADMIN = 'appointment/UPDATE_APPOINTMENT_ADMIN';
 const UPDATE_APPOINTMENT_CHART = 'appointment/UPDATE_APPOINTMENT_CHART';
 const GET_APPOINTMENT_CURRENT = 'appointment/GET_APPOINTMENT_CURRENT';
+const GET_SPEC_APPOINTMENT = 'appointment/GET_SPEC_APPOINTMENT';
 const GET_APPOINTMENT_BY_ID = 'appointment/GET_APPOINTMENT_BY_ID';
 const UPDATE_APPOINTMENT_CURRENT = 'appointment/UPDATE_APPOINTMENT_CURRENT';
 const DELETE_APPOINTMENT_CURRENT = 'appointment/DELETE_APPOINTMENT_CURRENT';
@@ -37,9 +38,17 @@ const updateAppointmentChart = (appointmentId, incomingAppointment) => {
   }
 }
 
-const getAppointmentCurrent = () => {
+const getAppointmentCurrent = (allAppointments) => {
   return {
-    type: GET_APPOINTMENT_CURRENT
+    type: GET_APPOINTMENT_CURRENT,
+    gotAppointmentCurrent: allAppointments
+  }
+}
+
+const getSpecAppointment = (incomingData) => {
+  return {
+    type: GET_SPEC_APPOINTMENT,
+    incomingData
   }
 }
 
@@ -111,7 +120,7 @@ export const deleteAppointmentAdminThunk = (appointmentId) => async (dispatch) =
 export const updateAppointmentAdminThunk = (appointmentId, incomingAppointment) => async (dispatch) => {
   const res = await csrfFetch(`/api/appointment/admin/${appointmentId}`, {
     method: 'PUT',
-    headers: { 'Content-type': 'application/json' },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(incomingAppointment)
   })
 
@@ -128,7 +137,7 @@ export const updateAppointmentAdminThunk = (appointmentId, incomingAppointment) 
 export const updateAppointmentChartThunk = (appointmentId, incomingAppointment) => async (dispatch) => {
   const res = await csrfFetch(`/api/appointment/chart/${appointmentId}`, {
     method: 'PUT',
-    headers: { 'Content-type': 'application/json' },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(incomingAppointment)
   })
 
@@ -155,6 +164,35 @@ export const getAppointmentCurrentThunk = () => async (dispatch) => {
   }
 }
 
+export const getSpecAppointmentThunk = (incomingData) => async (dispatch) => {
+  console.log('frontend > ', incomingData);
+  const res = await csrfFetch('/api/appointment/specAppointment', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(incomingData)
+  });
+
+  if (res.ok) {
+    const specAppointment = await res.json();
+    dispatch(getSpecAppointment(specAppointment));
+    dispatch(clearNoAppointmentMsg());
+    return specAppointment;
+  } else {
+    dispatch(setNoAppointmentMsg('No Appointment found or failed to get Appointments'));
+    return null;
+  }  
+
+  // if (res.ok) {
+  //   const specAppointment = await res.json();
+  //   dispatch(getSpecAppointment(specAppointment));
+  //   dispatch(clearNoAppointmentMsg());
+  //   return specAppointment;
+  // } else {
+  //   dispatch(setNoAppointmentMsg('No Appointment found or failed to get Appointments'));
+  //   return null;
+  // }
+}
+
 export const getAppointmentByIdThunk = (appointmentId) => async (dispatch) => {
   const res = await csrfFetch(`/api/appointment/${appointmentId}`);
 
@@ -171,7 +209,7 @@ export const getAppointmentByIdThunk = (appointmentId) => async (dispatch) => {
 export const updateAppointmentCurrentThunk = (appointmentId, incomingAppointment) => async (dispatch) => {
   const res = await csrfFetch(`/api/appointment/${appointmentId}`, {
     method: 'PUT',
-    headers: { 'Content-type': 'application/json' },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(incomingAppointment)
   })
 
@@ -202,9 +240,9 @@ export const deleteAppointmentCurrentThunk = (appointmentId) => async (dispatch)
 }
 
 export const createAppointmentCurrentThunk = (incomingAppointment) => async (dispatch) => {
-  const res = await csrfFetch(`/api/appointment`, {
+  const res = await csrfFetch('/api/appointment', {
     method: 'POST',
-    headers: { 'Content-type': 'application/json' },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(incomingAppointment)
   })
 
@@ -253,6 +291,9 @@ const appointmentReducer = (state = initialState, action) => {
 
     case GET_APPOINTMENT_CURRENT:
       return { ...state, allAppointments: action.gotAppointmentCurrent }
+
+    case GET_SPEC_APPOINTMENT:
+      return { ...state, appointment: action.specAppointment }
 
     case GET_APPOINTMENT_BY_ID:
       return { ...state, appointment: action.gotAppointmentById }

@@ -1,19 +1,21 @@
 import { useState, useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
-import { useNavigation, NavLink }from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { NavLink, useNavigate }from 'react-router-dom';
 import { FaUser } from 'react-icons/fa';
 import * as sessionActions from '../../store/session';
 import OpenModalButton from '../OpenModalButton/OpenModalButton';
 // import OpenModalMenuItem from '../OpenModalMenuItem/OpenModalMenuItem';
 import LoginFormModal from '../LoginFormModal/LoginFormModal';
 import SignupFormModal from '../SignupFormModal/SignupFormModal';
+import { setCustomProp, clearCustomProp } from '../../store/customProp';
 import pbt from './ProfileButton.module.css';
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
-  const navigation = useNavigation();
+  const customProp = useSelector((state) => state.customProp.customProp)
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
+  const navigate = useNavigate();
 
   const toggleMenu = (e) => {
     e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
@@ -24,7 +26,9 @@ function ProfileButton({ user }) {
     if (!showMenu) return;
 
     const closeMenu = (e) => {
-      if (ulRef.current && !ulRef.current.contains(e.target)) {
+      if (ulRef.current &&
+         !ulRef.current.contains(e.target) &&
+         !e.target.closest(pbt.profileButtonMainContainer)) {
         setShowMenu(false);
       }
     };
@@ -37,17 +41,25 @@ function ProfileButton({ user }) {
 
     return () => document.removeEventListener('click', closeMenu);
   }, [showMenu]);
+  
+  const manageUser = async () => {
+    setShowMenu(false);
+    await dispatch(setCustomProp(user));
+    navigate('/');
+  }
 
-  const closeMenu = () => setShowMenu(false);
+  const closeMenu = () => {
+    setShowMenu(false);
+    dispatch(clearCustomProp());
+    navigate('/');
+  }
 
   const logout = (e) => {
     e.preventDefault();
+    dispatch(clearCustomProp());
     dispatch(sessionActions.logout());
+    navigate('/');
   };
-
-  const manageUser = {
-    
-  }
 
   const divClassName = showMenu ? pbt.profileDropdown : pbt.hidden;
 
@@ -67,9 +79,20 @@ function ProfileButton({ user }) {
           </div>
         )}
 
+        {user && !user.staff && (
+          <div className={pbt.appointmentButtonContainer}>
+            <NavLink 
+              to={{
+                pathname: '/appointmentPage',
+                state: { customProp }
+              }}
+              className={pbt.appointmentPage}>Appointment Page</NavLink>
+          </div>
+        )}
+
         {user && user.staff && (
           <div className={pbt.adminButtonContainer}>
-            <NavLink to='/adminPage' className={pbt.adminPage}>Admin</NavLink>
+            <NavLink to='/adminPage' className={pbt.adminPage}>Admin Page</NavLink>
           </div>
         )}
       </div>
@@ -80,14 +103,20 @@ function ProfileButton({ user }) {
       <div className={divClassName} ref={ulRef}>
         {user ? (
           <>
-          <div className={pbt.loggedUser}>
-            <div className={pbt.manageUserButton}>
-              <button className={pbt.manageUserText} onClick={manageUser}>Manage User</button>
+            <div className={pbt.loggedUser}>
+              <div className={pbt.manageUserButton}>
+                <OpenModalButton 
+                  className={pbt.manageUserText}
+                  buttonText="Manage User"
+                  onButtonClick={manageUser}
+                  customProp={customProp}
+                  modalComponent={<SignupFormModal />}
+                />
+              </div>
+              <div className={pbt.logOutButton}>
+                <button className={pbt.logOutText} onClick={logout}>Log Out</button>
+              </div>
             </div>
-            <div className={pbt.logOutButton}>
-              <button className={pbt.logOutText} onClick={logout}>Log Out</button>
-            </div>
-          </div>
           </>
         ) : (
           <>
@@ -104,6 +133,7 @@ function ProfileButton({ user }) {
                 className={pbt.signUpText}
                 buttonText="Sign Up"
                 onButtonClick={closeMenu}
+                customProp={customProp}
                 modalComponent={<SignupFormModal />}
               />
             </div>

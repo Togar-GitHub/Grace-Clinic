@@ -33,12 +33,14 @@
 }
 
 /* Admin button container */
-.adminButtonContainer {
+.adminButtonContainer,
+.appointmentButtonContainer {
   margin-left: 10px; /* Space between admin button and user info */
 }
 
 /* Admin Page Link */
-.adminPage {
+.adminPage,
+.appointmentPage {
   text-decoration: none;
   color: #007bff;
   font-weight: bold;
@@ -49,7 +51,8 @@
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.adminPage:hover {
+.adminPage:hover,
+.appointmentPage:hover {
   background-color: #0056b3;
   color: white; /* Change text color when hovered */
 }
@@ -98,10 +101,65 @@ button.homeImage:hover {
 }
 
 /* Styling for the log-out button container */
-.logOutButton {
+.logOutButton,
+.manageUserButton {
   width: 100%;
   display: flex;
   justify-content: center;
+}
+
+/* Styling for the logout button (similar to log-in button, but with different background color) */
+.manageUserButton button {
+  background-color: #007bff;
+  color: white;
+  padding: 12px 18px; /* Larger padding for better button size */
+  border: none;
+  border-radius: 6px; /* Rounded corners */
+  cursor: pointer;
+  font-size: 14px; /* Adjusted font size */
+  font-weight: 500; /* Slightly bold text */
+  text-align: center;
+  width: 100%;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  margin-bottom: 12px;
+}
+
+/* Hover effect for the logout button */
+.manageUserButton button:hover {
+  background-color: #5084bb; /* Darker red shade on hover */
+  transform: scale(1.05); /* Slight scaling effect */
+}
+
+/* Focus effect for accessibility */
+.manageUserButton button:focus {
+  outline: none;
+  box-shadow: 0 0 5px 2px #0f56a1; /* Red glow on focus */
+}
+
+/* Styling for the logout text button (with the same background as the log-out button) */
+.manageUserText {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  width: 100%;
+  text-align: center;
+  border-radius: 6px; /* Consistent rounded corners */
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover effect for logout text */
+.manageUserText:hover {
+  background-color: #5084bb; /* Darker red shade on hover */
+  transform: scale(1.05); /* Slight scaling effect */
+}
+
+/* Focus effect for accessibility */
+.manageUserText:focus {
+  outline: none;
+  box-shadow: 0 0 5px 2px #0f56a1; /* Red glow on focus */
 }
 
 /* Styling for the logout button (similar to log-in button, but with different background color) */

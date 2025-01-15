@@ -75,3 +75,29 @@
 .submitButton:hover {
   background-color: #0056b3;
 }
+
+/* Styling for the demo user container */
+.demoUserContainer {
+  display: flex;
+  justify-content: space-between; /* Distribute the demo users horizontally */
+  gap: 20px;  /* Add space between the demo user options */
+  margin-top: 30px; /* Space above the container */
+  width: 100%;
+  max-width: 350px;
+  justify-content: center; /* Center the demo user options */
+}
+
+/* Styling for each demo user option */
+.demoUserSpan {
+  font-size: 1rem;
+  color: #007bff; /* Blue color for the demo user text */
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.3s, transform 0.2s; /* Add a transition effect for hover */
+}
+
+/* Hover effect for demo user options */
+.demoUserSpan:hover {
+  color: #0056b3; /* Darker blue when hovered */
+  transform: scale(1.05); /* Slightly enlarge the text on hover */
+}

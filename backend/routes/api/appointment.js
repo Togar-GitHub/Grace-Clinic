@@ -1,4 +1,5 @@
 const express = require('express');
+const { Op, fn, col, Sequelize } = require('sequelize');
 
 const router = express.Router();
 
@@ -128,7 +129,8 @@ router.get('/current', requireAuth, async (req, res) => {
           attributes: ['id', 'firstName', 'lastName', 'position'],
           as: 'doctor'
         }
-      ]
+      ],
+      order: [['dateTime', 'DESC']]
     });
 
     if (!userAppointment || userAppointment.length <= 0) {
@@ -141,6 +143,63 @@ router.get('/current', requireAuth, async (req, res) => {
   }
 })
 
+// check if any appointment similar doctor and date and time
+router.post('/specAppointment', requireAuth, async (req, res) => {
+  const { id } = req.user;
+  const { doctorId, dateTime } = req.body;
+  console.log('backend A > ', doctorId, dateTime);
+  if (dateTime && typeof dateTime === 'string') {
+    const reformatDateTime = dateTime.slice(0, 13);
+    console.log('Formatted dateTime:', reformatDateTime);
+  } else {
+    console.log('Invalid dateTime:', dateTime);
+  }
+  
+
+  try {
+    const specAppointment = await Appointment.findOne({
+      where: { 
+        doctorId: doctorId,
+        dateTime: dateTime
+      },
+    });
+
+    // const specAppointment = await Appointment.findOne({
+    //   where: { 
+    //     doctorId: doctorId,
+    //     [Op.and]: [
+    //       Sequelize.where(
+    //         fn('DATE_FORMAT', col('dateTime'), '%Y-%m-%dT%H'),
+    //         reformatDateTime
+    //       )
+    //     ],
+    //   },
+    //   logging: console.log,
+    // });
+
+    // for postgreSQL
+    // const specAppointment = await Appointment.findOne({
+    //   where: { 
+    //     doctorId: doctorId,
+    //     [Op.and]: Sequelize.where(
+    //       fn('TO_CHAR', col('dateTime'), 'YYYY-MM-DD"T"HH24'),
+    //       {
+    //         [Op.eq]: reformatDateTime,
+    //       }
+    //     )
+    //    },
+    // });
+
+    if (!specAppointment) {
+      return res.status(200).json({})
+    }
+
+    return res.status(200).json({ Appointment: specAppointment })
+  } catch (error) {
+    return res.status(500).json({ message: "An error occurred while getting Appointments", error })
+  }
+})
+
 // get an appointment by appointmentId
 router.get('/:appointmentId', requireAuth, async (req, res) => {
   const { id } = req.user;
@@ -148,7 +207,7 @@ router.get('/:appointmentId', requireAuth, async (req, res) => {
 
   try {
     const oneUser = await User.findByPk(id);
-    if (!oneUser || oneUser.staff !== true) {
+    if (!oneUser) {
       return res.status(403).json({ message: "You are not Authorized to get an Appointment" })
     }
 
@@ -256,6 +315,7 @@ router.post('/', requireAuth, async (req, res) => {
   const patientId = id;
   const todayDate = new Date();
   const parsedDateTime = new Date(dateTime);
+  console.log('appointment backend > ', req.body)
 
   if (!doctorId || !dateTime || isNaN(parsedDateTime) || parsedDateTime < todayDate ||
       !complaint || complaint.length < 4 || complaint > 200) {

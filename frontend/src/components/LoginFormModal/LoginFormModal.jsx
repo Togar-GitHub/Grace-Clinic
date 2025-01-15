@@ -40,6 +40,45 @@ function LoginFormModal() {
       });
   };
 
+  const demoPatient = (e) => {
+    e.preventDefault();
+    setErrors({});
+    return dispatch(sessionActions.login({ credential: 'michaeltaylor', password: 'passmichaeltaylor' }))
+      .then(closeModal)
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) {
+          setErrors(data.errors);
+        }
+      });
+  };
+  
+  const demoDoctor = (e) => {
+    e.preventDefault();
+    setErrors({});
+    return dispatch(sessionActions.login({ credential: 'janesmith', password: 'passjanesmith' }))
+      .then(closeModal)
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) {
+          setErrors(data.errors);
+        }
+      });
+  };
+    
+  const demoManager = (e) => {
+    e.preventDefault();
+    setErrors({});
+    return dispatch(sessionActions.login({ credential: 'alicejohnson', password: 'passalicejohnson' }))
+      .then(closeModal)
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) {
+          setErrors(data.errors);
+        }
+      });
+  };
+
   return (
     <div>
       <form className={lgm.form} onSubmit={handleSubmit}>
@@ -70,6 +109,12 @@ function LoginFormModal() {
           <p className={lgm.errors}>{errors.credential}</p>
         )}
         <button className={lgm.submitButton} type="submit">Log In</button>
+
+        <div className={lgm.demoUserContainer}>
+          <span className={lgm.demoUserSpan} onClick={demoPatient}>Demo Patient</span>
+          <span className={lgm.demoUserSpan} onClick={demoDoctor}>Demo Doctor</span>
+          <span className={lgm.demoUserSpan} onClick={demoManager}>Demo Manager</span>
+        </div>
       </form>
     </div>
   );
