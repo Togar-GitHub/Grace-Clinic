@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getDoctorsThunk } from '../../store/user';
 import { getAppointmentCurrentThunk, getAppointmentByIdThunk, getSpecAppointmentThunk } from '../../store/appointment';
 import { createAppointmentCurrentThunk, updateAppointmentCurrentThunk, deleteAppointmentCurrentThunk } from '../../store/appointment';
-import DeleteAppointmentModal from '../DeleteAppointmentModal/DeleteAppointmentModal';
+import AppointmentDeleteModal from '../AppointmentDeleteModal/AppointmentDeleteModal';
 import apg from './AppointmentPage.module.css';
 
 const AppointmentPage = () => {
@@ -20,6 +20,7 @@ const AppointmentPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [appointmentToDelete, setAppointmentToDelete] = useState(null);
   const [updateRecord, setUpdateRecord] = useState(false);
+  const [noAppointment, setNoAppointment] = useState('');
   const dispatch = useDispatch();
 
   const today = useMemo(() => {
@@ -32,16 +33,21 @@ const AppointmentPage = () => {
     const fetchAppointments = async () => {
       try {
         setLoading(true);
-        await dispatch(getAppointmentCurrentThunk());
+        setNoAppointment('');
         await dispatch(getDoctorsThunk())
-      } catch (error) {
-        console.error('Failed to fetch appointments:', error);
+        await dispatch(getAppointmentCurrentThunk());
       } finally {
         setLoading(false);
       }
     }
     fetchAppointments();
   }, [dispatch]);
+
+  useEffect(() => {
+    if (!appointmentList || appointmentList.length <= 0) {
+      setNoAppointment('There is no Appointment Record');
+    }
+  }, [appointmentList]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -97,6 +103,7 @@ const AppointmentPage = () => {
       setComplaint('');
       setInsurance('');
       await dispatch(getAppointmentCurrentThunk());
+      setNoAppointment('');
     } catch (error) {
       // Handle any errors that occur during the dispatch
       console.error('Error creating appointment:', error);
@@ -178,6 +185,7 @@ const AppointmentPage = () => {
       setComplaint('');
       setInsurance('');
       setLoading(true);
+      setNoAppointment('');
   
       // Fetch updated appointment data
       await dispatch(getAppointmentCurrentThunk());
@@ -194,7 +202,6 @@ const AppointmentPage = () => {
     }
   };
   
-
   const handleDeleteClick = (appointmentId) => {
     setAppointmentToDelete(appointmentId);
     setShowModal(true);
@@ -214,7 +221,8 @@ const AppointmentPage = () => {
 
   const deleteAppointment = async (appointmentId) => {
     await dispatch(deleteAppointmentCurrentThunk(appointmentId));
-    await dispatch(getAppointmentCurrentThunk())
+    await dispatch(getAppointmentCurrentThunk());
+    setErrors({});
   }
 
   const handleDoctorChange = (e) => {
@@ -323,11 +331,17 @@ const AppointmentPage = () => {
 
       {/* Modal for confirming the deletion */}
       {showModal && (
-        <DeleteAppointmentModal 
+        <AppointmentDeleteModal 
           onClose={closeModal} 
           onConfirm={confirmDeletion} 
         />
       )}
+
+      <div className={apg.noAppointment}>
+        {noAppointment && (
+          <h2 className={apg.noAppointmentMessage}>{noAppointment}</h2>
+        )}
+      </div>
 
       <div className={apg.currentAppointmentContainer}>
         {appointmentList && appointmentList.length > 0 && (

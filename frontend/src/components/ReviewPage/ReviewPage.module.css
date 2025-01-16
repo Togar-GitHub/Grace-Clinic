@@ -1,0 +1,218 @@
+/* ReviewPage.module.css */
+
+.mainContainer {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+}
+
+.reviewTitle {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.createReviewContainer {
+  margin-bottom: 40px;
+}
+
+.createReviewTitle {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.inputReview {
+  margin-bottom: 15px;
+}
+
+.enterReview {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.starRatingContainer {
+  margin-bottom: 15px;
+}
+
+.starRating {
+  display: flex;
+  justify-content: center;
+}
+
+.star {
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.filled {
+  color: gold;
+  font-size: 24px;
+}
+
+.empty {
+  color: #ccc;
+  font-size: 24px;
+}
+
+.submitContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.submitButton {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submitButton:hover {
+  background-color: #45a049;
+}
+
+.noReview {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.noReviewMessage {
+  color: red;
+  font-size: 1.2rem;
+}
+
+.reviewListContainer {
+  margin-top: 40px;
+}
+
+.reviewListTitle {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.reviewList {
+  background-color: #f9f9f9;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.currReview, .currStars, .currDate {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.updateDeleteButtonContainer {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.updateButton,
+.deleteButton {
+  padding: 8px 12px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.updateButton {
+  background-color: #ffa500;
+  color: white;
+  border: none;
+}
+
+.updateButton:hover {
+  background-color: #e69500;
+}
+
+.deleteButton {
+  background-color: #f44336;
+  color: white;
+  border: none;
+}
+
+.deleteButton:hover {
+  background-color: #d32f2f;
+}
+
+.loading {
+  font-size: 1.2rem;
+  text-align: center;
+  color: #999;
+}
+
+/* Modal Styling */
+.modalBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContainer {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  text-align: center;
+}
+
+.modalButtonContainer {
+  margin-top: 20px;
+}
+
+.modalButton {
+  padding: 10px 20px;
+  margin: 5px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modalButton.cancel {
+  background-color: #f44336;
+  color: white;
+}
+
+.modalButton.confirm {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.modalButton.cancel:hover {
+  background-color: #e53935;
+}
+
+.modalButton.confirm:hover {
+  background-color: #45a049;
+}
+
+/* Error message styles */
+.errors {
+  color: #e53935;
+  font-size: 0.9rem;
+}

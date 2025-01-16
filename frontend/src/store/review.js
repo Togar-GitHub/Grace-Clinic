@@ -11,10 +11,10 @@ const SET_NO_REVIEW_MSG = 'review/SET_NO_REVIEW_MSG';
 const CLEAR_NO_REVIEW_MSG = 'review/CLEAR_NO_REVIEW_MSG';
 
 // ACTION CREATORS
-const getCurrentReviews = (reviews) => {
+const getCurrentReviews = (allReviews) => {
   return {
     type: GET_CURRENT_REVIEWS,
-    reviews
+    allReviews
   }
 }
 
@@ -128,6 +128,7 @@ export const deleteReviewThunk = (reviewId) => async (dispatch) => {
 }
 
 export const createReviewThunk = (incomingReview) => async (dispatch) => {
+  console.log('incoming Review > ', incomingReview);
   const res = await csrfFetch('/api/review', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -169,7 +170,7 @@ const initialState = {
 const reviewReducer = (state = initialState, action) => {
   switch(action.type) {
     case GET_CURRENT_REVIEWS:
-      return { ...state, review: action.reviewByCurrent } 
+      return { ...state, allReviews: action.allReviews } 
 
     case GET_REVIEW_BY_ID:
       return { ...state, review: action.reviewById }

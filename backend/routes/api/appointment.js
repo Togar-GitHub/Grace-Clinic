@@ -134,7 +134,7 @@ router.get('/current', requireAuth, async (req, res) => {
     });
 
     if (!userAppointment || userAppointment.length <= 0) {
-      return res.status(400).json({ message: "No Appointment for this User" })
+      return res.status(200).json({})
     }
 
     return res.status(200).json({ Appointment: userAppointment })

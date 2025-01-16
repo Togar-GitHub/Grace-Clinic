@@ -11,17 +11,18 @@ router.get('/current', requireAuth, async (req, res) => {
 
   try {
     const userReviews = await Review.findAll({
-      where: { patientId: id },
+      where: { patientId: Number(id) },
       include: [
         {
           model: User,
           attributes: ['id', 'firstName', 'lastName']
         }
-      ]
+      ],
+      order: [['updatedAt', 'DESC']]
     })
 
     if (!userReviews || userReviews.length <= 0) {
-      return res.status(400).json({ message: "No review record for this User" })
+      return res.status(200).json({})
     }
 
     return res.status(200).json({ Reviews: userReviews })
