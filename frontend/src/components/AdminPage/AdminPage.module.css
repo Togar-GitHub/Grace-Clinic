@@ -1,0 +1,44 @@
+/* AdminPage.module.css */
+
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: #f4f4f9;
+  min-height: 100vh;
+  margin-top: -200px;
+}
+
+.mainTitle {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.linking {
+  display: block;
+  margin: 1rem 0;
+  padding: 1rem 2rem;
+  font-size: 1.5rem;
+  text-decoration: none;
+  color: white;
+  background-color: #007bff;
+  border-radius: 5px;
+  text-align: center;
+  transition: background-color 0.3s, transform 0.3s;
+  width: 60%;
+  max-width: 400px;
+}
+
+.linking:hover {
+  background-color: #0056b3;
+  transform: translateY(-3px);
+}
+
+.linking:active {
+  transform: translateY(1px);
+}

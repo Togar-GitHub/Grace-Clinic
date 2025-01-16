@@ -116,7 +116,7 @@ router.put('/:chartId', requireAuth, async (req, res) => {
         return res.status(400).json({
           message: "Bad Input or Data",
           errors: {
-            diagnosesICD10: "Need ICD10 Codes within an array",
+            diagnosesICD10: "Need ICD10 Codes",
             diagnosesDesc: "Require a description of the 1st ICD10 Code",
             CPTId: "Require the CPT Code",
             title: "Require Title for the chart must be between 4 and 100 characters",
@@ -224,7 +224,7 @@ router.post('/', requireAuth, async (req, res) => {
         patientId: "Require a patient",
         appointmentId: "Require an association with an Appointment",
         complaint: "Need to original complaint from Appointment",
-        diagnosesICD10: "Need ICD10 Codes within an array",
+        diagnosesICD10: "Need ICD10 Codes",
         diagnosesDesc: "Require a description of the 1st ICD10 Code",
         CPTId: "Require the CPT Code",
         title: "Require Title for the chart must be between 4 and 100 characters",

@@ -29,7 +29,11 @@ function LandingPage() {
 
   const manageReview = () => {
     if (user) {
-      navigate('/reviewPage');
+      if (user.staff) {
+        alert("You are a staff, no access to the Review Page.")
+      } else {
+        navigate('/reviewPage');
+      }
     } else {
       alert("Please log in to proceed to the Review Page.")
     }

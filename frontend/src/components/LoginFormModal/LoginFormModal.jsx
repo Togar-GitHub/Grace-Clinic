@@ -52,6 +52,19 @@ function LoginFormModal() {
         }
       });
   };
+
+    const demoStaff = (e) => {
+    e.preventDefault();
+    setErrors({});
+    return dispatch(sessionActions.login({ credential: 'johndoe', password: 'passjohndoe' }))
+      .then(closeModal)
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) {
+          setErrors(data.errors);
+        }
+      });
+  };
   
   const demoDoctor = (e) => {
     e.preventDefault();
@@ -112,6 +125,7 @@ function LoginFormModal() {
 
         <div className={lgm.demoUserContainer}>
           <span className={lgm.demoUserSpan} onClick={demoPatient}>Demo Patient</span>
+          <span className={lgm.demoUserSpan} onClick={demoStaff}>Demo Staff</span>
           <span className={lgm.demoUserSpan} onClick={demoDoctor}>Demo Doctor</span>
           <span className={lgm.demoUserSpan} onClick={demoManager}>Demo Manager</span>
         </div>

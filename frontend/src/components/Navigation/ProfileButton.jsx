@@ -90,7 +90,13 @@ function ProfileButton({ user }) {
           </div>
         )}
 
-        {user && user.staff && (
+        {user && user.staff &&(
+          <div className={pbt.adminButtonContainer}>
+            <NavLink to='/chartingPage' className={pbt.adminPage}>Charting Page</NavLink>
+          </div>
+        )}
+
+        {user && user.staff && (user.position === 'manager' || user.position === 'doctor') &&(
           <div className={pbt.adminButtonContainer}>
             <NavLink to='/adminPage' className={pbt.adminPage}>Admin Page</NavLink>
           </div>

@@ -4,6 +4,7 @@
   padding: 20px;
   max-width: 800px;
   margin: 0 auto;
+  color: #1e3a8a;
   font-family: Arial, sans-serif;
 }
 
@@ -102,18 +103,23 @@
 
 .reviewList {
   background-color: #f9f9f9;
-  padding: 20px;
-  margin-bottom: 20px;
+  padding: 10px;
+  margin-bottom: 10px;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  display: flex;
+  /* display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 10px; */
 }
 
-.currReview, .currStars, .currDate {
-  font-size: 1rem;
-  margin: 0;
+.listInfo {
+  font-size: 1.1rem;
+  color: #1e3a8a;
+  margin-bottom: 0.8rem;
+}
+
+.listInfo:last-child {
+  margin-bottom: 0;
 }
 
 .updateDeleteButtonContainer {

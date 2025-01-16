@@ -55,8 +55,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.NOW
     },
     diagnosesICD10: {
-      type: DataTypes.JSON,     // this is for Sequelite - development
-      // type: DataTypes.ARRAY(DataTypes.STRING),    // this is for postgreSQL - production
+      type: DataTypes.STRING,    // this is for postgreSQL - production
       allowNull: false
     },
     diagnosesDesc: {

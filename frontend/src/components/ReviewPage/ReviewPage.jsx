@@ -21,6 +21,7 @@ const ReviewPage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const fetchReviews = async () => {
       try {
         setLoading(true);
@@ -86,6 +87,7 @@ const ReviewPage = () => {
     setStars(updateReview.Review.stars);
     setLoading(false);
     setErrors({});
+    window.scrollTo(0, 0);
   }
 
   const handleUpdate = async (reviewId) => {
@@ -120,6 +122,7 @@ const ReviewPage = () => {
       await dispatch(getCurrentReviewsThunk());
 
       setLoading(false);
+      setUpdateRecord('');
     } catch (error) {
       console.error('Error updating review:', error);
       setErrors({
@@ -191,7 +194,9 @@ const ReviewPage = () => {
   const deleteReview = async (reviewId) => {
     await dispatch(deleteReviewThunk(reviewId));
     await dispatch(getCurrentReviewsThunk());
+    setUpdateRecord('');
     setErrors({});
+    window.scrollTo(0, 0);
   }
 
   if (loading) {
@@ -264,9 +269,9 @@ const ReviewPage = () => {
           reviews.map((el) => (
             <div key={el.id}>
               <div className={rpg.reviewList}>
-                <p className={rpg.currReview}>Review: {el.review}</p>
-                <p className={rpg.currStars}>Stars: {el.stars}</p>
-                <p className={rpg.currDate}>Date: {el.updatedAt.slice(0, 10)}</p>
+                <p className={rpg.listInfo}>Review: {el.review}</p>
+                <p className={rpg.listInfo}>Stars: {el.stars}</p>
+                <p className={rpg.listInfo}>Date: {el.updatedAt.slice(0, 10)}</p>
                 <div className={rpg.updateDeleteButtonContainer}>
                   <button
                     className={rpg.updateButton}

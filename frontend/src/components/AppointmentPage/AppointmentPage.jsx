@@ -351,11 +351,17 @@ const AppointmentPage = () => {
           appointmentList.map((el) => (
             <div key={el.id}>
               <div className={apg.currentAppointmentList}>
-                <p>Doctor: {el.doctor.firstName} {el.doctor.lastName}</p>
-                <p>Date & Time: {el.dateTime.slice(0, 10)} & {el.dateTime.slice(11, 16)}</p>
-                <p>Complaint: {el.complaint}</p>
-                <p>Insurance: {el.insurance}</p>
-                {new Date(el.dateTime.slice(0, 10)) > today && (
+                <p className={apg.listInfo}>Doctor: {el.doctor.firstName} {el.doctor.lastName}</p>
+                <p className={apg.listInfo}>Date & Time: {el.dateTime.slice(0, 10)} & {el.dateTime.slice(11, 16)}</p>
+                <p className={apg.listInfo}>Complaint: {el.complaint}</p>
+                <p className={apg.listInfo}>Insurance: {el.insurance}</p>
+                {el.dateMet !== null && (
+                  <p className={apg.listInfo}>Date Met: {el.dateMet.slice(0, 10)}</p>
+                )}
+                {el.dateMet === null && new Date(el.dateTime.slice(0, 10)) < today && (
+                  <p className={apg.listInfo}>Date Met: Did not come to the Appointment</p>
+                )}
+                {new Date(el.dateTime.slice(0, 10)) > today && el.dateMet === null && (
                   <div className={apg.updateDeleteButtonContainer}>
                     <button 
                       className={apg.updateButton}

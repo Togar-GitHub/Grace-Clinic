@@ -1,0 +1,204 @@
+/* AdminCPTPage.module.css */
+
+.mainContainer {
+  padding: 20px;
+  background-color: #f9f9f9;
+  font-family: Arial, sans-serif;
+}
+
+.mainTitle {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #1e3a8a;
+}
+
+.createCptContainer {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.createCptTitle {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #1e3a8a;
+  text-align: center;
+}
+
+.inputCpt {
+  display: flex;
+  flex-direction: column;
+  width: 300px; /* Narrow the input fields */
+  margin: 0 auto;
+}
+
+.inputCpt input {
+  margin-bottom: 10px;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.inputCpt input:focus {
+  border-color: #007bff;
+}
+
+.errors {
+  color: red;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+.submitContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.submitButton {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submitButton:hover {
+  background-color: #0056b3;
+}
+
+.noCpt {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.noCptMsg {
+  color: #777;
+  font-size: 1.2rem;
+}
+
+.cptListContainer {
+  margin-top: 30px;
+}
+
+.cptListTitle {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #1e3a8a;
+  text-align: center;
+}
+
+.cptList {
+  background-color: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px;
+  width: 350px; /* Narrow the CPT Code List */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.listInfo {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.updateDeleteButtonContainer {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 10px;
+}
+
+.updateButton,
+.deleteButton {
+  padding: 8px 15px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-right: 10px; /* Space between buttons */
+}
+
+.updateButton {
+  background-color: #28a745;
+  color: white;
+}
+
+.updateButton:hover {
+  background-color: #218838;
+}
+
+.deleteButton {
+  background-color: #dc3545;
+  color: white;
+}
+
+.deleteButton:hover {
+  background-color: #c82333;
+}
+
+/* Modal Styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 400px;
+  text-align: center;
+}
+
+.modalButton {
+  padding: 10px 20px;
+  margin-top: 15px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modalButtonCancel {
+  background-color: #ccc;
+  color: white;
+}
+
+.modalButtonCancel:hover {
+  background-color: #888;
+}
+
+.modalButtonConfirm {
+  background-color: #dc3545;
+  color: white;
+}
+
+.modalButtonConfirm:hover {
+  background-color: #c82333;
+}
+
+.loading {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #007bff;
+}

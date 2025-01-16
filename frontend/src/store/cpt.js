@@ -39,10 +39,10 @@ const createCpt = (incomingCpt) => {
   }
 }
 
-const getAllCpt = (cpt) => {
+const getAllCpt = (allCpt) => {
   return {
     type: GET_ALL_CPT,
-    cpt
+    allCpt
   }
 }
 

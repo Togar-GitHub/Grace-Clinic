@@ -15,7 +15,7 @@ const chartSeeds = [
     appointmentId: 1,  // Appointment 1
     complaint: 'Severe headache',
     meetingDate: new Date('2024-12-01T10:30:00Z'),
-    diagnosesICD10: ['G44.1', 'G44.5'],  // Example ICD10 for tension-type headache
+    diagnosesICD10: 'G44.1, G44.5',  // Example ICD10 for tension-type headache
     diagnosesDesc: 'Tension-type headache',
     CPTId: 5,  // Assuming this is for office visit CPT code
     title: 'Headache Consultation',
@@ -33,7 +33,7 @@ const chartSeeds = [
     appointmentId: 4,  // Appointment 4
     complaint: 'Cough and cold',
     meetingDate: new Date('2024-11-25T11:30:00Z'),
-    diagnosesICD10: ['J00'],  // ICD10 for acute nasopharyngitis
+    diagnosesICD10: 'J00',  // ICD10 for acute nasopharyngitis
     diagnosesDesc: 'Acute nasopharyngitis',
     CPTId: 8,  // Assuming this is for office visit CPT code
     title: 'Cold Consultation',
@@ -51,7 +51,7 @@ const chartSeeds = [
     appointmentId: 7,  // Appointment 7
     complaint: 'Knee pain',
     meetingDate: new Date('2024-10-10T15:30:00Z'),
-    diagnosesICD10: ['M17.9', 'M18.5'],  // ICD10 for osteoarthritis of the knee
+    diagnosesICD10: 'M17.9, M18.5',  // ICD10 for osteoarthritis of the knee
     diagnosesDesc: 'Osteoarthritis of the knee',
     CPTId: 4,  // Assuming this is for office visit CPT code
     title: 'Knee Pain Consultation',
@@ -69,7 +69,7 @@ const chartSeeds = [
     appointmentId: 9,  // Appointment 9
     complaint: 'Stomach ache',
     meetingDate: new Date('2024-12-10T14:00:00Z'),
-    diagnosesICD10: ['R10.9'],  // ICD10 for unspecified abdominal pain
+    diagnosesICD10: 'R10.9',  // ICD10 for unspecified abdominal pain
     diagnosesDesc: 'Abdominal pain',
     CPTId: 10,  // Assuming this is for office visit CPT code
     title: 'Abdominal Pain Consultation',
@@ -87,7 +87,7 @@ const chartSeeds = [
     appointmentId: 11,  // Appointment 11
     complaint: 'Sore throat',
     meetingDate: new Date('2024-11-01T12:30:00Z'),
-    diagnosesICD10: ['J02.9', 'J03.5'],  // ICD10 for acute pharyngitis
+    diagnosesICD10: 'J02.9, J03.5',  // ICD10 for acute pharyngitis
     diagnosesDesc: 'Acute pharyngitis',
     CPTId: 7,  // Assuming this is for office visit CPT code
     title: 'Sore Throat Consultation',

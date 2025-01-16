@@ -50,8 +50,7 @@ module.exports = {
         allowNull: false,
       },
       diagnosesICD10: {
-        type: Sequelize.JSON,    // this is for Sequelite - development
-        // type: Sequelize.ARRAY(Sequelize.STRING),    // this is for postgreSQL - production
+        type: Sequelize.STRING(200),    // this is for Sequelite - development
         allowNull: false
       },
       diagnosesDesc: {
