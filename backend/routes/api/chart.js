@@ -5,6 +5,78 @@ const router = express.Router();
 const { Chart, User, Appointment, CPT, Service } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 
+// get charts (using POST) by firstName, lastName and DOB
+router.post('/patientCharts', requireAuth, async (req, res) => {
+  const { id } = req.user;
+  const { firstName, lastName, dateOfBirth } = req.body;
+
+  try {
+    const patientCharts = await Chart.findAll({
+      include: [
+        {
+          model: User,
+          as: 'patient',
+          where: {
+            firstName: firstName,
+            lastName: lastName,
+            dateOfBirth: dateOfBirth
+          },
+          attributes: ['id', 'firstName', 'lastName', 'dateOfBirth', 'gender']
+        },
+        {
+          model: User,
+          as: 'doctor',
+          attributes: ['id', 'firstName', 'lastName', 'position']
+        },
+        {
+          model: Appointment,
+          attributes: ['id', 'patientId', 'doctorId', 'dateTime', 'complaint', 'insurance']
+        },
+        {
+          model: CPT,
+          attributes: ['id', 'CPTCode', 'description', 'price']
+        }
+      ]
+    })
+
+    if (!patientCharts || patientCharts.length <= 0) {
+      return res.status(200).json({})
+    }
+
+    // Collect all service IDs across all charts
+    let serviceIds = [];
+    patientCharts.forEach(chart => {
+      if (Array.isArray(chart.services)) {
+        // Assuming chart.services is an array of service IDs
+        serviceIds = [...serviceIds, ...chart.services]; // Flatten all service IDs into a single array
+      }
+    });
+
+    // Fetch services if there are service IDs
+    let services = [];
+    if (serviceIds.length > 0) {
+      services = await Service.findAll({
+        where: {
+          id: serviceIds
+        }
+      });
+    }
+
+    // For each chart, assign the corresponding services
+    patientCharts.forEach(chart => {
+      // Filter services that match the service IDs in the chart
+      const chartServices = services.filter(service => chart.services.includes(service.id));
+      
+      // Set the matched services for this chart
+      chart.setDataValue('services', chartServices);
+    });
+
+    res.status(200).json({ charts: patientCharts })
+  } catch (error) {
+    return res.status(500).json({ message: "An error occurred while getting the Charts", error })
+  }
+})
+
 // get a chart by chartId
 router.get('/:chartId', requireAuth, async (req, res) => {
   const { id } = req.user;
@@ -25,7 +97,7 @@ router.get('/:chartId', requireAuth, async (req, res) => {
       include: [
         {
           model: User,
-          attributes: ['id', 'firstName', 'lastName'],
+          attributes: ['id', 'firstName', 'lastName', 'dateOfBirth'],
           as: 'patient'
         },
         {
@@ -61,12 +133,26 @@ router.get('/:chartId', requireAuth, async (req, res) => {
     // this following codes in getting services info using Sqlite3 - possible to replaced by directly access the model Service as within the query
     const serviceIds = oneChart.services;
     let services = [];
+    let serviceDetails = [];
+    
     if (serviceIds && Array.isArray(serviceIds) && serviceIds.length > 0) {
+      // Fetch the service data from the Service table based on the serviceIds
       services = await Service.findAll({
         where: { id: serviceIds }
-      })
+      });
+    
+      // Map the services into a detailed format for the 'serviceDetails' field
+      serviceDetails = services.map((service) => ({
+        id: service.id,
+        name: service.name, // Assuming 'name' is the service name column, replace it with actual field name
+        description: service.description, // Replace with actual field name if different
+        // Add other service fields as necessary
+      }));
     }
-    oneChart.setDataValue('services', services);
+    
+    // Set 'services' as the array of service IDs and 'serviceDetails' with the full service data
+    oneChart.setDataValue('services', serviceIds);
+    oneChart.setDataValue('serviceDetails', serviceDetails);
     // these codes are for Sqlite3
 
     return res.status(200).json({ Chart: oneChart })
@@ -127,7 +213,6 @@ router.put('/:chartId', requireAuth, async (req, res) => {
         })
       }
 
-      const doctorId = id;
       let sum = 0;
 
       const CPTData = await CPT.findOne({
@@ -156,7 +241,6 @@ router.put('/:chartId', requireAuth, async (req, res) => {
         sum = sum + serviceSum;
       }
 
-      updateChart.doctorId = Number(doctorId);
       updateChart.diagnosesICD10 = diagnosesICD10;
       updateChart.diagnosesDesc = diagnosesDesc;
       updateChart.CPTId = CPTId;

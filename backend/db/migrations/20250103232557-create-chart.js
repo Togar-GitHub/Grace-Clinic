@@ -38,8 +38,7 @@ module.exports = {
         references: {
           model: 'Appointments',
           key: 'id'
-        },
-        onDelete: 'CASCADE'
+        }
       },
       complaint: {
         type: Sequelize.STRING(200),

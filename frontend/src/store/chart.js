@@ -1,26 +1,34 @@
 import { csrfFetch } from "./csrf";
 
 // ACTION TYPES
+const GET_PATIENT_CHARTS = 'chart/GET_PATIENT_CHARTS'
 const GET_CHART_BY_ID = 'chart/GET_CHART_BY_ID';
 const UPDATE_CHART = 'chart/UPDATE_CHART';
 const CREATE_CHART = 'chart/CREATE_CHART';
 const GET_ALL_CHART = 'chart/GET_ALL_CHART';
+const RESET_CHARTS = 'chart/RESET_CHARTS';
 const SET_NO_CHART_MSG = 'chart/SET_NO_CHART_MSG';
 const CLEAR_NO_CHART_MSG = 'chart/CLEAR_NO_CHART_MSG';
 
 // ACTION CREATORS
-const getChartById = (chartId) => {
+const getPatientCharts = (allCharts) => {
   return {
-    type: GET_CHART_BY_ID,
-    chartId
+    type: GET_PATIENT_CHARTS,
+    allCharts
   }
 }
 
-const updateChart = (chartId, incomingChart) => {
+const getChartById = (chart) => {
+  return {
+    type: GET_CHART_BY_ID,
+    chart
+  }
+}
+
+const updateChart = (chart) => {
   return {
     type: UPDATE_CHART,
-    chartId,
-    incomingChart
+    chart
   }
 }
 
@@ -51,6 +59,23 @@ const clearNoChartMsg = () => {
 }
 
 // THUNK
+export const getPatientChartsThunk = (patientData) => async (dispatch) => {
+  const res = await csrfFetch('api/chart/patientCharts', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(patientData)
+  })
+
+  if (res.ok) {
+    const patientCharts = await res.json();
+    dispatch(getPatientCharts(patientCharts));
+    dispatch(clearNoChartMsg());
+    return patientCharts;
+  } else {
+    dispatch(setNoChartMsg('No Patient Chart found or failed to get Charts'))
+  }
+}
+
 export const getChartByIdThunk = (chartId) => async (dispatch) => {
   const res = await csrfFetch(`/api/chart/${chartId}`);
 
@@ -111,6 +136,10 @@ export const getAllChartThunk = () => async (dispatch) => {
   }
 }
 
+export const resetCharts = () => ({
+  type: RESET_CHARTS
+})
+
 // INITIAL STATE
 const initialState = {
   chart: [],
@@ -122,17 +151,23 @@ const initialState = {
 // REDUCER
 const chartReducer = (state = initialState, action) => {
   switch(action.type) {
+    case GET_PATIENT_CHARTS:
+      return { ...state, allCharts: action.allCharts }
+
     case GET_CHART_BY_ID: 
-      return { ...state, chart: action.chartById }
+      return { ...state, chart: action.chart }
 
     case UPDATE_CHART:
-      return { ...state, chart: action.updatedChart }
+      return { ...state, chart: action.chart }
 
     case CREATE_CHART:
       return { ...state, chart: action.createdChart }
 
     case GET_ALL_CHART:
       return { ...state, allCharts: action.allChart }
+
+    case RESET_CHARTS:
+      return { ...state, allCharts: [] }
 
     case SET_NO_CHART_MSG:
       return { ...state, noChartMsg: action.message }

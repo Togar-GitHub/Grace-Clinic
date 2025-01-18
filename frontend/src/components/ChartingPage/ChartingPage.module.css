@@ -1,0 +1,328 @@
+/* General Container */
+.mainContainer {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  color: #1e3a8a;
+}
+
+.mainTitle {
+  text-align: center;
+  font-size: 26px; /* Adjusted font size */
+  margin-bottom: 20px;
+}
+
+/* Update Form Container */
+.updateContainer {
+  max-width: 800px; /* Control the max width of the update container */
+  /* margin: 0 auto; Center the container horizontally */
+}
+
+/* Title for Update Section */
+.updateTitle {
+  font-size: 22px; /* Slightly smaller font size for the section title */
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Patient Info Form */
+.patientInfoInputContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* Reduced gap between input fields */
+  padding: 15px; /* Reduced padding */
+  width: 100%;
+  max-width: 550px; /* Reduced max-width for compact layout */
+  margin: 0 auto; /* Center the form horizontally */
+}
+
+/* Container for the top info input */
+.topInfoInputContainer {
+  display: flex; /* Display the child divs side by side */
+  flex-direction: column; /* Stack the two lines vertically */
+  gap: 15px; /* Add some space between the chart lines */
+  width: 100%; /* Ensure it takes up the full width */
+}
+
+/* Information Line Styling - Single Line for Each (One Line for p Tags) */
+.chartLineInputOne,
+.chartLineInputTwo {
+  display: flex; /* Align items horizontally */
+  flex-wrap: nowrap; /* Prevent wrapping to a new line */
+  justify-content: space-between; /* Distribute the items evenly across the available width */
+  gap: 20px; /* Add some space between the items */
+  width: 100%; /* Ensure they take up the full width */
+}
+
+/* Individual <p> elements within the chart line */
+.chartLineInputOne p,
+.chartLineInputTwo p {
+  flex: 1 1 48%; /* Each <p> will take 48% of the container width */
+  font-size: 14px; /* Adjust font size for consistency */
+  margin: 5px 0; /* Remove the default margin */
+}
+
+.listInfo {
+  font-size: 14px; /* Reduced font size */
+  margin: 5px 0;
+  flex: 1;
+  min-width: 180px; /* Ensured minimum width consistency */
+}
+
+/* Input Field Styling */
+.inputList {
+  padding: 8px; /* Reduced padding for compactness */
+  font-size: 14px; /* Standardized font size */
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 100%;
+  box-sizing: border-box; /* Ensures padding doesn't add to width */
+  margin-bottom: 8px; /* Reduced margin between inputs */
+}
+
+.icd10Container {
+  display: flex;
+  flex-direction: column; /* Stack vertically by default */
+  /* gap: 10px; Add space between elements */
+}
+
+.icd10Container button {
+  align-self: flex-end; /* Align the button to the right */
+  /* margin-top: 10px; Space between the input and the button */
+  font-size: 14px;
+  border-radius: 5px;
+}
+
+.icdIframeContainer {
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+/* Error Message Styling */
+.errors {
+  color: red;
+  font-size: 12px; /* Reduced font size for error messages */
+  margin-top: 5px;
+}
+
+/* Button Styling */
+.updateButtonContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px; /* Spacing above the button */
+}
+
+.updateButton {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 18px; /* Slightly larger button padding */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  width: 100%;
+}
+
+.updateButton:hover {
+  background-color: #0056b3;
+}
+
+/* CPT Options Styling */
+.cptOptions {
+  margin-bottom: 20px; /* Space below CPT section */
+}
+
+.selectContainer {
+  width: 100%;
+  max-width: 350px; /* Adjusted width for select box */
+}
+
+/* Scrollable Select Container */
+.scrollableSelect {
+  max-width: 100%; /* Ensure it doesn't exceed container width */
+  height: 30px; /* Set height to make it scrollable */
+  width: 100%; /* Make sure it takes full width of container */
+  padding: 5px;
+  font-size: 14px;
+  background-color: #f9f9f9; /* Set background color */
+  border: 1px solid #ccc; /* Add border */
+  border-radius: 5px; /* Rounded corners */
+  overflow-y: auto; /* Ensure vertical scroll */
+  display: block;
+}
+
+/* Option Styling */
+.scrollableSelect option {
+  background-color: white; /* Default background color */
+  color: black; /* Default text color */
+  padding: 5px; /* Add padding for better readability */
+}
+
+/* Hover Styling */
+.scrollableSelect option:hover {
+  background-color: #007bff; /* Change background color on hover */
+  color: white;
+}
+
+/* Highlight the selected option */
+.scrollableSelect option:checked {
+  background-color: #007bff; /* Highlight color for selected item */
+  color: white; /* Change text color for readability */
+}
+
+/* Focus styling for the select */
+.scrollableSelect:focus {
+  outline: none;
+  border: 2px solid #007bff; /* Outline border for focus state */
+}
+
+/* Services Selection */
+.servicesOptions {
+  margin-bottom: 20px;
+}
+
+/* Styling the container of the checkboxes */
+.checkboxList {
+  display: flex;
+  flex-wrap: wrap; /* Allow wrapping when necessary */
+  gap: 10px; /* Space between checkboxes */
+  margin-bottom: 10px; /* Space at the bottom of the list */
+}
+
+/* Styling each checkbox label */
+.checkboxList label {
+  font-size: 14px; /* Standardized font size for checkboxes */
+  display: flex;
+  align-items: center; /* Align checkbox and label text vertically */
+  margin-right: 15px; /* Space between each label */
+  margin-bottom: 6px; /* Reduced margin between each service */
+}
+
+/* Styling the checkbox input */
+.checkboxList input {
+  margin-right: 8px; /* Space between checkbox and label */
+  margin-top: 0px; /* Remove any default margin for consistency */
+}
+
+/* No Chart Message */
+.noChart {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.noChartMsg {
+  font-size: 20px; /* Reduced font size for no chart message */
+  color: #d9534f;
+}
+
+/* Loading */
+.loading {
+  text-align: center;
+  font-size: 16px; /* Reduced font size */
+  color: #007bff;
+}
+
+/* Patient Info Entry Form */
+.patientInfoContainer {
+  margin-top: 30px;
+  padding: 15px;
+  background-color: #f7f7f7;
+  border-radius: 8px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.patientInfoTitle {
+  text-align: center;
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+/* Input Fields for Patient Info */
+.enterFirstName,
+.enterLastName,
+.enterDOB {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 8px; /* Reduced margin for spacing */
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.getChartButtonContainer {
+  text-align: center;
+}
+
+.getChartButton {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.getChartButton:hover {
+  background-color: #0056b3;
+}
+
+/* Chart List Container */
+.ListContainer {
+  margin-top: 30px;
+}
+
+.chartListTitle {
+  font-size: 22px;
+  margin-bottom: 15px;
+}
+
+.eachChart {
+  background-color: #fff;
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.chartLineOne,
+.chartLineTwo,
+.chartLineThree,
+.chartLineFour,
+.chartLineFive,
+.chartLineSix {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px; /* Consistent gap between chart lines */
+}
+
+.listInfo {
+  font-size: 14px;
+  flex: 1;
+  min-width: 180px;
+  margin-bottom: 8px; /* Reduced bottom margin */
+}
+
+.updateButtonContainer {
+  text-align: center;
+}
+
+.updateButton {
+  width: auto;
+  padding: 10px 20px;
+  margin-top: 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+.updateButton:hover {
+  background-color: #218838;
+}
+

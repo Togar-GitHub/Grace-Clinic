@@ -15,8 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'doctorId'
       })
       Chart.belongsTo(models.Appointment, {
-        foreignKey: 'appointmentId',
-        onDelete: 'CASCADE'
+        foreignKey: 'appointmentId'
       })
       Chart.belongsTo(models.CPT, {
         foreignKey: 'CPTId'
