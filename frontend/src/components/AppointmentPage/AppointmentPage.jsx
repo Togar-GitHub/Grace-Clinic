@@ -29,6 +29,12 @@ const AppointmentPage = () => {
     return date;
   }, [])
 
+  const todayPlusOne = new Date();
+  todayPlusOne.setDate(todayPlusOne.getDate() + 1);
+
+  // Format date to "YYYY-MM-DD"
+  const minDate = todayPlusOne.toISOString().split('T')[0];
+
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
@@ -226,7 +232,6 @@ const AppointmentPage = () => {
   }
 
   const handleDoctorChange = (e) => {
-    console.log("Selected doctor ID: ", e.target.value);
     setDoctor(Number(e.target.value));
   }
   
@@ -268,7 +273,7 @@ const AppointmentPage = () => {
           <input
             className={apg.chooseDate}
             type="date"
-            min={new Date().toISOString().split('T')[0]}
+            min={minDate}
             value={appointmentDate}
             onChange={(e) => setAppointmentDate(e.target.value)}
             required

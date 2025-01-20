@@ -11,6 +11,7 @@ import AdminStaffPage from './components/AdminStaffPage/AdminStaffPage';
 import AdminCPTPage from './components/AdminCPTPage/AdminCPTPage';
 import AdminServicePage from './components/AdminServicePage/AdminServicePage';
 import ChartingPage from './components/ChartingPage/ChartingPage';
+import CreateChart from './components/CreateChart/CreateChart';
 import * as sessionActions from './store/session';
 
 function Layout() {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: '/adminPage',
         element: <AdminPage />
+      },
+      {
+        path: '/createChart',
+        element: <CreateChart />
       },
       {
         path: '/chartingPage',

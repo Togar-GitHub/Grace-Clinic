@@ -19,6 +19,22 @@
   text-align: center;
 }
 
+.linkingChart {
+  display: block;
+  margin: 1rem 0;
+  padding: 1rem 2rem;
+  font-size: 1.5rem;
+  text-decoration: none;
+  color: white;
+  background-color: #109170;
+  border-radius: 5px;
+  text-align: center;
+  transition: background-color 0.3s, transform 0.3s;
+  width: 60%;
+  max-width: 400px;
+  margin-bottom: 50px;
+}
+
 .linking {
   display: block;
   margin: 1rem 0;

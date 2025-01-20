@@ -128,7 +128,6 @@ export const deleteReviewThunk = (reviewId) => async (dispatch) => {
 }
 
 export const createReviewThunk = (incomingReview) => async (dispatch) => {
-  console.log('incoming Review > ', incomingReview);
   const res = await csrfFetch('/api/review', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

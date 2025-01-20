@@ -78,7 +78,7 @@ const AdminServicePage = () => {
     setLoading(true);
     setUpdateRecord(true);
     const updateService = await dispatch(getServiceByIdThunk(serviceId));
-    console.log('updateService > ', updateService);
+
     setServiceId(updateService.Service.id);
     setService(updateService.Service.service);
     setPrice(updateService.Service.price);
@@ -89,6 +89,7 @@ const AdminServicePage = () => {
 
   const handleUpdate = async (serviceId) => {
     try {
+      setLoading(true);
       const validationErrors = {};
 
       if (!service) {

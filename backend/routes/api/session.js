@@ -30,10 +30,17 @@ router.post(
 
     const user = await User.unscoped().findOne({
       where: {
-        [Op.or]: {
-          username: credential,
-          email: credential
-        }
+        [Op.and]: [
+          {
+            [Op.or]: {
+              username: credential,
+              email: credential
+            }
+          },
+          {
+            dateInactive: null  // Check if dateInactive is null
+          }
+        ]
       }
     });
 
@@ -41,7 +48,7 @@ router.post(
       const err = new Error('Invalid credentials');
       err.status = 401;
       err.title = 'Invalid credentials';
-      err.errors = { credential: 'The provided credentials were invalid.' };
+      err.errors = { credential: 'The provided credentials were invalid or inactive' };
       return next(err);
     }
 

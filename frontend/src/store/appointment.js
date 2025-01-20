@@ -1,6 +1,7 @@
 import { csrfFetch } from './csrf';
 
 // ACTION TYPES
+const GET_PATIENT_APPOINTMENTS = 'appointment/GET_PATIENT_APPOINTMENTS'
 const DELETE_APPOINTMENT_ADMIN = 'appointment/DELETE_APPOINTMENT_ADMIN';
 const UPDATE_APPOINTMENT_ADMIN = 'appointment/UPDATE_APPOINTMENT_ADMIN';
 const UPDATE_APPOINTMENT_CHART = 'appointment/UPDATE_APPOINTMENT_CHART';
@@ -11,10 +12,18 @@ const UPDATE_APPOINTMENT_CURRENT = 'appointment/UPDATE_APPOINTMENT_CURRENT';
 const DELETE_APPOINTMENT_CURRENT = 'appointment/DELETE_APPOINTMENT_CURRENT';
 const CREATE_APPOINTMENT_CURRENT = 'appointment/CREATE_APPOINTMENT_CURRENT';
 const GET_ALL_APPOINTMENTS = 'appointment/GET_ALL_APPOINTMENTS';
+const RESET_APPOINTMENTS = 'appointment/RESET_APPOINTMENTS';
 const SET_NO_APPOINTMENT_MSG = 'appointment/SET_NO_APPOINTMENT_MSG';
 const CLEAR_NO_APPOINTMENT_MSG = 'appointment/CLEAR_NO_APPOINTMENT_MSG';
 
 // ACTION CREATORS
+const getPatientAppointments = (allAppointments) => {
+  return {
+    type: GET_PATIENT_APPOINTMENTS,
+    allAppointments
+  }
+}
+
 const deleteAppointmentAdmin = (appointmentId) => {
   return {
     type: DELETE_APPOINTMENT_ADMIN,
@@ -52,10 +61,10 @@ const getSpecAppointment = (incomingData) => {
   }
 }
 
-const getAppointmentById = (appointmentId) => {
+const getAppointmentById = (appointment) => {
   return {
     type:GET_APPOINTMENT_BY_ID,
-    appointmentId
+    appointment
   }
 }
 
@@ -101,6 +110,23 @@ const clearNoAppointmentMsg = () => {
 }
 
 // THUNK
+export const getPatientAppointmentsThunk = (patientData) => async (dispatch) => {
+  const res = await csrfFetch('/api/appointment/patientAppointments', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(patientData)
+  })
+
+  if (res.ok) {
+    const patientAppointments = await res.json();
+    dispatch(getPatientAppointments(patientAppointments));
+    dispatch(clearNoAppointmentMsg());
+    return patientAppointments;
+  } else {
+    dispatch(setNoAppointmentMsg('No Appointments or failed to fetch Appointments'))
+  }
+}
+
 export const deleteAppointmentAdminThunk = (appointmentId) => async (dispatch) => {
   const res = await csrfFetch(`/api/appointment/admin/${appointmentId}`, {
     method: 'DELETE',
@@ -165,7 +191,6 @@ export const getAppointmentCurrentThunk = () => async (dispatch) => {
 }
 
 export const getSpecAppointmentThunk = (incomingData) => async (dispatch) => {
-  console.log('frontend > ', incomingData);
   const res = await csrfFetch('/api/appointment/specAppointment', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -181,16 +206,6 @@ export const getSpecAppointmentThunk = (incomingData) => async (dispatch) => {
     dispatch(setNoAppointmentMsg('No Appointment found or failed to get Appointments'));
     return null;
   }  
-
-  // if (res.ok) {
-  //   const specAppointment = await res.json();
-  //   dispatch(getSpecAppointment(specAppointment));
-  //   dispatch(clearNoAppointmentMsg());
-  //   return specAppointment;
-  // } else {
-  //   dispatch(setNoAppointmentMsg('No Appointment found or failed to get Appointments'));
-  //   return null;
-  // }
 }
 
 export const getAppointmentByIdThunk = (appointmentId) => async (dispatch) => {
@@ -269,6 +284,10 @@ export const getAllAppointmentsThunk = () => async (dispatch) => {
   }
 }
 
+export const resetAppointments = () => ({
+  type: RESET_APPOINTMENTS
+})
+
 // INITIAL STATE
 const initialState = {
   appointment: [],
@@ -280,6 +299,9 @@ const initialState = {
 // REDUCER
 const appointmentReducer = (state = initialState, action) => {
   switch(action.type) {
+    case GET_PATIENT_APPOINTMENTS:
+      return { ...state, allAppointments: action.allAppointments }
+
     case DELETE_APPOINTMENT_ADMIN:
       return { ...state, appointment: action.deletedAppointmentAdmin }
 
@@ -296,7 +318,7 @@ const appointmentReducer = (state = initialState, action) => {
       return { ...state, appointment: action.specAppointment }
 
     case GET_APPOINTMENT_BY_ID:
-      return { ...state, appointment: action.gotAppointmentById }
+      return { ...state, appointment: action.appointment }
 
     case UPDATE_APPOINTMENT_CURRENT:
       return { ...state, appointment: action.updatedAppointmentCurrent }
@@ -309,6 +331,9 @@ const appointmentReducer = (state = initialState, action) => {
 
     case GET_ALL_APPOINTMENTS:
       return { ...state, allAppointments: action.gotAllAppointments }
+
+    case RESET_APPOINTMENTS:
+      return { ...state, allAppointments: [] }
 
     case SET_NO_APPOINTMENT_MSG:
       return { ...state, noAppointmentMsg: action.message }

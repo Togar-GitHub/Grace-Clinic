@@ -36,7 +36,8 @@ router.post('/patientCharts', requireAuth, async (req, res) => {
           model: CPT,
           attributes: ['id', 'CPTCode', 'description', 'price']
         }
-      ]
+      ],
+      order: [[ 'meetingDate', 'DESC' ]]
     })
 
     if (!patientCharts || patientCharts.length <= 0) {
@@ -194,11 +195,9 @@ router.put('/:chartId', requireAuth, async (req, res) => {
       const todayDate = new Date();
       const parsedNextAppointment = new Date(nextAppointment);
 
-      if (!diagnosesICD10 || diagnosesDesc < 4 || diagnosesDesc > 200 ||
-          !CPTId || !title || title.length < 4 || title.length > 100 ||
-          !doctorNote || doctorNote.length < 10 || doctorNote.length > 2000 ||
-          !Array.isArray(services) || !nextAppointment ||
-          isNaN(parsedNextAppointment || parsedNextAppointment < todayDate)) {
+      if (!diagnosesICD10 || diagnosesDesc < 2 || diagnosesDesc > 200 ||
+          !CPTId || !title || title.length < 2 || title.length > 100 ||
+          !doctorNote || doctorNote.length < 2 || doctorNote.length > 2000) {
         return res.status(400).json({
           message: "Bad Input or Data",
           errors: {
@@ -216,7 +215,7 @@ router.put('/:chartId', requireAuth, async (req, res) => {
       let sum = 0;
 
       const CPTData = await CPT.findOne({
-        where: { id: CPTId}
+        where: { id: CPTId }
       })
       if (!CPTData || CPTData.length <= 0) {
         return res.status(400).json({ message: "The CPT Code is invalid" })
@@ -261,17 +260,17 @@ router.put('/:chartId', requireAuth, async (req, res) => {
       // this is for staff to update - will handle in frontend for the specific input / screen
 
       const { insurance, nextAppointment } = req.body;
-      const todayDate = new Date();
-      const parsedNextAppointment = new Date(nextAppointment);
+      // const todayDate = new Date();
+      // const parsedNextAppointment = new Date(nextAppointment);
 
-      if (!nextAppointment || isNaN(parsedNextAppointment || parsedNextAppointment < todayDate)) {
-        return res.status(400).json({
-          message: "Bad Input or Data",
-          errors: {
-            nextAppointment: "Must have and in the future"
-          }
-        })
-      }
+      // if (!nextAppointment || isNaN(parsedNextAppointment || parsedNextAppointment < todayDate)) {
+      //   return res.status(400).json({
+      //     message: "Bad Input or Data",
+      //     errors: {
+      //       nextAppointment: "Must have and in the future"
+      //     }
+      //   })
+      // }
 
       updateChart.insurance = insurance;
       updateChart.nextAppointment = nextAppointment;
@@ -285,36 +284,58 @@ router.put('/:chartId', requireAuth, async (req, res) => {
   }
 })
 
+router.delete('/:chartId', requireAuth, async (req, res) => {
+  const { id } = req.user;
+  const { chartId } = req.params;
+
+  try {
+    const deleteChart = await Chart.findByPk(chartId);
+
+    if (!deleteChart || deleteChart.length <= 0) {
+      return res.status(400).json({ message: 'Chart could not be found' })
+    }
+
+    if (deleteChart.doctorId !== id) {
+      return res.status(403).json({ message: 'You are not Authorized to delete this Chart' })
+    }
+
+    await deleteChart.destroy();
+
+    const updateAppointment = await Appointment.findByPk(deleteChart.appointmentId);
+    updateAppointment.dateMet = null;
+    await updateAppointment.save();
+
+    return res.status(201).json({ message: 'Successfully deleted' })
+  } catch (error) {
+    return res.status(500).json({ message: 'An error occurred while deleting the Chart' })
+  }
+})
+
 // create chart
 router.post('/', requireAuth, async (req, res) => {
   const { id } = req.user;
-  const { patientId, appointmentId, complaint, diagnosesICD10,
+  const { patientId, appointmentId, complaint, meetingDate, diagnosesICD10,
           diagnosesDesc, CPTId, title, doctorNote, services, 
           prescription, insurance, nextAppointment
   } = req.body;
-  const todayDate = new Date();
-  const parsedNextAppointment = new Date(nextAppointment);
 
   if (!patientId || !appointmentId ||
-       !complaint || complaint < 4 || complaint > 200 ||
-       !diagnosesICD10 || diagnosesDesc < 4 || diagnosesDesc > 200 ||
-       !CPTId || !title || title.length < 4 || title.length > 100 ||
-       !doctorNote || doctorNote.length < 10 || doctorNote.length > 2000 ||
-       !Array.isArray(services) || !nextAppointment ||
-       isNaN(parsedNextAppointment || parsedNextAppointment < todayDate)) {
+       !complaint || complaint < 2 || complaint > 200 || !meetingDate ||
+       !diagnosesICD10 || diagnosesDesc < 2 || diagnosesDesc > 200 ||
+       !CPTId || !title || title.length < 2 || title.length > 100 ||
+       !doctorNote || doctorNote.length < 2 || doctorNote.length > 2000) {
     return res.status(400).json({
       message: "Bad Input or Data",
       errors: {
         patientId: "Require a patient",
         appointmentId: "Require an association with an Appointment",
         complaint: "Need to original complaint from Appointment",
+        meetingDate: "Need meeting Date",
         diagnosesICD10: "Need ICD10 Codes",
         diagnosesDesc: "Require a description of the 1st ICD10 Code",
         CPTId: "Require the CPT Code",
         title: "Require Title for the chart must be between 4 and 100 characters",
-        doctorNote: "Require the note must be between 10 and 2000 characters",
-        services: "Must be within an Array",
-        nextAppointment: "Must have and in the future"
+        doctorNote: "Require the note must be between 10 and 2000 characters"
       }
     })
   }
@@ -334,7 +355,7 @@ router.post('/', requireAuth, async (req, res) => {
     let sum = 0;
 
     const CPTData = await CPT.findOne({
-      where: { id: CPTId}
+      where: { id: Number(CPTId) }
     })
     if (!CPTData || CPTData.length <= 0) {
       return res.status(400).json({ message: "The CPT Code is invalid" })
@@ -364,7 +385,7 @@ router.post('/', requireAuth, async (req, res) => {
       doctorId,
       appointmentId,
       complaint,
-      meetingDate: new Date(),
+      meetingDate,
       diagnosesICD10,
       diagnosesDesc,
       CPTId,
@@ -376,6 +397,10 @@ router.post('/', requireAuth, async (req, res) => {
       cost: sum,
       nextAppointment
     })
+
+    const updateAppointment = await Appointment.findByPk(newChart.appointmentId);
+    updateAppointment.dateMet = newChart.meetingDate;
+    await updateAppointment.save();
 
     return res.status(201).json(newChart);
   } catch (error) {

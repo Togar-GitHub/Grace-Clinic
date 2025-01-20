@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === 'production') {
 
 const chartSeeds = [
   {
-    id: 1,   // all id only for development
+    // id: 1,   // all id only for development
     patientId: 6,  // Patient 1
     doctorId: 2,   // Doctor 1
     appointmentId: 1,  // Appointment 1
@@ -27,7 +27,7 @@ const chartSeeds = [
     nextAppointment: new Date('2025-01-15T14:00:00Z')
   },
   {
-    id: 2,
+    // id: 2,
     patientId: 7,  // Patient 2
     doctorId: 5,   // Doctor 1
     appointmentId: 4,  // Appointment 4
@@ -45,7 +45,7 @@ const chartSeeds = [
     nextAppointment: new Date('2025-02-05T09:00:00Z')
   },
   {
-    id: 3,
+    // id: 3,
     patientId: 8,  // Patient 3
     doctorId: 5,   // Doctor 1
     appointmentId: 7,  // Appointment 7
@@ -63,7 +63,7 @@ const chartSeeds = [
     nextAppointment: new Date('2025-03-20T08:30:00Z')
   },
   {
-    id: 4,
+    // id: 4,
     patientId: 9,  // Patient 4
     doctorId: 2,   // Doctor 1
     appointmentId: 9,  // Appointment 9
@@ -81,7 +81,7 @@ const chartSeeds = [
     nextAppointment: new Date('2025-04-01T10:00:00Z')
   },
   {
-    id: 5,
+    // id: 5,
     patientId: 10,  // Patient 5
     doctorId: 2,   // Doctor 1
     appointmentId: 11,  // Appointment 11

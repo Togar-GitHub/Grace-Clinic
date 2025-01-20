@@ -54,14 +54,14 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.NOW
     },
     diagnosesICD10: {
-      type: DataTypes.STRING,    // this is for postgreSQL - production
+      type: DataTypes.STRING,
       allowNull: false
     },
     diagnosesDesc: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [4, 200]
+        len: [2, 200]
       }
     },
     CPTId: {
@@ -72,18 +72,18 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [4, 100]
+        len: [2, 100]
       }
     },
     doctorNote: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [10, 2000]
+        len: [2, 2000]
       }
     },
-    services: DataTypes.JSON,     // this is for Sequelite - development
-    // services: DataTypes.ARRAY(DataTypes.INTEGER),    // this is for postgreSQL - production
+    // services: DataTypes.JSON,     // this is for Sequelize - development
+    services: DataTypes.ARRAY(DataTypes.INTEGER),    // this is for postgreSQL - production
     prescription: DataTypes.STRING,
     insurance: DataTypes.STRING,
     cost: DataTypes.DECIMAL,

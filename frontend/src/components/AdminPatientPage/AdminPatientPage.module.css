@@ -1,0 +1,209 @@
+/* Main container */
+.mainContainer {
+  padding: 20px;
+  background-color: #f4f4f4;
+  min-height: 100vh;
+}
+
+/* Title */
+.mainTitle {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* No user message */
+.noUser {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.noUserMsg {
+  color: #ff0000;
+  font-size: 18px;
+}
+
+/* User list container */
+.UserListContainer {
+  margin-top: 30px;
+}
+
+.userListTitle {
+  font-size: 22px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+/* Individual user list item */
+.userList {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Line one styles (name, dob, etc.) - Display content in 1 line */
+.lineOne {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.lineTwo {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+/* Individual list info styling */
+.listInfo {
+  font-size: 14px;
+  color: #555;
+  margin-right: 20px; /* Add spacing between items */
+  white-space: nowrap; /* Prevent wrapping */
+}
+
+/* Update and delete button container */
+.updateDeleteButtonContainer {
+  text-align: center;
+  margin-top: 15px;
+}
+
+/* Update button */
+.updateButton {
+  background-color: #3182ce;
+  color: white;
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 0 10px;
+}
+
+.updateButton:hover {
+  background-color: #2b6cb0;
+}
+
+/* Input field for the Inactive Date */
+.enterDateInactive {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 10px 0;
+  width: 100%;
+  max-width: 150px; /* Adjust max-width to fit the layout */
+  box-sizing: border-box;
+}
+
+.enterDateInactive:focus {
+  border-color: #3182ce;
+  outline: none;
+}
+
+/* Confirm Update button */
+.confirmUpdateButton {
+  background-color: #38a169;
+  color: white;
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.confirmUpdateButton:hover {
+  background-color: #2f855a;
+}
+
+/* Delete button */
+.deleteButton {
+  background-color: #e53e3e;
+  color: white;
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 15px;
+  margin-left: 10px;
+}
+
+.deleteButton:hover {
+  background-color: #c53030;
+}
+
+/* Modal styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 400px;
+  width: 100%;
+}
+
+.modalHeader {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.modalButtons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modalButtons button {
+  padding: 8px 16px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.modalButtons .cancelButton {
+  background-color: #ddd;
+}
+
+.modalButtons .confirmButton {
+  background-color: #e53e3e;
+  color: #fff;
+}
+
+.modalButtons .cancelButton:hover {
+  background-color: #ccc;
+}
+
+.modalButtons .confirmButton:hover {
+  background-color: #c53030;
+}
+
+/* Loading styles */
+.loading {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}

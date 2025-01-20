@@ -1,0 +1,296 @@
+/* General Container */
+.mainContainer {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  color: #1e3a8a;
+}
+
+.mainTitle {
+  text-align: center;
+  font-size: 26px; /* Adjusted font size */
+  margin-bottom: 20px;
+}
+
+/* Loading */
+.loading {
+  text-align: center;
+  font-size: 16px;
+  color: #007bff;
+}
+
+/* Update Container */
+.updateContainer {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.updateTitle {
+  font-size: 22px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* Patient Info Input Container */
+.patientInfoInputContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 15px;
+  width: 100%;
+  max-width: 550px;
+  margin: 0 auto;
+}
+
+.topInfoInputContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}
+
+/* Chart Line Styling */
+.chartLineInputOne,
+.chartLineInputTwo {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+}
+
+.chartLineInputOne p,
+.chartLineInputTwo p {
+  flex: 1;
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+.listInfo {
+  font-size: 14px;
+  flex: 1;
+  min-width: 180px;
+  margin-bottom: 8px;
+}
+
+/* Input Styling */
+.inputList {
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.label {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+/* ICD10 Container */
+.icd10Container {
+  display: flex;
+  flex-direction: column;
+}
+
+.icd10Container button {
+  align-self: flex-end;
+  font-size: 14px;
+  border-radius: 5px;
+}
+
+/* ICD-10 iframe container */
+.icdIframeContainer {
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+/* Error Messages */
+.errors {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+/* Buttons */
+.createButtonContainer,
+.updateButtonContainer,
+.deleteButtonContainer {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.createButton,
+.updateButton,
+.deleteButton {
+  background-color: #007bff;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  width: auto;
+}
+
+.createButton:hover,
+.updateButton:hover,
+.deleteButton:hover {
+  background-color: #0056b3;
+}
+
+/* CPT Options Styling */
+.cptOptions {
+  margin-bottom: 20px;
+}
+
+.selectContainer {
+  width: 100%;
+  max-width: 350px;
+}
+
+.scrollableSelect {
+  height: 30px;
+  width: 100%;
+  padding: 5px;
+  font-size: 14px;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow-y: auto;
+}
+
+.scrollableSelect option {
+  background-color: white;
+  color: black;
+  padding: 5px;
+}
+
+.scrollableSelect option:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.scrollableSelect:focus {
+  outline: none;
+  border: 2px solid #007bff;
+}
+
+/* Checkbox List */
+.checkboxList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.checkboxList label {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
+  margin-bottom: 6px;
+}
+
+.checkboxList input {
+  margin-right: 8px;
+  margin-top: 0;
+}
+
+/* Patient Info Entry Form */
+.patientInfoContainer {
+  margin-top: 30px;
+  padding: 15px;
+  background-color: #f7f7f7;
+  border-radius: 8px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.patientInfoTitle {
+  text-align: center;
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+/* Form Inputs */
+.enterFirstName,
+.enterLastName,
+.enterDOB {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.getAppointmentButtonContainer {
+  text-align: center;
+}
+
+.getAppointmentButton {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.getAppointmentButton:hover {
+  background-color: #0056b3;
+}
+
+/* Chart List */
+.ListContainer {
+  margin-top: 30px;
+}
+
+.chartListTitle {
+  font-size: 22px;
+  margin-bottom: 15px;
+}
+
+.eachChart {
+  background-color: #fff;
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.chartLineOne,
+.chartLineTwo,
+.chartLineThree {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.updateButtonContainer {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.updateButton {
+  background-color: #28a745;
+}
+
+.updateButton:hover {
+  background-color: #218838;
+}
+
+/* No Appointment Message */
+.noAppointment {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.noAppointmentMsg {
+  font-size: 20px;
+  color: #d9534f;
+}

@@ -1,11 +1,22 @@
+import { useSelector } from 'react-redux';
 import { NavLink } from "react-router-dom";
 import adm from './AdminPage.module.css';
 
 const AdminPage = () => {
+  const user = useSelector((state) => state.session.user);
 
   return (
     <div className={adm.mainContainer}>
       <h1 className={adm.mainTitle}>Admin Page</h1>
+
+      {user.position === 'doctor' && (
+        <NavLink
+          to='/createChart'
+          className={adm.linkingChart}
+          >
+          Create New Chart
+        </NavLink>
+      )}
 
       <NavLink
         to='/adminPatientPage'

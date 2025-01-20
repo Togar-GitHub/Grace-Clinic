@@ -40,13 +40,31 @@ const validateLogin = [
     handleValidationErrors
 ]
 
+router.get('/allPatients', requireAuth, async (req, res) => {
+  const allPatients = await User.findAll({
+    where: { staff: false }
+  });
+
+  if (!allPatients) {
+    return res.status(404).json({ message: 'All Patients not found' })
+  }
+
+  return res.status(200).json({ allPatients: allPatients })
+})
+
+router.get('/allStaff', requireAuth, async (req, res) => {
+  const allStaff = await User.findAll({
+    where: { staff: true }
+  });
+
+  if (!allStaff) {
+    return res.status(404).json({ message: 'All Staff not found' })
+  }
+
+  return res.status(200).json({ allStaff: allStaff })
+})
+
 router.get('/doctors', requireAuth, async (req, res) => {
-  const { userId } = req.params;
-
-    // if (!req.user) {
-    //   return res.status(200).json({ user: null });
-    // }
-
   const user = await User.findAll({
     where: {
       position: 'doctor'
@@ -221,6 +239,7 @@ router.post(
 router.put('/:userId', requireAuth, async (req, res) => {
   const { id } = req.user;
   const { userId } = req.params;
+
   const { 
     firstName,
     lastName,
@@ -244,22 +263,23 @@ router.put('/:userId', requireAuth, async (req, res) => {
       const userUpdate = await User.findByPk(userId);
 
       if (userUpdate) {
-        userUpdate.firstName = firstName;
-        userUpdate.lastName = lastName;
-        userUpdate.dateOfBirth = dateOfBirth;
-        userUpdate.gender = gender;
-        userUpdate.username = username;
-        userUpdate.email = email;
+        if (firstName) userUpdate.firstName = firstName;
+        if (lastName) userUpdate.lastName = lastName;
+        if (dateOfBirth) userUpdate.dateOfBirth = dateOfBirth;
+        if (gender) userUpdate.gender = gender;
+        if (username) userUpdate.username = username;
+        if (email) userUpdate.email = email;
         // userUpdate.password = password;    // this create issue in updating - need to be handled later
-        userUpdate.address = address;
-        userUpdate.city = city;
-        userUpdate.state = state;
-        userUpdate.zip = zip;
-        userUpdate.phone = phone;
-        userUpdate.allergy = allergy;
-        userUpdate.dateInactive = dateInactive;
-        userUpdate.staff = staff;
-        userUpdate.position = position;
+        if (address) userUpdate.address = address;
+        if (city) userUpdate.city = city;
+        if (state) userUpdate.state = state;
+        if (zip) userUpdate.zip = zip;
+        if (phone) userUpdate.phone = phone;
+        if (allergy) userUpdate.allergy = allergy;
+        if (userUpdate.dateInactive && !dateInactive) userUpdate.dateInactive = null;
+        if (dateInactive) userUpdate.dateInactive = dateInactive;
+        if (staff) userUpdate.staff = staff;
+        if (position) userUpdate.position = position;
       }
 
       const updatedUser = await userUpdate.save();
@@ -282,7 +302,9 @@ router.delete('/:userId', requireAuth, async (req, res) => {
     if (!oneUser || oneUser.length <= 0) {
       return res.status(403).json({ message: "The User is NOT Exist" })
     } else {
-      if (oneUser.staff !== true && oneUser.position !== 'manager') {
+      if (oneUser.staff !== true && 
+        (oneUser.position !== 'manager' || oneUser.position !== 'doctor')) 
+      {
         return res.status(403).json({ message: "The User is NOT Authorized" })
       }
     }
@@ -296,11 +318,14 @@ router.delete('/:userId', requireAuth, async (req, res) => {
       return res.status(404).json({ message: "User couldn't be found" });
     }
 
-    const parsedDateInactive = new Date(dateInactive);
-    const timeDifference = todayDate - parsedDateInactive;
-    const yearsDifference = timeDifference / (1000 * 3600 * 24 * 365.25);
-    if (yearsDifference <= 5) {
-      return res.status(403).json({ message: "The User can't be deleted, less than 5 years of being in-active" })
+    // for patient, check the inactive date = should be more than 5 years
+    if (oneUser.staff === false) {
+      const parsedDateInactive = new Date(dateInactive);
+      const timeDifference = todayDate - parsedDateInactive;
+      const yearsDifference = timeDifference / (1000 * 3600 * 24 * 365.25);
+      if (yearsDifference <= 5) {
+        return res.status(403).json({ message: "The User can't be deleted, less than 5 years of being in-active" })
+      }
     }
 
     await userToDelete.destroy();

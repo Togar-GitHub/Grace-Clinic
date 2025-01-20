@@ -1,0 +1,180 @@
+/* Main container */
+.mainContainer {
+  padding: 20px;
+  background-color: #f4f4f4;
+  min-height: 100vh;
+  color: #1e3a8a;
+}
+
+/* Title */
+.mainTitle {
+  font-size: 22px;  /* Slightly smaller font size */
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* No user message */
+.noUser {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.noUserMsg {
+  color: #ff0000;
+  font-size: 16px;  /* Smaller font size */
+}
+
+/* User list container */
+.UserListContainer {
+  margin-top: 30px;
+}
+
+.userListTitle {
+  font-size: 20px;  /* Slightly smaller font size */
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+/* Individual user list item */
+.userList {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Line one styles (name, dob, etc.) */
+.lineOne {
+  display: flex;
+  flex-wrap: nowrap;  /* Prevent wrapping, keep in one line */
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 2px;
+}
+
+.lineOne .listInfo {
+  margin: 5px 10px;
+  width: 30%;  /* Reduced width for better fit */
+  font-size: 12px;  /* Smaller font size */
+}
+
+/* Line two styles (position, address, phone, allergy) */
+.lineTwo {
+  display: flex;
+  flex-wrap: nowrap;  /* Prevent wrapping, keep in one line */
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 2px;
+}
+
+.lineTwo .listInfo {
+  margin: 5px 10px;
+  width: 30%;  /* Reduced width for better fit */
+  font-size: 12px;  /* Smaller font size */
+}
+
+/* Individual list item info */
+.listInfo {
+  font-size: 12px;  /* Smaller font size */
+}
+
+/* Update and delete button container */
+.updateDeleteButtonContainer {
+  display: flex;
+  justify-content: center; /* Center the button */
+  margin-top: 5px;
+}
+
+.deleteButton {
+  background-color: #e53e3e;
+  color: #fff;
+  font-size: 14px;  /* Smaller font size */
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.deleteButton:hover {
+  background-color: #c53030;
+}
+
+/* Modal styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 400px;
+  width: 100%;
+}
+
+.modalHeader {
+  font-size: 18px;  /* Smaller font size */
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.modalButtons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modalButtons button {
+  padding: 8px 16px;
+  font-size: 14px;  /* Smaller font size */
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.modalButtons .cancelButton {
+  background-color: #ddd;
+}
+
+.modalButtons .confirmButton {
+  background-color: #e53e3e;
+  color: #fff;
+}
+
+.modalButtons .cancelButton:hover {
+  background-color: #ccc;
+}
+
+.modalButtons .confirmButton:hover {
+  background-color: #c53030;
+}
+
+/* Loading styles */
+.loading {
+  text-align: center;
+  font-size: 16px;  /* Smaller font size */
+  font-weight: bold;
+  color: #333;
+}
+
+/* Error message styling */
+.errors {
+  color: red;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-top: -5px;
+  margin-bottom: 10px;
+}

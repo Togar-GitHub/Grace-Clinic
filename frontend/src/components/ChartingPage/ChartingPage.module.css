@@ -109,27 +109,63 @@
   margin-top: 5px;
 }
 
-/* Button Styling */
-.updateButtonContainer {
+/* Button Container - Align Buttons Side by Side */
+.buttonContainer {
   display: flex;
-  justify-content: center;
-  margin-top: 20px; /* Spacing above the button */
+  justify-content: space-between; /* This will place buttons on opposite sides */
+  gap: 10px; /* Optional: Adds space between buttons */
+  margin-top: 20px;
+}
+
+/* Update Button Styling */
+.updateButtonContainer,
+.deleteButtonContainer {
+  flex-grow: 1; /* Make both buttons grow equally in container */
+  display: flex;
+  justify-content: center; /* Center the button horizontally */
+  padding: 12px 20px;  /* Uniform padding for both buttons */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  width: auto; /* Allow the button to take only as much space as needed */
+  height: 40px; /* Set a consistent height for both buttons */
+  display: inline-flex;
+  align-items: center; /* Vertically center the text */
+  justify-content: center; /* Horizontally center the text */
 }
 
 .updateButton {
   background-color: #007bff;
   color: white;
-  padding: 10px 18px; /* Slightly larger button padding */
+  padding: 10px 18px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
-  width: 100%;
+  width: auto; /* Allow the button to take only as much space as needed */
 }
 
 .updateButton:hover {
   background-color: #0056b3;
 }
+
+/* Delete Button Styling */
+.deleteButton {
+  background-color: #c2357b;
+  color: white;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  width: auto; /* Allow the button to take only as much space as needed */
+}
+
+.deleteButton:hover {
+  background-color: #701447;
+}
+
 
 /* CPT Options Styling */
 .cptOptions {

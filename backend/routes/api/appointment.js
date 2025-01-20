@@ -6,6 +6,44 @@ const router = express.Router();
 const { Appointment, User } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 
+// get appointments (using POST) by firstName, lastName and DOB
+router.post('/patientAppointments', requireAuth, async (req, res) => {
+  const { id } = req.user;
+  const { firstName, lastName, dateOfBirth } = req.body;
+
+  try {
+    const patientAppointments = await Appointment.findAll({
+      where: { dateMet: null },
+      include: [
+        {
+          model: User,
+          as: 'patient',
+          where: {
+            firstName: firstName,
+            lastName: lastName,
+            dateOfBirth: dateOfBirth
+          },
+          attributes: ['id', 'firstName', 'lastName', 'dateOfBirth', 'gender'],
+        },
+        {
+          model: User,
+          attributes: ['id', 'firstName', 'lastName', 'position'],
+          as: 'doctor'
+        }
+      ],
+      order: [['dateTime', 'DESC']]
+    });
+
+    if (!patientAppointments || patientAppointments.length <= 0) {
+      return res.status(200).json({})
+    }
+
+    return res.status(200).json({ Appointment: patientAppointments })
+  } catch (error) {
+    return res.status(500).json({ message: "An error occurred while getting Appointments", error })
+  }
+})
+
 // delete passed appointment by admin which dateMet = null
 router.delete('/admin/:appointmentId', requireAuth, async (req, res) => {
   const { id } = req.user;
@@ -87,7 +125,7 @@ router.put('/admin/:appointmentId', requireAuth, async (req, res) => {
 router.put('/chart/:appointmentId', requireAuth, async (req, res) => {
   const { id } = req.user;
   const { appointmentId } = req.params;
-  const todayDate = new Date();
+  const { dateMet } = req.body;
 
   try {
     const oneUser = await User.findByPk(id);
@@ -101,7 +139,7 @@ router.put('/chart/:appointmentId', requireAuth, async (req, res) => {
       return res.status(400).json({ message: "Appointment could not be found" })
     }
 
-    updateAppointment.dateMet = todayDate;
+    updateAppointment.dateMet = dateMet;
 
     const appointmentUpdated = await updateAppointment.save();
 
@@ -147,14 +185,6 @@ router.get('/current', requireAuth, async (req, res) => {
 router.post('/specAppointment', requireAuth, async (req, res) => {
   const { id } = req.user;
   const { doctorId, dateTime } = req.body;
-  console.log('backend A > ', doctorId, dateTime);
-  if (dateTime && typeof dateTime === 'string') {
-    const reformatDateTime = dateTime.slice(0, 13);
-    console.log('Formatted dateTime:', reformatDateTime);
-  } else {
-    console.log('Invalid dateTime:', dateTime);
-  }
-  
 
   try {
     const specAppointment = await Appointment.findOne({
@@ -163,32 +193,6 @@ router.post('/specAppointment', requireAuth, async (req, res) => {
         dateTime: dateTime
       },
     });
-
-    // const specAppointment = await Appointment.findOne({
-    //   where: { 
-    //     doctorId: doctorId,
-    //     [Op.and]: [
-    //       Sequelize.where(
-    //         fn('DATE_FORMAT', col('dateTime'), '%Y-%m-%dT%H'),
-    //         reformatDateTime
-    //       )
-    //     ],
-    //   },
-    //   logging: console.log,
-    // });
-
-    // for postgreSQL
-    // const specAppointment = await Appointment.findOne({
-    //   where: { 
-    //     doctorId: doctorId,
-    //     [Op.and]: Sequelize.where(
-    //       fn('TO_CHAR', col('dateTime'), 'YYYY-MM-DD"T"HH24'),
-    //       {
-    //         [Op.eq]: reformatDateTime,
-    //       }
-    //     )
-    //    },
-    // });
 
     if (!specAppointment) {
       return res.status(200).json({})
@@ -215,7 +219,7 @@ router.get('/:appointmentId', requireAuth, async (req, res) => {
       include: [
         {
           model: User,
-          attributes: ['id', 'firstName', 'lastName'],
+          attributes: ['id', 'firstName', 'lastName', 'dateOfBirth', 'gender'],
           as: 'patient'
         },
         {
@@ -315,10 +319,9 @@ router.post('/', requireAuth, async (req, res) => {
   const patientId = id;
   const todayDate = new Date();
   const parsedDateTime = new Date(dateTime);
-  console.log('appointment backend > ', req.body)
 
   if (!doctorId || !dateTime || isNaN(parsedDateTime) || parsedDateTime < todayDate ||
-      !complaint || complaint.length < 4 || complaint > 200) {
+      !complaint || complaint.length < 2 || complaint > 200) {
     return res.status(400).json({
       message: "Bad Input or Data",
       errors: {

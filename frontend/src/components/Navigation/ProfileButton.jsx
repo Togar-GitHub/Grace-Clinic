@@ -92,7 +92,7 @@ function ProfileButton({ user }) {
 
         {user && user.staff &&(
           <div className={pbt.adminButtonContainer}>
-            <NavLink to='/chartingPage' className={pbt.adminPage}>Charting Page</NavLink>
+            <NavLink to='/chartingPage' className={pbt.adminPage}>Chart List</NavLink>
           </div>
         )}
 

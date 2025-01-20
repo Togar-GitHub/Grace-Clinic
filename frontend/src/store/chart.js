@@ -4,6 +4,7 @@ import { csrfFetch } from "./csrf";
 const GET_PATIENT_CHARTS = 'chart/GET_PATIENT_CHARTS'
 const GET_CHART_BY_ID = 'chart/GET_CHART_BY_ID';
 const UPDATE_CHART = 'chart/UPDATE_CHART';
+const DELETE_CHART = 'chart/DELETE_CHART';
 const CREATE_CHART = 'chart/CREATE_CHART';
 const GET_ALL_CHART = 'chart/GET_ALL_CHART';
 const RESET_CHARTS = 'chart/RESET_CHARTS';
@@ -32,10 +33,17 @@ const updateChart = (chart) => {
   }
 }
 
-const createChart = (incomingChart) => {
+const deleteChart = (chart) => {
+  return {
+    type: DELETE_CHART,
+    chart
+  }
+}
+
+const createChart = (chart) => {
   return {
     type: CREATE_CHART,
-    incomingChart
+    chart
   }
 }
 
@@ -60,7 +68,7 @@ const clearNoChartMsg = () => {
 
 // THUNK
 export const getPatientChartsThunk = (patientData) => async (dispatch) => {
-  const res = await csrfFetch('api/chart/patientCharts', {
+  const res = await csrfFetch('/api/chart/patientCharts', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(patientData)
@@ -103,6 +111,22 @@ export const updateChartThunk = (chartId, incomingChart) => async (dispatch) => 
     return updatedChart;
   } else {
     dispatch(setNoChartMsg('No Chart updated or failed to update the Chart'))
+  }
+}
+
+export const deleteChartThunk = (chartId) => async (dispatch) => {
+  const res = await csrfFetch(`/api/chart/${chartId}`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' }
+  })
+
+  if (res.ok) {
+    const deletedChart = await res.json();
+    dispatch(deleteChart(deletedChart));
+    dispatch(clearNoChartMsg());
+    return deletedChart;
+  } else {
+    dispatch(setNoChartMsg('No Chart deleted or failed to delete the Chart'))
   }
 }
 
@@ -160,8 +184,11 @@ const chartReducer = (state = initialState, action) => {
     case UPDATE_CHART:
       return { ...state, chart: action.chart }
 
+    case DELETE_CHART:
+      return { ...state, chart: action.chart }
+
     case CREATE_CHART:
-      return { ...state, chart: action.createdChart }
+      return { ...state, chart: action.chart }
 
     case GET_ALL_CHART:
       return { ...state, allCharts: action.allChart }

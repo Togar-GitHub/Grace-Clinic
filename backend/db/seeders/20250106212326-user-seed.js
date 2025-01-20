@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === 'production') {
 
 const userSeeds = [
   {
-    id: 1,             // all the id only for development
+    // id: 1,             // all the id only for development
     firstName: 'John',
     lastName: 'Doe',
     dateOfBirth: new Date('1985-06-15'),
@@ -29,7 +29,7 @@ const userSeeds = [
     position: 'staff',
   },
   {
-    id: 2,
+    // id: 2,
     firstName: 'Jane',
     lastName: 'Smith',
     dateOfBirth: new Date('1990-02-20'),
@@ -48,7 +48,7 @@ const userSeeds = [
     position: 'doctor',
   },
   {
-    id: 3,
+    // id: 3,
     firstName: 'Alice',
     lastName: 'Johnson',
     dateOfBirth: new Date('1982-12-05'),
@@ -67,7 +67,7 @@ const userSeeds = [
     position: 'manager',
   },
   {
-    id: 4,
+    // id: 4,
     firstName: 'Bob',
     lastName: 'Brown',
     dateOfBirth: new Date('1978-09-30'),
@@ -86,7 +86,7 @@ const userSeeds = [
     position: 'staff',
   },
   {
-    id: 5,
+    // id: 5,
     firstName: 'Emma',
     lastName: 'Davis',
     dateOfBirth: new Date('1995-11-10'),
@@ -107,7 +107,7 @@ const userSeeds = [
 
   // Patients
   {
-    id: 6,
+    // id: 6,
     firstName: 'Michael',
     lastName: 'Taylor',
     dateOfBirth: new Date('2000-03-22'),
@@ -126,7 +126,7 @@ const userSeeds = [
     position: null,
   },
   {
-    id: 7,
+    // id: 7,
     firstName: 'Sophia',
     lastName: 'Martinez',
     dateOfBirth: new Date('2002-06-14'),
@@ -145,7 +145,7 @@ const userSeeds = [
     position: null,
   },
   {
-    id: 8,
+    // id: 8,
     firstName: 'David',
     lastName: 'Wilson',
     dateOfBirth: new Date('1999-05-11'),
@@ -164,7 +164,7 @@ const userSeeds = [
     position: null,
   },
   {
-    id: 9,
+    // id: 9,
     firstName: 'Olivia',
     lastName: 'Anderson',
     dateOfBirth: new Date('1997-08-18'),
@@ -183,7 +183,7 @@ const userSeeds = [
     position: null,
   },
   {
-    id: 10,
+    // id: 10,
     firstName: 'James',
     lastName: 'Garcia',
     dateOfBirth: new Date('1988-04-10'),

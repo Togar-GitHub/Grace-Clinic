@@ -49,6 +49,7 @@ const ChartingPage = () => {
   const toggleIframe = () => setShowIframe(!showIframe);
   
   const disabled = user.id !== doctorId;
+  const enabled = user.id === doctorId;
   const today = new Date().toISOString().split('T')[0];
 
   useEffect(() => {
@@ -56,7 +57,7 @@ const ChartingPage = () => {
     setErrors({});
     setLoading(false);
     dispatch(resetCharts());
-  }, [dispatch, chart]);
+  }, [dispatch]);
 
   useEffect(() => {
     if (!allCharts || allCharts.length <= 0) {
@@ -222,29 +223,29 @@ const ChartingPage = () => {
       }
       setUpdateRecord(false);
 
-      setChartId('');
-      setPatientId('');
-      setPatientFirstName('');
-      setPatientLastName('');
-      setPatientDateOfBirth('')
-      setPatientGender('');
-      setDoctorId('');
-      setDoctorFirstName('');
-      setDoctorLastName('');
-      setAppointmentId('');
-      setAppointmentDateTime('');
-      setComplaint('');
-      setMeetingDate('');
-      setDiagnosesICD10('');
-      setDiagnosesDesc('');
-      setCPTId('');
-      setTitle('');
-      setDoctorNote('');
-      setServices([]);
-      setPrescription('');
-      setInsurance('');
-      setCost('');
-      setNextAppointment('');
+      // setChartId('');
+      // setPatientId('');
+      // setPatientFirstName('');
+      // setPatientLastName('');
+      // setPatientDateOfBirth('')
+      // setPatientGender('');
+      // setDoctorId('');
+      // setDoctorFirstName('');
+      // setDoctorLastName('');
+      // setAppointmentId('');
+      // setAppointmentDateTime('');
+      // setComplaint('');
+      // setMeetingDate('');
+      // setDiagnosesICD10('');
+      // setDiagnosesDesc('');
+      // setCPTId('');
+      // setTitle('');
+      // setDoctorNote('');
+      // setServices([]);
+      // setPrescription('');
+      // setInsurance('');
+      // setCost('');
+      // setNextAppointment('');
 
       setLoading(false);
       window.scrollTo(0, 0);
@@ -314,185 +315,7 @@ const ChartingPage = () => {
   return (
     <div className={cpg.mainContainer}>
       <h1 className={cpg.mainTitle}>The Chart List and Update Page</h1>
-
-      {updateRecord ? (
-        <div className={cpg.updateContainer}>
-          <h2 className={cpg.updateTitle}>Review and Update the Chart</h2>
-
-          <form className={cpg.patientInfoInputContainer}>
-            <div className={cpg.topInfoInputContainer}>
-              <div className={cpg.chartLineInputOne}>
-                <p className={cpg.listInfo}>Name: {patientFirstName} {patientLastName}</p>
-                <p className={cpg.listInfo}>DOB: {patientDateOfBirth.slice(0, 10)} (Age: {getAge(patientDateOfBirth)})</p>
-                <p className={cpg.listInfo}>Gender: {patientGender}</p>
-                <p className={cpg.listInfo}>Doctor: {doctorFirstName} {doctorLastName}</p>
-              </div>
-              <div className={cpg.chartLineInputTwo}>
-                <p className={cpg.listInfo}>Appointment Date & Time: {appointmentDateTime.slice(0, 10)} & {appointmentDateTime.slice(11, 16)}</p>
-                <p className={cpg.listInfo}>Complaint: {complaint}</p>
-                <p className={cpg.listInfo}>Meeting Date: {meetingDate.slice(0, 10)}</p>
-                <p className={cpg.listInfo}>Total Cost: ${cost}</p>
-              </div>
-            </div>
-
-            <div className={cpg.inputChart}>
-              <div className={cpg.icd10Container}>
-                <label className={cpg.label}>Enter diagnoses ICD10 Code</label>
-                <input
-                  className={cpg.inputList}
-                  type="text"
-                  value={diagnosesICD10}
-                  onChange={(e) => setDiagnosesICD10(e.target.value)}
-                  placeholder='Enter diagnoses ICD10 Codes'
-                  required
-                  disabled={disabled}
-                />
-                {errors.diagnosesICD10 && <p className={cpg.errors}>{errors.diagnosesICD10}</p>} 
-
-                {/* Button to open ICD-10 data in a new window */}
-                <button
-                  type="button"
-                  className={cpg.openICDButton}
-                  onClick={toggleIframe}
-                  disabled={disabled}
-                >
-                  Open / Close ICD-10 Data
-                </button> 
-
-                {showIframe && (
-                  <div className={cpg.icdIframeContainer}>
-                    <iframe
-                      src="https://www.icd10data.com/ICD10CM/Codes"
-                      width='100%'
-                      height='400px'
-                      title='ICD-10 Data'
-                      frameBorder='0'
-                    />
-                  </div>
-                )}
-              </div>
-
-              <label className={cpg.label}>Enter diagnoses ICD10 Description</label>
-              <input
-                className={cpg.inputList}
-                type="text"
-                value={diagnosesDesc}
-                onChange={(e) => setDiagnosesDesc(e.target.value)}
-                placeholder='Enter diagnoses description (based on first ICD10)'
-                required
-                disabled={disabled}
-              />
-              {errors.diagnosesDesc && <p className={cpg.errors}>{errors.diagnosesDesc}</p>} 
-
-              <label className={cpg.label}>Enter the Title</label>
-              <input
-                className={cpg.inputList}
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder='Enter Title to the Doctor Note'
-                required
-                disabled={disabled}
-              />
-              {errors.title && <p className={cpg.errors}>{errors.title}</p>} 
-
-              <label className={cpg.label}>Enter Doctor Note</label>
-              <input
-                className={cpg.inputList}
-                type="text"
-                value={doctorNote}
-                onChange={(e) => setDoctorNote(e.target.value)}
-                placeholder='Enter the Doctor Note'
-                required
-                disabled={disabled}
-              />
-              {errors.doctorNote && <p className={cpg.errors}>{errors.doctorNote}</p>}
-
-              <label className={cpg.label}>Enter Prescription</label>
-              <input
-                className={cpg.inputList}
-                type="text"
-                value={prescription}
-                onChange={(e) => setPrescription(e.target.value)}
-                placeholder='Enter the Prescription'
-                disabled={disabled}
-              />
-              {errors.prescription && <p className={cpg.errors}>{errors.prescription}</p>}
-
-              <div className={cpg.cptOptions}>
-                <p>Current CPT, please update if needed</p>
-                <div className={cpg.selectContainer}>
-                  <select
-                    // multiple
-                    value={CPTId}  // This stores the selected CPT IDs
-                    onChange={(e) => setCPTId(Array.from(e.target.selectedOptions, option => option.value))}
-                    className={cpg.scrollableSelect}
-                    disabled={disabled}
-                  >
-                    {allCpt?.map((el) => (
-                      <option key={el.id} value={el.id}>
-                        {el.CPTCode}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              <div className={cpg.servicesOptions}>
-                <p>Current Services: Please Update if needed</p>
-                <div className={cpg.checkboxList}>
-                  {allServices?.map((service) => (
-                    <label key={service.id}>
-                      <input
-                        type="checkbox"
-                        id={`service-${service.id}`}
-                        name="service"
-                        value={service.id}
-                        checked={services.includes(service.id)}
-                        onChange={handleServiceChange}
-                        disabled={disabled}
-                      />
-                      <span></span>
-                      {service.service}
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              <label className={cpg.label}>Enter Insurance</label>
-              <input
-                className={cpg.inputList}
-                type="text"
-                value={insurance}
-                onChange={(e) => setInsurance(e.target.value)}
-                placeholder='Enter Insurance'
-              />
-              {errors.insurance && <p className={cpg.errors}>{errors.insurance}</p>} 
-
-              <label className={cpg.label}>Enter Next Appointment</label>
-              <input
-                className={cpg.inputList}
-                type="date"
-                value={nextAppointment?.slice(0 ,10)}
-                onChange={(e) => setNextAppointment(e.target.value)}
-                placeholder='Enter next Appointment Date'
-                min={today}
-              />
-              {errors.nextAppointment && <p className={cpg.errors}>{errors.nextAppointment}</p>} 
-            </div>
-
-            <div className={cpg.updateButtonContainer}>
-              <button 
-                className={cpg.updateButton}
-                onClick={() => handleUpdate(chartId)}
-                >
-                  Confirm Update
-              </button>
-            </div>
-
-          </form>
-        </div>
-      ) : (
+        
         <>
           <div className={cpg.patientInfoContainer}>
             <h2 className={cpg.patientInfoTitle}>Enter Patient Info to get Charts</h2>
@@ -541,6 +364,186 @@ const ChartingPage = () => {
               <h2 className={cpg.noChartMsg}>{noChart}</h2>
             )}
           </div>
+
+
+          {updateRecord && (
+            <div className={cpg.updateContainer}>
+              <h2 className={cpg.updateTitle}>Review and Update the Chart</h2>
+
+              <form className={cpg.patientInfoInputContainer}>
+                <div className={cpg.topInfoInputContainer}>
+                  <div className={cpg.chartLineInputOne}>
+                    <p className={cpg.listInfo}>Name: {patientFirstName} {patientLastName}</p>
+                    <p className={cpg.listInfo}>DOB: {patientDateOfBirth.slice(0, 10)} (Age: {getAge(patientDateOfBirth)})</p>
+                    <p className={cpg.listInfo}>Gender: {patientGender}</p>
+                    <p className={cpg.listInfo}>Doctor: {doctorFirstName} {doctorLastName}</p>
+                  </div>
+                  <div className={cpg.chartLineInputTwo}>
+                    <p className={cpg.listInfo}>Appointment Date & Time: {appointmentDateTime.slice(0, 10)} & {appointmentDateTime.slice(11, 16)}</p>
+                    <p className={cpg.listInfo}>Complaint: {complaint}</p>
+                    <p className={cpg.listInfo}>Meeting Date: {meetingDate.slice(0, 10)}</p>
+                    <p className={cpg.listInfo}>Total Cost: ${cost}</p>
+                  </div>
+                </div>
+
+                <div className={cpg.inputChart}>
+                  <div className={cpg.icd10Container}>
+                    <label className={cpg.label}>Enter diagnoses ICD10 Code</label>
+                    <input
+                      className={cpg.inputList}
+                      type="text"
+                      value={diagnosesICD10}
+                      onChange={(e) => setDiagnosesICD10(e.target.value)}
+                      placeholder='Enter diagnoses ICD10 Codes'
+                      required
+                      disabled={disabled}
+                    />
+                    {errors.diagnosesICD10 && <p className={cpg.errors}>{errors.diagnosesICD10}</p>} 
+
+                    {/* Button to open ICD-10 data in a new window */}
+                    <button
+                      type="button"
+                      className={cpg.openICDButton}
+                      onClick={toggleIframe}
+                      disabled={disabled}
+                    >
+                      Open / Close ICD-10 Data
+                    </button> 
+
+                    {showIframe && (
+                      <div className={cpg.icdIframeContainer}>
+                        <iframe
+                          src="https://www.icd10data.com/ICD10CM/Codes"
+                          width='100%'
+                          height='400px'
+                          title='ICD-10 Data'
+                          frameBorder='0'
+                        />
+                      </div>
+                    )}
+                  </div>
+
+                  <label className={cpg.label}>Enter diagnoses ICD10 Description</label>
+                  <input
+                    className={cpg.inputList}
+                    type="text"
+                    value={diagnosesDesc}
+                    onChange={(e) => setDiagnosesDesc(e.target.value)}
+                    placeholder='Enter diagnoses description (based on first ICD10)'
+                    required
+                    disabled={disabled}
+                  />
+                  {errors.diagnosesDesc && <p className={cpg.errors}>{errors.diagnosesDesc}</p>} 
+
+                  <label className={cpg.label}>Enter the Title</label>
+                  <input
+                    className={cpg.inputList}
+                    type="text"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    placeholder='Enter Title to the Doctor Note'
+                    required
+                    disabled={disabled}
+                  />
+                  {errors.title && <p className={cpg.errors}>{errors.title}</p>} 
+
+                  <label className={cpg.label}>Enter Doctor Note</label>
+                  <input
+                    className={cpg.inputList}
+                    type="text"
+                    value={doctorNote}
+                    onChange={(e) => setDoctorNote(e.target.value)}
+                    placeholder='Enter the Doctor Note'
+                    required
+                    disabled={disabled}
+                  />
+                  {errors.doctorNote && <p className={cpg.errors}>{errors.doctorNote}</p>}
+
+                  <label className={cpg.label}>Enter Prescription</label>
+                  <input
+                    className={cpg.inputList}
+                    type="text"
+                    value={prescription}
+                    onChange={(e) => setPrescription(e.target.value)}
+                    placeholder='Enter the Prescription'
+                    disabled={disabled}
+                  />
+                  {errors.prescription && <p className={cpg.errors}>{errors.prescription}</p>}
+
+                  <div className={cpg.cptOptions}>
+                    <p>Current CPT, please update if needed</p>
+                    <div className={cpg.selectContainer}>
+                      <select
+                        // multiple
+                        value={CPTId}  // This stores the selected CPT IDs
+                        onChange={(e) => setCPTId(Array.from(e.target.selectedOptions, option => option.value))}
+                        className={cpg.scrollableSelect}
+                        disabled={disabled}
+                      >
+                        {allCpt?.map((el) => (
+                          <option key={el.id} value={el.id}>
+                            {el.CPTCode}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className={cpg.servicesOptions}>
+                    <p>Current Services: Please Update if needed</p>
+                    <div className={cpg.checkboxList}>
+                      {allServices?.map((service) => (
+                        <label key={service.id}>
+                          <input
+                            type="checkbox"
+                            id={`service-${service.id}`}
+                            name="service"
+                            value={service.id}
+                            checked={services.includes(service.id)}
+                            onChange={handleServiceChange}
+                            disabled={disabled}
+                          />
+                          <span></span>
+                          {service.service}
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  <label className={cpg.label}>Enter Insurance</label>
+                  <input
+                    className={cpg.inputList}
+                    type="text"
+                    value={insurance}
+                    onChange={(e) => setInsurance(e.target.value)}
+                    placeholder='Enter Insurance'
+                  />
+                  {errors.insurance && <p className={cpg.errors}>{errors.insurance}</p>} 
+
+                  <label className={cpg.label}>Enter Next Appointment</label>
+                  <input
+                    className={cpg.inputList}
+                    type="date"
+                    value={nextAppointment?.slice(0 ,10)}
+                    onChange={(e) => setNextAppointment(e.target.value)}
+                    placeholder='Enter next Appointment Date'
+                    min={today}
+                  />
+                  {errors.nextAppointment && <p className={cpg.errors}>{errors.nextAppointment}</p>} 
+                </div>
+
+                <div className={cpg.updateButtonContainer}>
+                  <button 
+                    className={cpg.updateButton}
+                    onClick={() => handleUpdate(chartId)}
+                    >
+                      Confirm Update
+                  </button>
+                </div>
+
+              </form>
+            </div>
+          )}
 
           <div className={cpg.ListContainer}>
             {allCharts && allCharts.length > 0 && (
@@ -617,7 +620,7 @@ const ChartingPage = () => {
           )}
 
         </>
-      )}
+
     </div>
   )
 }
