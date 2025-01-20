@@ -245,7 +245,7 @@ router.put('/:chartId', requireAuth, async (req, res) => {
       updateChart.CPTId = CPTId;
       updateChart.title = title;
       updateChart.doctorNote = doctorNote;
-      updateChart.services = services;
+      updateChart.services = Array.isArray(services) ? services: [];
       updateChart.prescription = prescription;
       updateChart.insurance = insurance;
       updateChart.cost = sum;
@@ -391,7 +391,7 @@ router.post('/', requireAuth, async (req, res) => {
       CPTId,
       title,
       doctorNote,
-      services,
+      services: Array.isArray(services) ? services: [],
       prescription,
       insurance,
       cost: sum,
