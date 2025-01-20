@@ -35,10 +35,10 @@ const CreateChart = () => {
   const [title, setTitle] = useState('');
   const [doctorNote, setDoctorNote] = useState('');
   const [services, setServices] = useState([]);
-  const [prescription, setPrescription] = useState('');
-  const [insurance, setInsurance] = useState('');
+  const [prescription, setPrescription] = useState(null);
+  const [insurance, setInsurance] = useState(null);
   const [cost, setCost] = useState('');
-  const [nextAppointment, setNextAppointment] = useState('');
+  const [nextAppointment, setNextAppointment] = useState(null);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState({});
   // const [updateRecord, setUpdateRecord] = useState(false);
