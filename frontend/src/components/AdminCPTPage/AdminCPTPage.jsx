@@ -25,6 +25,8 @@ const AdminCPTPage = () => {
         setLoading(true);
         setNoCpt('');
         await dispatch(getAllCptThunk());
+      } catch (error) {
+        console.error('Error fetching CPT Records', error)
       } finally {
         setLoading(false);
       }
@@ -35,6 +37,8 @@ const AdminCPTPage = () => {
   useEffect(() => {
     if (!allCpt || allCpt.length <= 0) {
       setNoCpt('There is no Cpt Code Record')
+    } else {
+      setNoCpt('')
     }
   }, [allCpt]);
 

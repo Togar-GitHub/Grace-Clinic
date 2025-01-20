@@ -21,7 +21,9 @@ const AdminStaffPage = () => {
       try {
         setLoading(true);
         setNoUser('');
-        await dispatch(getAllStaffThunk())
+        await dispatch(getAllStaffThunk());
+      } catch (error) {
+        console.error("Error fetching Staff", error)
       } finally {
         setLoading(false);
       }
@@ -32,6 +34,8 @@ const AdminStaffPage = () => {
   useEffect(() => {
     if (!allUsers || allUsers.length <= 0) {
       setNoUser('There is no Staff Record')
+    } else {
+      setNoUser('')
     }
   }, [allUsers]);
 

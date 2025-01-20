@@ -25,7 +25,9 @@ const AdminPatientPage = () => {
       try {
         setLoading(true);
         setNoUser('');
-        await dispatch(getAllPatientsThunk())
+        await dispatch(getAllPatientsThunk());
+      } catch (error) {
+        console.error("Error fetching patients:", error)
       } finally {
         setLoading(false);
       }
@@ -35,7 +37,9 @@ const AdminPatientPage = () => {
 
   useEffect(() => {
     if (!allUsers || allUsers.length <= 0) {
-      setNoUser('There is no Staff Record')
+      setNoUser('There is no Patient Record')
+    } else {
+      setNoUser('');
     }
   }, [allUsers]);
 

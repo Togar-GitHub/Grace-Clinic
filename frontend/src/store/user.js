@@ -165,7 +165,7 @@ const initialState = {
 const userReducer = (state = initialState, action) => {
   switch(action.type) {
     case GET_USER_BY_ID:
-      return { ...state, user: action.userById }
+      return { ...state, user: action.user }
 
     case GET_DOCTORS:
       return { ...state, doctors: action.doctors }

@@ -27,6 +27,8 @@ const ReviewPage = () => {
         setLoading(true);
         setNoReview('');
         await dispatch(getCurrentReviewsThunk());
+      } catch (error) {
+        console.error("Error fetching Review")
       } finally {
         setLoading(false);
       }
@@ -37,6 +39,8 @@ const ReviewPage = () => {
   useEffect(() => {
     if (!reviews || reviews.length <= 0) {
       setNoReview('There is no Review Record')
+    } else {
+      setNoReview('')
     }
   }, [reviews]);
 

@@ -39,11 +39,10 @@ const updateAppointmentAdmin = (appointmentId, incomingAppointment) => {
   }
 }
 
-const updateAppointmentChart = (appointmentId, incomingAppointment) => {
+const updateAppointmentChart = (appointment) => {
   return {
     type: UPDATE_APPOINTMENT_CHART,
-    appointmentId,
-    incomingAppointment
+    appointment  
   }
 }
 
@@ -309,7 +308,7 @@ const appointmentReducer = (state = initialState, action) => {
       return { ...state, appointment: action.updatedAppointmentAdmin } 
 
     case UPDATE_APPOINTMENT_CHART:
-      return { ...state, appointment: action.updatedAppointmentChart }
+      return { ...state, appointment: action.appointment }
 
     case GET_APPOINTMENT_CURRENT:
       return { ...state, allAppointments: action.gotAppointmentCurrent }

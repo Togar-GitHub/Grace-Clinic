@@ -4,6 +4,7 @@ import { createChartThunk } from '../../store/chart';
 import { getPatientAppointmentsThunk, resetAppointments, getAppointmentByIdThunk, updateAppointmentChartThunk } from '../../store/appointment';
 import { getAllCptThunk } from '../../store/cpt';
 import { getAllServicesThunk } from '../../store/service';
+import { getUserByIdThunk } from '../../store/user';
 import crc from './CreateChart.module.css';
 
 const CreateChart = () => {
@@ -212,11 +213,17 @@ const CreateChart = () => {
         nextAppointment
       }))
             
-      await dispatch(updateAppointmentChartThunk(newChart.Chart.appointmentId, {
+      await dispatch(updateAppointmentChartThunk(newChart.appointmentId, {
         dateMet: meetingDate
       }))
 
-      // await dispatch(getChartByIdThunk(newChart.Chart.id));
+      const getUser = await dispatch(getUserByIdThunk(newChart.patientId));
+
+      await dispatch(getPatientAppointmentsThunk({
+        firstName: getUser.user.firstName,
+        lastName: getUser.user.lastName,
+        dateOfBirth: getUser.user.dateOfBirth
+      }))
 
       setLoading(false);
       setCreateRecord(false);
@@ -264,16 +271,16 @@ const CreateChart = () => {
         <div className={crc.updateContainer}>
           <h2 className={crc.updateTitle}>Create Chart</h2>
 
-          <form className={crc.patientInfoInputContainer}>
+          <div className={crc.patientInfoInputContainer}>
             <div className={crc.topInfoInputContainer}>
               <div className={crc.chartLineInputOne}>
                 <p className={crc.listInfo}>Name: {patientFirstName} {patientLastName}</p>
-                <p className={crc.listInfo}>DOB: {patientDateOfBirth.slice(0, 10)} (Age: {getAge(patientDateOfBirth)})</p>
+                <p className={crc.listInfo}>DOB: {patientDateOfBirth?.slice(0, 10)} (Age: {getAge(patientDateOfBirth)})</p>
                 <p className={crc.listInfo}>Gender: {patientGender}</p>
                 <p className={crc.listInfo}>Doctor: {doctorFirstName} {doctorLastName}</p>
               </div>
               <div className={crc.chartLineInputTwo}>
-                <p className={crc.listInfo}>Appointment Date & Time: {appointmentDateTime.slice(0, 10)} & {appointmentDateTime.slice(11, 16)}</p>
+                <p className={crc.listInfo}>Appointment Date & Time: {appointmentDateTime?.slice(0, 10)} & {appointmentDateTime?.slice(11, 16)}</p>
                 <p className={crc.listInfo}>Complaint: {complaint}</p>
                 <p></p>
                 <p className={crc.listInfo}>Total Cost: ${cost}</p>
@@ -286,7 +293,7 @@ const CreateChart = () => {
               <input
                 className={crc.inputList}
                 type="date"
-                value={meetingDate.slice(0 ,10)}
+                value={meetingDate?.slice(0 ,10)}
                 onChange={(e) => setMeetingDate(e.target.value)}
                 placeholder='Enter Meeting Date'
                 required
@@ -424,7 +431,7 @@ const CreateChart = () => {
               <input
                 className={crc.inputList}
                 type="date"
-                value={nextAppointment.slice(0 ,10)}
+                value={nextAppointment?.slice(0 ,10)}
                 onChange={(e) => setNextAppointment(e.target.value || null)}
                 placeholder='Enter next Appointment Date'
                 min={today}
@@ -462,7 +469,7 @@ const CreateChart = () => {
               </div>
             </>
             )} */}
-          </form>
+          </div>
         </div>
       ) : (
         <>
@@ -523,12 +530,12 @@ const CreateChart = () => {
                 <div key={el.id} className={crc.eachChart}>
                   <div className={crc.chartLineOne}>
                     <p className={crc.listInfo}>Name: {el.patient.firstName} {el.patient.lastName}</p>
-                    <p className={crc.listInfo}>DOB: {el.patient.dateOfBirth.slice(0, 10)} (Age: {getAge(el.patient.dateOfBirth)})</p>
+                    <p className={crc.listInfo}>DOB: {el.patient?.dateOfBirth?.slice(0, 10)} (Age: {getAge(el.patient.dateOfBirth)})</p>
                     <p className={crc.listInfo}>Gender: {el.patient.gender}</p>
                   </div>
                   <div className={crc.chartLineTwo}>
                     <p className={crc.listInfo}>Doctor: {el.doctor.firstName} {el.doctor.lastName}</p>
-                    <p className={crc.listInfo}>Appointment Date & Time: {el.dateTime.slice(0, 10)} & {el.dateTime.slice(11, 16)}</p>
+                    <p className={crc.listInfo}>Appointment Date & Time: {el.dateTime?.slice(0, 10)} & {el.dateTime?.slice(11, 16)}</p>
                     <p className={crc.listInfo}>Complaint: {el.complaint}</p>
                   </div>
                    <div className={crc.chartLineThree}>

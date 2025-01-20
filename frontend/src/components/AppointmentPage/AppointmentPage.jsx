@@ -42,6 +42,8 @@ const AppointmentPage = () => {
         setNoAppointment('');
         await dispatch(getDoctorsThunk())
         await dispatch(getAppointmentCurrentThunk());
+      } catch (error) {
+        console.error('Error fetching Appointment')
       } finally {
         setLoading(false);
       }
@@ -52,6 +54,8 @@ const AppointmentPage = () => {
   useEffect(() => {
     if (!appointmentList || appointmentList.length <= 0) {
       setNoAppointment('There is no Appointment Record');
+    } else {
+      setNoAppointment('')
     }
   }, [appointmentList]);
 

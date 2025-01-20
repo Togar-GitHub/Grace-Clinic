@@ -24,6 +24,8 @@ const AdminServicePage = () => {
         setLoading(true);
         setNoService('');
         await dispatch(getAllServicesThunk());
+      } catch (error) {
+        console.error('Error fetching Service Record')
       } finally {
         setLoading(false);
       }
@@ -34,6 +36,8 @@ const AdminServicePage = () => {
   useEffect(() => {
     if (!allServices || allServices.length <= 0) {
       setNoService('There is no Service Record')
+    } else {
+      setNoService('')
     }
   }, [allServices]);
 

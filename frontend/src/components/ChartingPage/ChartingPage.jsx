@@ -319,7 +319,7 @@ const ChartingPage = () => {
         <div className={cpg.updateContainer}>
           <h2 className={cpg.updateTitle}>Review and Update the Chart</h2>
 
-          <form className={cpg.patientInfoInputContainer}>
+          <div className={cpg.patientInfoInputContainer}>
             <div className={cpg.topInfoInputContainer}>
               <div className={cpg.chartLineInputOne}>
                 <p className={cpg.listInfo}>Name: {patientFirstName} {patientLastName}</p>
@@ -490,7 +490,7 @@ const ChartingPage = () => {
               </button>
             </div>
 
-          </form>
+          </div>
         </div>
       ) : (
         <>

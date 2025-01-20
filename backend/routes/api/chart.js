@@ -272,6 +272,35 @@ router.put('/:chartId', requireAuth, async (req, res) => {
       //   })
       // }
 
+      let sum = 0;
+
+      const CPTData = await CPT.findOne({
+        where: { id: updateChart.CPTId }
+      })
+      if (!CPTData || CPTData.length <= 0) {
+        return res.status(400).json({ message: "The CPT Code is invalid" })
+      }
+      sum += parseFloat(CPTData.price);
+
+      if (updateChart.services && updateChart.services.length > 0 && Array.isArray(updateChart.services)) {
+        const serviceIds = updateChart.services;
+        let serviceArr = [];
+
+        if (serviceIds && Array.isArray(serviceIds) && serviceIds.length > 0) {
+          serviceArr = await Service.findAll({
+            where: { id: serviceIds }
+          })
+        }
+
+        if (!serviceArr || serviceArr.length <= 0) {
+          return res.status(400).json({ message: "The Services are invalid" })
+        }
+
+        const serviceSum = serviceArr.reduce((sum, el) => sum + parseFloat(el.price), 0);
+        sum += serviceSum;
+      }
+
+      updateChart.cost = parseFloat(sum.toFixed(2));
       updateChart.insurance = insurance;
       updateChart.nextAppointment = nextAppointment;
 
@@ -361,11 +390,11 @@ router.post('/', requireAuth, async (req, res) => {
       return res.status(400).json({ message: "The CPT Code is invalid" })
     }
     sum += parseFloat(CPTData.price);
-    console.log('after CPT')
+
     if (services && services.length > 0 && Array.isArray(services)) {
       const serviceIds = services;
       let serviceArr = [];
-      console.log('before Service.findAll()')
+
       if (serviceIds && Array.isArray(serviceIds) && serviceIds.length > 0) {
         serviceArr = await Service.findAll({
           where: { id: serviceIds }
@@ -375,14 +404,12 @@ router.post('/', requireAuth, async (req, res) => {
       if (!serviceArr || serviceArr.length <= 0) {
         return res.status(400).json({ message: "The Services are invalid" })
       }
-      console.log('after Service > ')
+
       const serviceSum = serviceArr.reduce((sum, el) => sum + parseFloat(el.price), 0);
       sum += serviceSum;
-      console.log('after summing up > ', sum, serviceSum)
     }
 
     const nextAppointmentValue = (nextAppointment && nextAppointment.trim()) ? new Date(nextAppointment) : null;
-    console.log('before create > ', insurance, services, nextAppointment, services, nextAppointmentValue)
 
     const newChart = await Chart.create({
       patientId,
@@ -401,13 +428,10 @@ router.post('/', requireAuth, async (req, res) => {
       cost: parseFloat(sum.toFixed(2)),
       nextAppointment: nextAppointmentValue
     })
-    console.log('after create > ', newChart)
-    console.log('to update Appointment > ', newChart.appointmentId)
+
     const updateAppointment = await Appointment.findByPk(newChart.appointmentId);
     updateAppointment.dateMet = newChart.meetingDate;
-    console.log('dateMet', updateAppointment.dateMet)
     await updateAppointment.save();
-    console.log('after update Appointment')
 
     return res.status(201).json(newChart);
   } catch (error) {
