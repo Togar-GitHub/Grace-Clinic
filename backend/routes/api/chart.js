@@ -221,7 +221,7 @@ router.put('/:chartId', requireAuth, async (req, res) => {
         return res.status(400).json({ message: "The CPT Code is invalid" })
       }
       sum = sum + CPTData.price;
-
+      console.log('after CPT > ', CPTData);
       if (services && services.length > 0 && Array.isArray(services)) {
         const serviceIds = services;
         let serviceArr = [];
@@ -239,7 +239,7 @@ router.put('/:chartId', requireAuth, async (req, res) => {
         const serviceSum = serviceArr.reduce((sum, el) => sum + el.price, 0);
         sum = sum + serviceSum;
       }
-
+      console.log('prepare to update > ', updateChart);
       updateChart.diagnosesICD10 = diagnosesICD10;
       updateChart.diagnosesDesc = diagnosesDesc;
       updateChart.CPTId = CPTId;
@@ -250,7 +250,8 @@ router.put('/:chartId', requireAuth, async (req, res) => {
       updateChart.insurance = insurance;
       updateChart.cost = sum;
       updateChart.nextAppointment = nextAppointment;
-
+      console.log('ready to update chart services > ', updateChart.services)
+      console.log('ready to update all fields > ', updateChart)
       const chartUpdated = await updateChart.save();
 
       return res.status(201).json(chartUpdated);
