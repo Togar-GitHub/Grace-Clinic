@@ -250,7 +250,7 @@ router.put('/:appointmentId', requireAuth, async (req, res) => {
   const parsedDateTime = new Date(dateTime);
 
   if (!doctorId || !dateTime || isNaN(parsedDateTime) || parsedDateTime < todayDate ||
-      !complaint || complaint.length < 4 || complaint > 200) {
+      !complaint || complaint.length < 2 || complaint > 200) {
     return res.status(400).json({
       message: "Bad Input or Data",
       errors: {
