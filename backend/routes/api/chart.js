@@ -379,7 +379,23 @@ router.post('/', requireAuth, async (req, res) => {
       const serviceSum = serviceArr.reduce((sum, el) => sum + parseFloat(el.price), 0);
       sum += serviceSum;
     }
-
+    console.log('before create > ',
+      patientId,
+      doctorId,
+      appointmentId,
+      complaint,
+      meetingDate,
+      diagnosesICD10,
+      diagnosesDesc,
+      CPTId,
+      title,
+      doctorNote,
+      services,
+      prescription,
+      insurance,
+      cost,
+      nextAppointment
+    )
     const newChart = await Chart.create({
       patientId,
       doctorId,
@@ -397,10 +413,13 @@ router.post('/', requireAuth, async (req, res) => {
       cost: sum,
       nextAppointment
     })
-
+    console.log('after create > ', newChart)
+    console.log('to update Appointment > ', newChart.appointmentId)
     const updateAppointment = await Appointment.findByPk(newChart.appointmentId);
     updateAppointment.dateMet = newChart.meetingDate;
+    console.log('dateMet', updateAppointment.dateMet)
     await updateAppointment.save();
+    console.log('after update Appointment')
 
     return res.status(201).json(newChart);
   } catch (error) {
