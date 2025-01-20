@@ -361,7 +361,7 @@ router.post('/', requireAuth, async (req, res) => {
       return res.status(400).json({ message: "The CPT Code is invalid" })
     }
     sum += parseFloat(CPTData.price);
-
+    console.log('after CPT')
     if (services && services.length > 0 && Array.isArray(services)) {
       const serviceIds = services;
       let serviceArr = [];
