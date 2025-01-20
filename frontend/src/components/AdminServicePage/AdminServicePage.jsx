@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { getChartByServiceThunk } from '../../store/chart';
 import { getAllServicesThunk, getServiceByIdThunk, updateServiceThunk, deleteServiceThunk, createServiceThunk } from '../../store/service';
 import AdminServiceDeleteModal from '../AdminServiceDeleteModal/AdminServiceDeleteModal';
 import asp from './AdminServicePage.module.css';
@@ -133,7 +134,19 @@ const AdminServicePage = () => {
     }
   }
 
-  const handleDeleteClick = (serviceId) => {
+  const handleDeleteClick = async (serviceId) => {
+
+    setErrors({});
+    const getChart = await dispatch(getChartByServiceThunk(serviceId));
+    if (getChart && Object.keys(getChart).length > 0) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [serviceId]: 'Service cannot be deleted, it is used in Charts'
+      }));
+      return;
+    }
+    
+    setErrors({});
     setServiceToDelete(serviceId);
     setShowModal(true);
   };
@@ -246,6 +259,9 @@ const AdminServicePage = () => {
                     >
                       Delete
                   </button>
+                  {errors[el.id] && (
+                    <p className={asp.errors}>{errors[el.id]}</p>
+                  )}
                 </div>
               </div>
             </div>  

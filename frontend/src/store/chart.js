@@ -3,6 +3,8 @@ import { csrfFetch } from "./csrf";
 // ACTION TYPES
 const GET_PATIENT_CHARTS = 'chart/GET_PATIENT_CHARTS'
 const GET_CHART_BY_ID = 'chart/GET_CHART_BY_ID';
+const GET_CHART_BY_CPT = 'chart/GET_CHART_BY_CPT';
+const GET_CHART_BY_SERVICE = 'chart/GET_CHART_BY_SERVICE';
 const UPDATE_CHART = 'chart/UPDATE_CHART';
 const DELETE_CHART = 'chart/DELETE_CHART';
 const CREATE_CHART = 'chart/CREATE_CHART';
@@ -22,6 +24,20 @@ const getPatientCharts = (allCharts) => {
 const getChartById = (chart) => {
   return {
     type: GET_CHART_BY_ID,
+    chart
+  }
+}
+
+const getChartByCpt = (chart) => {
+  return {
+    type: GET_CHART_BY_CPT,
+    chart
+  }
+}
+
+const getChartByService = (chart) => {
+  return {
+    type: GET_CHART_BY_SERVICE,
     chart
   }
 }
@@ -92,6 +108,32 @@ export const getChartByIdThunk = (chartId) => async (dispatch) => {
     dispatch(getChartById(chartById));
     dispatch(clearNoChartMsg());
     return chartById;
+  } else {
+    dispatch(setNoChartMsg('No Chart found or failed to get a Chart'))
+  }
+}
+
+export const getChartByCptThunk = (cptId) => async (dispatch) => {
+  const res = await csrfFetch(`/api/chart/cpt/${cptId}`);
+
+  if (res.ok) {
+    const chartByCpt = await res.json();
+    dispatch(getChartByCpt(chartByCpt));
+    dispatch(clearNoChartMsg());
+    return chartByCpt;
+  } else {
+    dispatch(setNoChartMsg('No Chart found or failed to get a Chart'))
+  }
+}
+
+export const getChartByServiceThunk = (serviceId) => async (dispatch) => {
+  const res = await csrfFetch(`/api/chart/service/${serviceId}`);
+
+  if (res.ok) {
+    const chartByService = await res.json();
+    dispatch(getChartByService(chartByService));
+    dispatch(clearNoChartMsg());
+    return chartByService;
   } else {
     dispatch(setNoChartMsg('No Chart found or failed to get a Chart'))
   }
@@ -179,6 +221,12 @@ const chartReducer = (state = initialState, action) => {
       return { ...state, allCharts: action.allCharts }
 
     case GET_CHART_BY_ID: 
+      return { ...state, chart: action.chart }
+
+    case GET_CHART_BY_CPT:
+      return { ...state, chart: action.chart }
+
+    case GET_CHART_BY_SERVICE:
       return { ...state, chart: action.chart }
 
     case UPDATE_CHART:

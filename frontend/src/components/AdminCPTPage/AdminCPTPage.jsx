@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllCptThunk, getCptByIdThunk, updateCptThunk, deleteCptThunk, createCptThunk } from '../../store/cpt';
+import { getChartByCptThunk } from '../../store/chart';
 import AdminCPTDeleteModal from '../AdminCPTDeleteModal/AdminCPTDeleteModal';
 import acp from './AdminCPTPage.module.css';
 
@@ -144,7 +145,19 @@ const AdminCPTPage = () => {
     }
   }
 
-  const handleDeleteClick = (cptId) => {
+  const handleDeleteClick = async (cptId) => {
+
+    setErrors({});
+    const getChart = await dispatch(getChartByCptThunk(cptId));
+    if (getChart && Object.keys(getChart).length > 0) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [cptId]: 'CPT Code cannot be deleted, it is used in Charts'
+      }));
+      return;
+    }
+
+    setErrors({});
     setCptToDelete(cptId);
     setShowModal(true);
   };
@@ -268,6 +281,9 @@ const AdminCPTPage = () => {
                     >
                       Delete
                   </button>
+                  {errors[el.id] && (
+                    <p className={acp.errors}>{errors[el.id]}</p>
+                  )}
                 </div>
               </div>
             </div>  

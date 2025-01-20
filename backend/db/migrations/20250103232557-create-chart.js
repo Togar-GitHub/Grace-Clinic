@@ -73,7 +73,7 @@ module.exports = {
         allowNull: false
       },
       services: {
-        // type: Sequelize.JSON,    // this is for Sequelite - development
+        // type: Sequelize.JSONB,    // this is for Sequelite - development
         type: Sequelize.ARRAY(Sequelize.INTEGER)    // this is for postgreSQL - production
       },
       prescription: {

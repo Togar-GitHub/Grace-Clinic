@@ -1,9 +1,50 @@
 const express = require('express');
+const { Op } = require('sequelize');
+const Sequelize = require('sequelize');
 
 const router = express.Router();
 
 const { Chart, User, Appointment, CPT, Service } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
+
+router.get('/cpt/:cptId', requireAuth, async (req, res) => {
+  const { cptId } = req.params;
+
+  try {
+    const oneChart = await Chart.findOne({
+      where: { CPTId: cptId }
+    })
+
+    if (!oneChart) {
+      return res.status(200).json({})
+    } else {
+      return res.status(200).json({ oneChart })
+    }
+  } catch (error) {
+    return res.status(500).json({ message: "An error occurred while getting the Charts", error })
+  }
+})
+
+router.get('/service/:serviceId', requireAuth, async (req, res) => {
+  const { serviceId } = req.params;
+
+  try {
+    const parsedServiceId = parseInt(serviceId, 10);
+
+    const oneChart = await Chart.findOne({
+      where: { services: {
+        [Op.contains]: [parsedServiceId]
+    }}});
+
+    if (!oneChart) {
+      return res.status(200).json({})
+    } else {
+      return res.status(200).json({ oneChart })
+    }
+  } catch (error) {
+    return res.status(500).json({ message: "An error occurred while getting the Charts", error })
+  }
+})
 
 // get charts (using POST) by firstName, lastName and DOB
 router.post('/patientCharts', requireAuth, async (req, res) => {
