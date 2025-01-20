@@ -220,7 +220,7 @@ router.put('/:chartId', requireAuth, async (req, res) => {
       if (!CPTData || CPTData.length <= 0) {
         return res.status(400).json({ message: "The CPT Code is invalid" })
       }
-      sum = sum + CPTData.price;
+      sum += CPTData.price;
       console.log('after CPT > ', CPTData);
       if (services && services.length > 0 && Array.isArray(services)) {
         const serviceIds = services;
@@ -237,7 +237,7 @@ router.put('/:chartId', requireAuth, async (req, res) => {
         }
 
         const serviceSum = serviceArr.reduce((sum, el) => sum + el.price, 0);
-        sum = sum + serviceSum;
+        sum += serviceSum;
       }
       console.log('prepare to update > ', updateChart);
       updateChart.diagnosesICD10 = diagnosesICD10;
