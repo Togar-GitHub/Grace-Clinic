@@ -248,7 +248,7 @@ router.put('/:chartId', requireAuth, async (req, res) => {
       updateChart.services = Array.isArray(services) ? services: [];
       updateChart.prescription = prescription;
       updateChart.insurance = insurance;
-      updateChart.cost = sum;
+      updateChart.cost = parseFloat(sum.toFixed(2));
       updateChart.nextAppointment = nextAppointment;
 
       const chartUpdated = await updateChart.save();
@@ -365,7 +365,7 @@ router.post('/', requireAuth, async (req, res) => {
     if (services && services.length > 0 && Array.isArray(services)) {
       const serviceIds = services;
       let serviceArr = [];
-
+      console.log('before Service.findAll()')
       if (serviceIds && Array.isArray(serviceIds) && serviceIds.length > 0) {
         serviceArr = await Service.findAll({
           where: { id: serviceIds }
@@ -375,9 +375,10 @@ router.post('/', requireAuth, async (req, res) => {
       if (!serviceArr || serviceArr.length <= 0) {
         return res.status(400).json({ message: "The Services are invalid" })
       }
-
+      console.log('after Service > ')
       const serviceSum = serviceArr.reduce((sum, el) => sum + parseFloat(el.price), 0);
       sum += serviceSum;
+      console.log('after summing up > ', sum, serviceSum)
     }
     console.log('before create > ',
       patientId,
@@ -410,7 +411,7 @@ router.post('/', requireAuth, async (req, res) => {
       services: Array.isArray(services) ? services: [],
       prescription,
       insurance,
-      cost: sum,
+      cost: parseFloat(sum.toFixed(2)),
       nextAppointment
     })
     console.log('after create > ', newChart)
