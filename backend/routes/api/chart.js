@@ -381,7 +381,7 @@ router.post('/', requireAuth, async (req, res) => {
       console.log('after summing up > ', sum, serviceSum)
     }
 
-    console.log('before create > ', insurance, services, nextAppointment)
+    console.log('before create > ', insurance, services, nextAppointment, services, parseFloat(sum.toFixed(2)))
 
     const newChart = await Chart.create({
       patientId,
