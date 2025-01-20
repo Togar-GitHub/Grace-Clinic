@@ -82,8 +82,8 @@ module.exports = (sequelize, DataTypes) => {
         len: [2, 2000]
       }
     },
-    // services: DataTypes.JSON,     // this is for Sequelize - development
-    services: DataTypes.ARRAY(DataTypes.INTEGER),    // this is for postgreSQL - production
+    services: DataTypes.JSON,     // this is for Sequelize - development
+    // services: DataTypes.ARRAY(DataTypes.INTEGER),    // this is for postgreSQL - production
     prescription: DataTypes.STRING,
     insurance: DataTypes.STRING,
     cost: DataTypes.DECIMAL,
