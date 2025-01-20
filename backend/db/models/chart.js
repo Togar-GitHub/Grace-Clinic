@@ -86,7 +86,8 @@ module.exports = (sequelize, DataTypes) => {
     services: DataTypes.ARRAY(DataTypes.INTEGER),    // this is for postgreSQL - production
     prescription: DataTypes.STRING,
     insurance: DataTypes.STRING,
-    cost: DataTypes.DECIMAL,
+    // cost: DataTypes.DECIMAL,        // this is for Sequelize - development
+    cost: DataTypes.NUMERIC,        // this is for postgreSQL
     nextAppointment: DataTypes.DATE
   }, {
     sequelize,
