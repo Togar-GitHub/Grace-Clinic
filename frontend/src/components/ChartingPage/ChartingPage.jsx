@@ -476,7 +476,7 @@ const ChartingPage = () => {
                 value={nextAppointment?.slice(0 ,10)}
                 onChange={(e) => setNextAppointment(e.target.value)}
                 placeholder='Enter next Appointment Date'
-                min={today}
+                min={nextAppointment ? nextAppointment.slice(0, 10) : today}
               />
               {errors.nextAppointment && <p className={cpg.errors}>{errors.nextAppointment}</p>} 
             </div>

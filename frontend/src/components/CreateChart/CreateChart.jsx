@@ -425,7 +425,7 @@ const CreateChart = () => {
                 className={crc.inputList}
                 type="date"
                 value={nextAppointment.slice(0 ,10)}
-                onChange={(e) => setNextAppointment(e.target.value)}
+                onChange={(e) => setNextAppointment(e.target.value || null)}
                 placeholder='Enter next Appointment Date'
                 min={today}
               />
