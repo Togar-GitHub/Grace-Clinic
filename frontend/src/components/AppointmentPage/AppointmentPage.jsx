@@ -136,6 +136,7 @@ const AppointmentPage = () => {
     setInsurance(updateAppoint.Appointment.insurance);
     setLoading(false);
     setErrors({});
+    window.scrollTo(0, 0);
   }
 
   const handleUpdate = async (appointId) => {
