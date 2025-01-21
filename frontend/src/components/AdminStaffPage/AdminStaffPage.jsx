@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllStaffThunk, deleteUserThunk  } from '../../store/user';
+import { getChartByStaffThunk } from '../../store/chart';
 import AdminStaffDeleteModal from '../AdminStaffDeleteModal/AdminStaffDeleteModal';
 import stf from './AdminStaffPage.module.css';
 
@@ -47,11 +48,26 @@ const AdminStaffPage = () => {
     return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6)}`;
   };
 
-  const handleDeleteClick = (userId) => {
+  const handleDeleteClick = async (userId) => {
+    
+    setErrors({});
     if (userId === user.id) {
-      setErrors({ forbidden: "You can't delete your own User Record"})
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [userId]: 'Forbidden: You cannot delete your own Record'
+      }));
       return
     }
+
+    const getChart = await dispatch(getChartByStaffThunk(userId));
+    if (getChart && Object.keys(getChart).length > 0) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [userId]: 'This Staff cannot be deleted, it is used in Charts'
+      }));
+      return;
+    }
+
     setErrors({});
     setUserToDelete(userId);
     setShowModal(true);
@@ -126,6 +142,9 @@ const AdminStaffPage = () => {
                     >
                       Delete Staff
                   </button>
+                  {errors[el.id] && (
+                    <p className={stf.errors}>{errors[el.id]}</p>
+                  )}
                 </div>
               </div>
             </div>  

@@ -5,6 +5,7 @@ const GET_PATIENT_CHARTS = 'chart/GET_PATIENT_CHARTS'
 const GET_CHART_BY_ID = 'chart/GET_CHART_BY_ID';
 const GET_CHART_BY_CPT = 'chart/GET_CHART_BY_CPT';
 const GET_CHART_BY_SERVICE = 'chart/GET_CHART_BY_SERVICE';
+const GET_CHART_BY_STAFF = 'chart/GET_CHART_BY_STAFF';
 const UPDATE_CHART = 'chart/UPDATE_CHART';
 const DELETE_CHART = 'chart/DELETE_CHART';
 const CREATE_CHART = 'chart/CREATE_CHART';
@@ -38,6 +39,13 @@ const getChartByCpt = (chart) => {
 const getChartByService = (chart) => {
   return {
     type: GET_CHART_BY_SERVICE,
+    chart
+  }
+}
+
+const getChartByStaff = (chart) => {
+  return {
+    type: GET_CHART_BY_STAFF,
     chart
   }
 }
@@ -139,6 +147,19 @@ export const getChartByServiceThunk = (serviceId) => async (dispatch) => {
   }
 }
 
+export const getChartByStaffThunk = (userId) => async (dispatch) => {
+  const res = await csrfFetch(`/api/chart/staff/${userId}`);
+
+  if (res.ok) {
+    const chartByStaff = await res.json();
+    dispatch(getChartByStaff(chartByStaff));
+    dispatch(clearNoChartMsg());
+    return chartByStaff;
+  } else {
+    dispatch(setNoChartMsg('No Chart found or failed to get a Chart'))
+  }
+}
+
 export const updateChartThunk = (chartId, incomingChart) => async (dispatch) => {
   const res = await csrfFetch(`/api/chart/${chartId}`, {
     method: 'PUT',
@@ -227,6 +248,9 @@ const chartReducer = (state = initialState, action) => {
       return { ...state, chart: action.chart }
 
     case GET_CHART_BY_SERVICE:
+      return { ...state, chart: action.chart }
+
+    case GET_CHART_BY_STAFF:
       return { ...state, chart: action.chart }
 
     case UPDATE_CHART:

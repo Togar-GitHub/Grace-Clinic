@@ -12,7 +12,7 @@ router.get('/cpt/:cptId', requireAuth, async (req, res) => {
 
   try {
     const oneChart = await Chart.findOne({
-      where: { CPTId: cptId }
+      where: { CPTId: Number(cptId) }
     })
 
     if (!oneChart) {
@@ -35,6 +35,24 @@ router.get('/service/:serviceId', requireAuth, async (req, res) => {
       where: { services: {
         [Op.contains]: [parsedServiceId]
     }}});
+
+    if (!oneChart) {
+      return res.status(200).json({})
+    } else {
+      return res.status(200).json({ oneChart })
+    }
+  } catch (error) {
+    return res.status(500).json({ message: "An error occurred while getting the Charts", error })
+  }
+})
+
+router.get('/staff/:userId', requireAuth, async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const oneChart = await Chart.findOne({
+      where: { doctorId: Number(userId) }
+    })
 
     if (!oneChart) {
       return res.status(200).json({})
