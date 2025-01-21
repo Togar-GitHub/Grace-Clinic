@@ -13,7 +13,10 @@ router.post('/patientAppointments', requireAuth, async (req, res) => {
 
   try {
     const patientAppointments = await Appointment.findAll({
-      where: { dateMet: null },
+      where: { 
+        doctorId: Number(id),
+        dateMet: null 
+      },
       include: [
         {
           model: User,
