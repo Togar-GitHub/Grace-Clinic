@@ -4,14 +4,14 @@
 
 ## Introduction
 
-This is a full-stack built with React, Redux-Toolkit, Express, Sqlite3/PostgreSQL. The application features user authentication, which allows users to login, sign-up, logout, and use a demo user login for easy access. This application also includes 5 major CRUD features with 1 partial and yet can be full CRUD but related to another table in deletion:
+This is a full-stack built with React, Redux-Toolkit, Express, Sqlite3/PostgreSQL. The application features user authentication, which allows users to login, sign-up, logout, and use a demo user login for easy access. This application also includes 6 CRUD features:
 
-1. User
-2. Review
-3. Service
-4. CPT
-5. Appointment
-6. Chart table will have Create, Read, Update and Delete in relation to the User
+1. User table
+2. Review table
+3. Service table
+4. CPT table
+5. Appointment table
+6. Chart table 
 
 ## Getting started
 
