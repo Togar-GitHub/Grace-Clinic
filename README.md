@@ -17,49 +17,53 @@ This is a full-stack built with React, Redux-Toolkit, Express, Sqlite3/PostgreSQ
 
 1. Clone this repository (only this branch).
 
-2. Install dependencies.
+2. Install backend dependencies on backend folder.
 
-   ```bash
-   
-   ```
+`cd` into the `backend` folder and initialize the server's `package.json` by
+running `npm init -y`.
 
-3. Create a **.env** file based on the example with proper settings for your
-   development environment.
+`npm install` the following packages as dependencies:
 
-4. Make sure the SQLite3 database connection URL is in the **.env** file.
+- `cookie-parser` - parsing cookies from requests
+- `cors` - CORS
+- `csurf` - CSRF protection
+- `dotenv` - load environment variables into Node.js from a `.env` file
+- `express` - Express
+- `express-async-errors` - handling `async` route handlers
+- `helmet` - security middleware
+- `jsonwebtoken` - JWT
+- `morgan` - logging information about server requests/responses
+- `per-env` - use environment variables for starting app differently
+- `sequelize@6` - Sequelize
+- `sequelize-cli@6` - use `sequelize` in the command line
+- `pg` - use Postgres as the production environment database 
 
-5. This starter organizes all tables inside the `flask_schema` schema, defined
-   by the `SCHEMA` environment variable. Replace the value for
-   `SCHEMA` with a unique name, **making sure you use the snake_case
-   convention.**
+`npm install -D` the following packages as dev-dependencies:
 
-6. Get into your :
+- `sqlite3` - SQLite3
+- `dotenv-cli` - use `dotenv` in the command line
+- `nodemon` - hot reload server `backend` files
 
-   ```bash
-   
-   ```
+3. Install frontend dependencies on frontend folder.
 
-   ```bash
- 
-   ```
+In the __frontend__ folder, `npm install` the following packages as
+dependencies:
 
-   ```bash
-   
-   ```
+- `js-cookie` - extracts cookies
+- `react-redux` - React components and hooks for Redux
+- `react-router-dom` - routing for React
+- `redux` - Redux
+- `redux-thunk` - Redux thunk
 
-   ```bash
- 
-   ```
+`npm install -D` the following packages as dev-dependencies:
 
-   ```bash
- 
-   ```
+- `redux-logger` - log Redux actions in the browser's DevTools console
 
-7. The React frontend has no styling applied. Copy the **.css** files from your
+4. The React frontend has no styling applied. Copy the **.css** files from your
    Authenticate Me project into the corresponding locations in the
    **react-vite** folder to give your project a unique look.
 
-8. To run the React frontend in development, `cd` into the **react-vite**
+5. To run the React frontend in development, `cd` into the **react-vite**
    directory and run `npm i` to install dependencies. Next, run `npm run build`
    to create the `dist` folder. The starter has modified the `npm run build`
    command to include the `--watch` flag. This flag will rebuild the **dist**
@@ -68,36 +72,15 @@ This is a full-stack built with React, Redux-Toolkit, Express, Sqlite3/PostgreSQ
 
 ## Deployment through Render.com
 
-First, recall that Vite is a development dependency, so it will not be used in
-production. This means that you must already have the **dist** folder located in
-the root of your **react-vite** folder when you push to GitHub. This **dist**
-folder contains your React code and all necessary dependencies minified and
-bundled into a smaller footprint, ready to be served from your Python API.
+If you ever need to update/redeploy your frontend, just follow these steps:
+(make sure the build in .gitignore has exclamation mark = !build)
 
-Begin deployment by running `npm run build` in your **react-vite** folder and
-pushing any changes to GitHub.
-
-Refer to your Render.com deployment articles for more detailed instructions
-about getting started with [Render.com], creating a production database, and
-deployment debugging tips.
-
-From the Render [Dashboard], click on the "New +" button in the navigation bar,
-and click on "Web Service" to create the application that will be deployed.
-
-Select that you want to "Build and deploy from a Git repository" and click
-"Next". On the next page, find the name of the application repo you want to
-deploy and click the "Connect" button to the right of the name.
-
-Now you need to fill out the form to configure your app. Most of the setup will
-be handled by the **Dockerfile**, but you do need to fill in a few fields.
-
-Start by giving your application a name.
-
-Make sure the Region is set to the location closest to you, the Branch is set to
-"main", and Runtime is set to "Docker". You can leave the Root Directory field
-blank. (By default, Render will run commands from the root directory.)
-
-Select "Free" as your Instance Type.
+1. Make your changes to the files in the __frontend__ directory.
+2. Run `npm run build` to refresh the build files in the __frontend/dist__
+   directory with your changes.
+3. Commit all changes to the `main` branch.
+4. Push to GitHub.
+5. Go to your site and confirm that the changes have been auto-deployed.
 
 ### Add environment variables
 
