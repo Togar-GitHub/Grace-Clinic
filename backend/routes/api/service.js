@@ -124,7 +124,9 @@ router.post('/', requireAuth, async (req, res) => {
 // get All service
 router.get('/', async (req, res) => {
   try {
-    const allService = await Service.findAll();
+    const allService = await Service.findAll({
+      order: [['id', 'ASC']]
+    });
 
     if (!allService || allService.length <= 0) {
       return res.status(400).json({ message: "No Service in the database" })
