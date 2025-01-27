@@ -131,7 +131,9 @@ router.post('/', requireAuth, async (req, res) => {
 // get All CPT
 router.get('/', async (req, res) => {
   try {
-    const allCPT = await CPT.findAll();
+    const allCPT = await CPT.findAll({
+      order: [['id', 'ASC']]
+    });
 
     if (!allCPT || allCPT.length <= 0) {
       return res.status(400).json({ message: "No CPT in the database" })
