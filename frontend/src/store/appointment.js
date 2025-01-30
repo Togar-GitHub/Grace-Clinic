@@ -2,6 +2,7 @@ import { csrfFetch } from './csrf';
 
 // ACTION TYPES
 const GET_PATIENT_APPOINTMENTS = 'appointment/GET_PATIENT_APPOINTMENTS'
+const GET_APPOINTMENTS_ADMIN = 'appointment/GET_APPOINTMENTS_ADMIN';
 const DELETE_APPOINTMENT_ADMIN = 'appointment/DELETE_APPOINTMENT_ADMIN';
 const UPDATE_APPOINTMENT_ADMIN = 'appointment/UPDATE_APPOINTMENT_ADMIN';
 const UPDATE_APPOINTMENT_CHART = 'appointment/UPDATE_APPOINTMENT_CHART';
@@ -20,6 +21,13 @@ const CLEAR_NO_APPOINTMENT_MSG = 'appointment/CLEAR_NO_APPOINTMENT_MSG';
 const getPatientAppointments = (allAppointments) => {
   return {
     type: GET_PATIENT_APPOINTMENTS,
+    allAppointments
+  }
+}
+
+const getAppointmentsAdmin = (allAppointments) => {
+  return {
+    type: GET_APPOINTMENTS_ADMIN,
     allAppointments
   }
 }
@@ -121,6 +129,19 @@ export const getPatientAppointmentsThunk = (patientData) => async (dispatch) => 
     dispatch(getPatientAppointments(patientAppointments));
     dispatch(clearNoAppointmentMsg());
     return patientAppointments;
+  } else {
+    dispatch(setNoAppointmentMsg('No Appointments or failed to fetch Appointments'))
+  }
+}
+
+export const getAppointmentsAdminThunk = () => async (dispatch) => {
+  const res = await csrfFetch('/api/appointment/admin')
+
+  if (res.ok) {
+    const appointmentsAdmin = await res.json();
+    dispatch(getAppointmentsAdmin(appointmentsAdmin));
+    dispatch(clearNoAppointmentMsg());
+    return appointmentsAdmin;
   } else {
     dispatch(setNoAppointmentMsg('No Appointments or failed to fetch Appointments'))
   }
@@ -299,6 +320,9 @@ const initialState = {
 const appointmentReducer = (state = initialState, action) => {
   switch(action.type) {
     case GET_PATIENT_APPOINTMENTS:
+      return { ...state, allAppointments: action.allAppointments }
+
+    case GET_APPOINTMENTS_ADMIN:
       return { ...state, allAppointments: action.allAppointments }
 
     case DELETE_APPOINTMENT_ADMIN:
