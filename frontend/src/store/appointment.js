@@ -32,18 +32,17 @@ const getAppointmentsAdmin = (allAppointments) => {
   }
 }
 
-const deleteAppointmentAdmin = (appointmentId) => {
+const deleteAppointmentAdmin = (appointment) => {
   return {
     type: DELETE_APPOINTMENT_ADMIN,
-    appointmentId
+    appointment
   }
 }
 
-const updateAppointmentAdmin = (appointmentId, incomingAppointment) => {
+const updateAppointmentAdmin = (appointment) => {
   return {
     type: UPDATE_APPOINTMENT_ADMIN,
-    appointmentId,
-    incomingAppointment
+    appointment
   }
 }
 
@@ -57,14 +56,14 @@ const updateAppointmentChart = (appointment) => {
 const getAppointmentCurrent = (allAppointments) => {
   return {
     type: GET_APPOINTMENT_CURRENT,
-    gotAppointmentCurrent: allAppointments
+    allAppointments
   }
 }
 
-const getSpecAppointment = (incomingData) => {
+const getSpecAppointment = (appointment) => {
   return {
     type: GET_SPEC_APPOINTMENT,
-    incomingData
+    appointment
   }
 }
 
@@ -75,31 +74,31 @@ const getAppointmentById = (appointment) => {
   }
 }
 
-const updateAppointmentCurrent = (appointmentId, incomingAppointment) => {
+const updateAppointmentCurrent = (appointment) => {
   return {
     type: UPDATE_APPOINTMENT_CURRENT,
-    appointmentId,
-    incomingAppointment
+    appointment
   }
 }
 
-const deleteAppointmentCurrent = (appointmentId) => {
+const deleteAppointmentCurrent = (appointment) => {
   return {
     type: DELETE_APPOINTMENT_CURRENT,
-    appointmentId
+    appointment
   }
 }
 
-const createAppointmentCurrent = (incomingAppointment) => {
+const createAppointmentCurrent = (appointment) => {
   return {
     type: CREATE_APPOINTMENT_CURRENT,
-    incomingAppointment
+    appointment
   }
 }
 
-const getAllAppointments = () => {
+const getAllAppointments = (allAppointments) => {
   return {
-    type: GET_ALL_APPOINTMENTS
+    type: GET_ALL_APPOINTMENTS,
+    allAppointments
   }
 }
 
@@ -326,34 +325,34 @@ const appointmentReducer = (state = initialState, action) => {
       return { ...state, allAppointments: action.allAppointments }
 
     case DELETE_APPOINTMENT_ADMIN:
-      return { ...state, appointment: action.deletedAppointmentAdmin }
+      return { ...state, appointment: action.appointment }
 
      case UPDATE_APPOINTMENT_ADMIN:
-      return { ...state, appointment: action.updatedAppointmentAdmin } 
+      return { ...state, appointment: action.appointment } 
 
     case UPDATE_APPOINTMENT_CHART:
       return { ...state, appointment: action.appointment }
 
     case GET_APPOINTMENT_CURRENT:
-      return { ...state, allAppointments: action.gotAppointmentCurrent }
+      return { ...state, allAppointments: action.allAppointments }
 
     case GET_SPEC_APPOINTMENT:
-      return { ...state, appointment: action.specAppointment }
+      return { ...state, appointment: action.appointment }
 
     case GET_APPOINTMENT_BY_ID:
       return { ...state, appointment: action.appointment }
 
     case UPDATE_APPOINTMENT_CURRENT:
-      return { ...state, appointment: action.updatedAppointmentCurrent }
+      return { ...state, appointment: action.appointment }
 
     case DELETE_APPOINTMENT_CURRENT:
-      return { ...state, appointment: action.deletedAppointmentCurrent }
+      return { ...state, appointment: action.appointment }
 
     case CREATE_APPOINTMENT_CURRENT:
-      return { ...state, appointment: action.createdAppointmentCurrent }
+      return { ...state, appointment: action.appointment }
 
     case GET_ALL_APPOINTMENTS:
-      return { ...state, allAppointments: action.gotAllAppointments }
+      return { ...state, allAppointments: action.allAppointments }
 
     case RESET_APPOINTMENTS:
       return { ...state, allAppointments: [] }
