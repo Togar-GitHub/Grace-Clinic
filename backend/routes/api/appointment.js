@@ -152,6 +152,41 @@ router.put('/chart/:appointmentId', requireAuth, async (req, res) => {
   }
 })
 
+// get All appointments by admin or staff with dateMet === null
+router.get('/admin', requireAuth, async (req, res) => {
+  const { id } = req.user;
+
+  try {
+    const userAppointment = await Appointment.findAll({
+      where: { 
+        patientId: id,
+        dateMet: null 
+      },
+      include: [
+        {
+          model: User,
+          attributes: ['id', 'firstName', 'lastName'],
+          as: 'patient'
+        },
+        {
+          model: User,
+          attributes: ['id', 'firstName', 'lastName', 'position'],
+          as: 'doctor'
+        }
+      ],
+      order: [['dateTime', 'DESC']]
+    });
+
+    if (!userAppointment || userAppointment.length <= 0) {
+      return res.status(200).json({})
+    }
+
+    return res.status(200).json({ Appointment: userAppointment })
+  } catch (error) {
+    return res.status(500).json({ message: "An error occurred while getting Appointments", error })
+  }
+})
+
 // get All appointments by current user
 router.get('/current', requireAuth, async (req, res) => {
   const { id } = req.user;
