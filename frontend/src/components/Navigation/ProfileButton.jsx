@@ -91,8 +91,14 @@ function ProfileButton({ user }) {
         )}
 
         {user && user.staff &&(
-          <div className={pbt.adminButtonContainer}>
-            <NavLink to='/chartingPage' className={pbt.adminPage}>Chart List</NavLink>
+          <div className={pbt.staffButtons}>
+            <div className={pbt.adminButtonContainer}>
+              <NavLink to='/chartingPage' className={pbt.adminPage}>Chart List</NavLink>
+            </div>
+
+            <div className={pbt.adminButtonContainer}>
+            <NavLink to='/appointmentListPage' className={pbt.adminPage}>Appointment List</NavLink>
+            </div>
           </div>
         )}
 

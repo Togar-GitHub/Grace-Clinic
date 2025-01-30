@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import Navigation from './components/Navigation/Navigation';
 import LandingPage from './components/LandingPage/LandingPage';
 import AppointmentPage from './components/AppointmentPage/AppointmentPage';
+import AppointmentListPage from './components/AppointmentListPage/AppointmentListPage';
 import ReviewPage from './components/ReviewPage/ReviewPage';
 import AdminPage from './components/AdminPage/AdminPage';
 import AdminPatientPage from './components/AdminPatientPage/AdminPatientPage';
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
       {
         path: '/appointmentPage',
         element: <AppointmentPage />
+      },
+      {
+        path: '/appointmentListPage',
+        element: <AppointmentListPage />
       },
       {
         path: '/reviewPage',

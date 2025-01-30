@@ -32,6 +32,13 @@
   margin: 2px 0; /* Reduce margin between items to keep them close */
 }
 
+.staffButtons {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers the buttons horizontally */
+  gap: 10px; /* Adds spacing between the buttons */
+}
+
 /* Admin button container */
 .adminButtonContainer,
 .appointmentButtonContainer {
