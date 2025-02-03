@@ -152,20 +152,22 @@ router.put('/chart/:appointmentId', requireAuth, async (req, res) => {
   }
 })
 
-// get All appointments by admin or staff with dateMet === null
-router.get('/admin', requireAuth, async (req, res) => {
+// get All appointments by admin or staff with dateMet === null and date === req.body
+router.post('/admin', requireAuth, async (req, res) => {
   const { id } = req.user;
+  const { date } = req.body;
 
   try {
     const userAppointment = await Appointment.findAll({
       where: { 
         patientId: id,
-        dateMet: null 
+        dateMet: null,
+        [Sequelize.Op.and]: Sequelize.where(Sequelize.fn('DATE', Sequelize.col('dateTime')), '=', date)
       },
       include: [
         {
           model: User,
-          attributes: ['id', 'firstName', 'lastName'],
+          attributes: ['id', 'firstName', 'lastName', 'dateOfBirth', 'gender'],
           as: 'patient'
         },
         {
@@ -174,7 +176,7 @@ router.get('/admin', requireAuth, async (req, res) => {
           as: 'doctor'
         }
       ],
-      order: [['dateTime', 'DESC']]
+      order: [['dateTime', 'ASC']]
     });
 
     if (!userAppointment || userAppointment.length <= 0) {
