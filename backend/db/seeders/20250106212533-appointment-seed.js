@@ -115,6 +115,60 @@ const appointmentSeeds = [
     complaint: 'Joint pain',
     insurance: 'Aetna',
     dateMet: null
+  },
+  {
+    // id: 13,   // all id only for development
+    patientId: 6,  // Patient 1
+    doctorId: 2,   // Doctor 1
+    dateTime: new Date('2025-02-12T10:00:00Z'),
+    complaint: 'Severe headache',
+    insurance: 'Aetna',
+    dateMet: null
+  },
+  {
+    // id: 14,
+    patientId: 6,  // Patient 1
+    doctorId: 2,   // Doctor 1
+    dateTime: new Date('2025-02-13T10:00:00Z'),
+    complaint: 'Severe headache',
+    insurance: 'United Healthcare',
+    dateMet: null
+  },
+  {
+    // id: 15,
+    patientId: 6,  // Patient 1
+    doctorId: 2,   // Doctor 2
+    dateTime: new Date('2025-02-15T14:00:00Z'),
+    complaint: 'Back pain',
+    insurance: null,
+    dateMet: null
+  },
+  {
+    // id: 16,
+    patientId: 7,  // Patient 2
+    doctorId: 5,   // Doctor 2
+    dateTime: new Date('2025-02-12T11:00:00Z'),
+    complaint: 'Cough and cold',
+    insurance: 'Cigna',
+    dateMet: null
+  },
+  {
+    // id: 17,
+    patientId: 7,  // Patient 2
+    doctorId: 5,   // Doctor 2
+    dateTime: new Date('2025-02-13T14:00:00Z'),
+    complaint: 'Headache',
+    insurance: 'Cigna',
+    dateMet: null
+  },
+  {
+    // id: 18,
+    patientId: 7,  // Patient 2
+    doctorId: 5,   // Doctor 2
+    dateTime: new Date('2025-02-14T10:00:00Z'), // Future appointment
+    complaint: 'Rash on skin',
+    insurance: null,
+    dateMet: null
   }
 ];
 

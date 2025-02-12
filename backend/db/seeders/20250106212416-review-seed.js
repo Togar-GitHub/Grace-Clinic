@@ -84,4 +84,3 @@ module.exports = {
       { schema: options.schema });
   }
 };
-

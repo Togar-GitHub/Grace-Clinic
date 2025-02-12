@@ -39,7 +39,8 @@ const AppointmentListPage = () => {
       try {
         setLoading(true);
         setNoAppointment('');
-        await dispatch(getAppointmentsAdminThunk(today));
+        if (!getDate) setGetDate(today)
+        await dispatch(getAppointmentsAdminThunk(getDate));
       } catch (error) {
         console.error('Error fetching Appointments')
       } finally {
