@@ -39,16 +39,21 @@ const AppointmentListPage = () => {
       try {
         setLoading(true);
         setNoAppointment('');
-        if (!getDate) setGetDate(today)
-        await dispatch(getAppointmentsAdminThunk(getDate));
+        if (!getDate) {
+          setGetDate(today);
+        }
+        if (getDate) {
+          await dispatch(getAppointmentsAdminThunk(getDate));
+        }
       } catch (error) {
-        console.error('Error fetching Appointments')
+        console.error('Error fetching Appointments', error)
       } finally {
         setLoading(false);
       }
     }
+
     fetchAppointments();
-  }, [dispatch])
+  }, [dispatch, getDate, today])
 
   useEffect(() => {
     if (!allAppointments || allAppointments.length <= 0) {

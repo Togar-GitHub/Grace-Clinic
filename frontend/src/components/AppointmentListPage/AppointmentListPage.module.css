@@ -1,0 +1,100 @@
+/* Main container for the entire page */
+.mainContainer {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+/* Main title styling */
+.mainTitle {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #2c3e50;
+}
+
+/* Choose date input container */
+.chooseDateContainer {
+  margin: 20px 0;
+  text-align: center;
+}
+
+/* Date picker styling */
+.chooseDate {
+  font-size: 1rem;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  width: 200px;
+  box-sizing: border-box;
+}
+
+/* Loading message */
+.loading {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #3498db;
+  text-align: center;
+}
+
+/* No appointment message container */
+.noAppointment {
+  margin-top: 20px;
+  text-align: center;
+}
+
+/* Message when there are no appointments */
+.noAppointmentMessage {
+  color: #e74c3c;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Container for current appointments */
+.currentAppointmentContainer {
+  margin-top: 30px;
+}
+
+/* Title for the current appointment list */
+.currentAppointmentTitle {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #2c3e50;
+}
+
+/* Each appointment list container */
+.currentAppointmentList {
+  background-color: #ecf0f1;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Information line 1 */
+.firstLine {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+/* Information line 2 */
+.secondLine {
+  margin-top: 15px;
+}
+
+/* Each individual info section */
+.listInfo {
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+/* Special styling for complaints (e.g., bold, different color) */
+.listInfoComplaint {
+  font-weight: bold;
+  color: #e67e22;
+}

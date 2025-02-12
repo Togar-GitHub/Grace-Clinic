@@ -133,11 +133,12 @@ export const getPatientAppointmentsThunk = (patientData) => async (dispatch) => 
   }
 }
 
-export const getAppointmentsAdminThunk = (date) => async (dispatch) => {
+export const getAppointmentsAdminThunk = (getDate) => async (dispatch) => {
+  console.log('date > ', getDate);
   const res = await csrfFetch('/api/appointment/admin', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(date)
+    body: JSON.stringify({ date: getDate })
   })
 
   if (res.ok) {

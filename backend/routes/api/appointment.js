@@ -157,12 +157,17 @@ router.post('/admin', requireAuth, async (req, res) => {
   const { id } = req.user;
   const { date } = req.body;
 
+  console.log('backend date > ', date);
+
   try {
     const userAppointment = await Appointment.findAll({
       where: { 
-        patientId: id,
         dateMet: null,
-        [Sequelize.Op.and]: Sequelize.where(Sequelize.fn('DATE', Sequelize.col('dateTime')), '=', date)
+        [Sequelize.Op.and]: Sequelize.where(
+          Sequelize.fn('DATE', Sequelize.col('dateTime')), 
+          '=', 
+          date
+        )
       },
       include: [
         {
