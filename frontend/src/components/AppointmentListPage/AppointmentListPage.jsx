@@ -16,7 +16,7 @@ const AppointmentListPage = () => {
   // const [complaint, setComplaint] = useState('');
   // const [insurance, setInsurance] = useState('');
   const [getDate, setGetDate] = useState('');
-  // const [errors, setErrors] = useState('');
+  const [errors, setErrors] = useState('');
   // const [showModal, setShowModal] = useState(false);
   // const [appointmentToDelete, setAppointmentToDelete] = useState(null);
   // const [updateRecord, setUpdateRecord] = useState(false);
@@ -63,6 +63,14 @@ const AppointmentListPage = () => {
     }
   }, [allAppointments]);
 
+  const handleUpdateClick = () => {
+
+  }
+
+  const handleDeleteClick = () => {
+
+  }
+
   if (loading) {
     <p className={alp.loading}>Loading...</p>
   }
@@ -101,11 +109,31 @@ const AppointmentListPage = () => {
                     <p className={alp.listInfo}>Gender: {el.patient.gender}</p>
                     <p className={alp.listInfo}>Doctor: {el.doctor.firstName} {el.doctor.lastName}</p>
                   </div>
+
                   <div className={alp.secondLine}>
                     <p className={alp.listInfo}>Date & Time Appointment: {el.dateTime.slice(0, 10)} & {el.dateTime.slice(11, 16)}</p>
                     <p className={`${alp.listInfo} ${alp.listInfoComplaint}`}>Complaint: {el.complaint}</p>
                     <p className={alp.listInfo}>Insurance: {el.insurance}</p>
                   </div>
+
+                  <div className={alp.updateDeleteButtonContainer}>
+                    <button
+                      className={alp.updateButton}
+                      onClick={() => handleUpdateClick(el.id)}
+                      >
+                        Update
+                    </button>
+                    <button
+                      className={alp.deleteButton}
+                      onClick={() => handleDeleteClick(el.id)}
+                      >
+                        Delete
+                    </button>
+                    {errors[el.id] && (
+                      <p className={alp.errors}>{errors[el.id]}</p>
+                    )}
+                  </div>
+
                 </div>
               </div>
             ))}
